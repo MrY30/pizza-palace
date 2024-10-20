@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="/styles/createPizza.css">
+</head>
+<body>
+    <header>
+        <h1>Dashboard</h1>
+    </header>
+    <main>
+        <div id="title">
+            <h1>Customize Pizza</h1>
+        </div>
+        <div id="container">
+            <div id="pizza">
+                <div class="regular" id="custom-pizza">
+                    <img src="/img/pizzaDough.png" alt="Customize Pizza">
+                </div>
+            </div>
+            <div id="menu">
+                <div id="categories">
+                    <div id="size" class="category-button selected">Size</div>
+                    <div id="crust" class="category-button unselected">Crust</div>
+                    <div id="topping" class="category-button unselected">Toppings</div>
+                    <div id="slice" class="category-button unselected">Slices</div>
+                </div>
+                <div id="sizes" class="menus">
+                    <div id="small" class="pizza-button">Small</div>
+                    <div id="regular" class="pizza-button">Regular</div>
+                    <div id="large" class="pizza-button">Large</div>
+                    <div id="family-size" class="pizza-button">Family Size</div>
+                </div>
+                <div id="crusts" class="menus hidden">
+                    <div id="thick" class="pizza-button">Thick</div>
+                </div>
+                <div id="toppings" class="menus hidden">
+                    <div id="pepperoni" class="pizza-button">Pepperoni</div>
+                </div>
+                <div id="slices" class="menus hidden">
+                    <div id="triangle" class="pizza-button">Triangle Cut</div>
+                </div>
+            </div>
+        </div>
+    </main>
+    <footer>
+        <p>&copy; 2024 Admin Dashboard. All rights reserved.</p>
+    </footer>
+    <script src="/scripts/createPizza.js"></script>
+</body>
+</html>
