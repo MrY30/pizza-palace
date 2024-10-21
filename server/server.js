@@ -5,6 +5,9 @@ import { fileURLToPath } from 'url';
 //IMPORT BACKEND
 import connectToDatabase from './backend/admin-page.js';
 
+//for experiment
+console.log(trial);
+
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
