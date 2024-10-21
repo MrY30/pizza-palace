@@ -3,10 +3,7 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 
 //IMPORT BACKEND
-import connectToDatabase from './backend/admin-page.js';
-
-//for experiment
-console.log(trial);
+import {checkLogIn, hashPassword} from './backend/admin-page.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -19,7 +16,8 @@ const port = 3000;
 //DEFINE MIDDLEWARE
 app.use(express.json());
 
-
+app.post('/admin/login', checkLogIn);
+// app.post('/admin/login', hashPassword);
 
 // Serve static files from the 'public' directory
 app.use('/styles',express.static(path.join(__dirname, '/styles')));

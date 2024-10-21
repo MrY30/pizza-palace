@@ -1,32 +1,40 @@
-// Import Client from 'pg' using ES6 module syntax
-import pkg from 'pg';
-import dotenv from 'dotenv';
+import connectToDatabase from './dbConnection.js';
+import bcrypt from "bcrypt";
 
-const {Client} = pkg;
+const { client } = connectToDatabase;
 
-dotenv.config();
-const dbURL = process.env.DB_PROJECT;
-const dbPass = process.env.DB_PASSWORD;
+export const checkLogIn = async (req,res) =>{
+    const { username, password } = req.body;
 
-// Initialize the PostgreSQL client using the Supabase connection string
-const client = new Client({
-  connectionString: `postgresql://postgres.hzmaypzsmgrunfapsldn:${dbPass}@${dbURL}.supabase.com:6543/postgres`, // Replace with actual Supabase credentials
-  ssl: { rejectUnauthorized: false }, // Ensures a secure SSL connection
-});
+    const admins = await client.query(`SELECT * FROM users_table WHERE status = 'admin' AND username = '${username}'`);
+    
+    if(admins.rows.length === 0){
+        return res.json({ success: false, message: 'Admin not Found'});
+    }
 
-// Connect to the database
-async function connectToDatabase() {
-  try {
-    await client.connect();
-    console.log('Connected to Supabase PostgreSQL Successfully');
-  } catch (error) {
-    console.error('Connection error', error.stack);
-  }
+    const user = admins.rows[0];
+    
+    const isPasswordValid = await bcrypt.compare(password, user.password);
+    if (!isPasswordValid) {
+        return res.json({ success: false, message: 'Invalid password' });
+    }else{
+        return res.json({ success: true });
+    }
 }
 
-// Export the client and connection function (optional)
-export default { client, connectToDatabase };
 
-// Call the function to establish the connection
-connectToDatabase();
+//USE THIS TO ADMINS TO CONVERT PASSWORDS TO HASH
+export const hashPassword = async (req, res) => {
+    //USERNAME: ejMamacos PASSWORD: jeojeojeo
+    //USERNAME: lsJardeleza PASSWORD: lykalykalyka
+    //USERNAME: glDeocampo PASSWORD: jimsjimsjims
 
+    const name = 'glDeocampo'
+    const users = await client.query(`SELECT password FROM users_table WHERE status = 'admin' AND username = '${name}'`);
+
+    console.log(users.rows[0].password);
+
+    const hashedPassword = await bcrypt.hash(users.rows[0].password, 10);
+
+    await client.query(`UPDATE users_table SET password = '${hashedPassword}' WHERE username = '${name}'`)
+}
