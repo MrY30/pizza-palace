@@ -3,7 +3,7 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 
 //IMPORT BACKEND
-import {checkLogIn, hashPassword} from './backend/admin-page.js';
+import {checkLogIn, displayProducts} from './backend/admin-page.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -18,6 +18,8 @@ app.use(express.json());
 
 app.post('/admin/login', checkLogIn);
 // app.post('/admin/login', hashPassword);
+
+app.get('/admin/products', displayProducts);
 
 // Serve static files from the 'public' directory
 app.use('/styles',express.static(path.join(__dirname, '/styles')));
@@ -42,5 +44,4 @@ app.get("/admin", (req, res) => {
 app.listen(port, () => {
   console.log(`Listening to port ${port}`);
   console.log(`Enter: http://localhost:${port}/admin`);
-  // console.log(__dirname, '../styles');
 });

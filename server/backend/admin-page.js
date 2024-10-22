@@ -1,5 +1,8 @@
 import connectToDatabase from './dbConnection.js';
+import { supabase } from './dbConnection.js';
 import bcrypt from "bcrypt";
+import dotenv from 'dotenv';
+dotenv.config();
 
 const { client } = connectToDatabase;
 
@@ -38,3 +41,38 @@ export const hashPassword = async (req, res) => {
 
     await client.query(`UPDATE users_table SET password = '${hashedPassword}' WHERE username = '${name}'`)
 }
+
+//DISPLAYING PRODUCTS
+let filePath
+const bucketName = process.env.SUPABASE_BUCKET
+
+export const displayProducts = async (req,res) =>{
+    const products = await  client.query(`SELECT * FROM products_list`);
+    if(products.rows.length === 0){
+        return res.json({ success: false, message: 'Products not Found'});
+    }
+
+    const newResult = await Promise.all(products.rows.map(async (product) => {
+        const url = await getPublicUrl(bucketName, product.image_name)
+        return{
+            ...product,
+            productURL: url || null
+        }
+    }))
+    return res.json(newResult);
+}
+
+//RETRIEVE IMAGE
+const getPublicUrl= async (bucketName, filePath) => {
+    const { data, error } = supabase.storage
+        .from(bucketName)
+        .getPublicUrl(filePath);
+
+    if (error) {
+        console.error('Error retrieving public URL:', error);
+        return null;
+    }
+    return data.publicUrl;
+}
+
+

@@ -97,6 +97,24 @@ footer {
 #admin-button:hover {
     transform: translateY(-2px);
 }
+#admin-center{
+    /* border: 5px green solid; */
+    width: 100vw;
+    height: 70vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+#category-button{
+    margin-top: 10px;
+}
+#admin-table{
+    /* border: 5px green solid; */
+    margin-top: 10px;
+    height: 60vh;
+    width: 100%;
+}
 
 .hidden {
     display: none;

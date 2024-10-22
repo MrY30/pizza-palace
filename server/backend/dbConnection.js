@@ -1,12 +1,18 @@
 // Import Client from 'pg' using ES6 module syntax
 import pkg from 'pg';
 import dotenv from 'dotenv';
+import { createClient } from '@supabase/supabase-js';
 
 const {Client} = pkg;
 
 dotenv.config();
 const dbURL = process.env.DB_PROJECT;
 const dbPass = process.env.DB_PASSWORD;
+
+const supabaseUrl = process.env.SUPABASE_URL;
+const supabaseKey = process.env.SUPABASE_KEY;
+
+export const supabase = createClient(supabaseUrl, supabaseKey);
 
 // Initialize the PostgreSQL client using the Supabase connection string
 const client = new Client({
