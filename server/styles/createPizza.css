@@ -9,21 +9,41 @@ body{
 }
 
 header {
-    background: linear-gradient(135deg, #9DC183, #7AB258);
+    background: linear-gradient(135deg, #32613e, #32613e);
     padding: 1.5rem;
-    color: white;
+    color: #db9247;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    display: flex;
+    align-items: center;
+    height: 3rem;
 }
+
+header>img{
+    height: 4rem;
+    margin-right: 30px;
+}
+
+header>h1{
+    font-family: 'Gidugu';
+    font-size: 3rem;
+    margin: 0;
+}
+
 main {
     flex: 1;
-    background-color: bisque;
+    background-color: #fcf6b5;
     display: flex;
     align-items: center;
     flex-direction: column;
 }
+
 main>#title{
     margin-top: 1.5rem;
     margin-bottom: 1rem;
+    font-family: 'Gidugu';
+    font-size: 2rem;
+    color: #b2361d;
+    margin-left: 6rem;
 }
 #container{
     min-width: 95vw;
@@ -57,19 +77,84 @@ main>#title{
     flex-direction: row;
     gap: 20px;
     /* border: 2px solid #7AB258 ; */
+    font-family: 'Quicksand';
+    font-size: 1.5rem;
+    align-items: center;
+    justify-content: center; 
 }
 .menus{
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
     gap: 10px;
-    background-color: darkorange;
+    background-color: #d45b27;
     /* border: 2px solid #7AB258 ; */
     height: 40vh;
     padding: 10px;
     border-radius: 0 0 20px 20px;
     margin-bottom: 10px;
 }
+
+/*style*/
+#sizes>#small, #regular, #large, #family-size{
+    background-color: #db9247;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+    color: #b2361d;
+    font-family: 'Quicksand';
+}
+
+#crusts>#thick, #thin, #normal{
+    background-color: #db9247;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+    color: #b2361d;
+    font-family: 'Quicksand';
+}
+
+#toppings>#pepperoni, #mushrooms, #olives, #pineapple{
+    background-color: #db9247;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+    color: #b2361d;
+    font-family: 'Quicksand';
+}
+
+#slices>#triangle, #square{
+    background-color: #db9247;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+    color: #b2361d;
+    font-family: 'Quicksand';
+}
+
+/*hover effect*/
+#sizes>#small:hover, #sizes>#regular:hover, #sizes>#large:hover, #sizes>#family-size:hover {
+    background-color: #b2361d;
+    transform: translateY(-5px); 
+    color: #db9247;
+}
+
+#crusts>#thick:hover, #crusts>#thin:hover, #crusts>#normal:hover{
+    background-color: #b2361d;
+    transform: translateY(-5px); 
+    color: #db9247;
+}
+
+#toppings>#pepperoni:hover, #toppings>#mushrooms:hover, #toppings>#olives:hover, #toppings>#pineapple:hover{
+    background-color: #b2361d;
+    transform: translateY(-5px); 
+    color: #db9247;
+}
+
+#slices>#triangle:hover, #slices>#square:hover{
+    background-color: #b2361d;
+    transform: translateY(-5px); 
+    color: #db9247;
+}
+
+
+.active {
+    background-color: #b2361d; 
+    transform: scale(1.05);
+}
+
 .category-button{
     width: 100%;
     height: 2rem;
@@ -97,13 +182,22 @@ main>#title{
     padding: 20px;
     border-radius: 20px;
     justify-content: space-between;
-    background: linear-gradient(135deg, #FFA500, #FF8C00);
+    background: linear-gradient(135deg, #d45b27, #d45b27);
     margin-bottom: 10px;
+    font-family: 'Quicksand';
+    color: #d9c595;
+
 }
+
+
+
 #buttons{
     /* border: 2px solid #7AB258 ; */
     display: flex;
     justify-content: space-around;
+    color: #d9c595;
+    font-family: 'Quicksand';
+    font-size: large;
 
 }
 .order-button{
@@ -114,13 +208,15 @@ main>#title{
     justify-content: center;
     align-items: center;
     border-radius: 30px;
-    background: linear-gradient(135deg, #FFA500, #FF8C00);
+    background: linear-gradient(135deg, #d45b27, #d45b27);
 }
 footer {
-    background: linear-gradient(135deg, #FFA500, #FF8C00);
+    background: linear-gradient(135deg, #b2361d, #b2361d);
     padding: 1.5rem;
-    color: white;
+    color: #db9247;
     text-align: center;
+    height: auto;
+    font-family: 'Quicksand';
 }
 #custom-pizza img{
     width: 100%;
@@ -141,7 +237,6 @@ footer {
     height: 425px;
     /* transform: rotate(360deg); */
     transition: width 0.5s, height 0.5s, transform 0.5s;
-
 }
 .large{
     width: 450px;
@@ -166,8 +261,10 @@ footer {
     display: none;
 }
 .selected{
-    background-color: darkorange;
+    background-color: #d45b27;
+    color: #d9c595;
 }
 .unselected{
-    background-color: lightsalmon;
+    background-color: #d9c595;
+    color: #d45b27;
 }
