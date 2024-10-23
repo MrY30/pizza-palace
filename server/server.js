@@ -1,9 +1,10 @@
 import express from "express";
 import path from 'path';
 import { fileURLToPath } from 'url';
+import multer from 'multer';
 
 //IMPORT BACKEND
-import {checkLogIn, displayProducts} from './backend/admin-page.js';
+import {checkLogIn, displayProducts, addProduct} from './backend/admin-page.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -16,9 +17,12 @@ const port = 3000;
 //DEFINE MIDDLEWARE
 app.use(express.json());
 
-app.post('/admin/login', checkLogIn);
-// app.post('/admin/login', hashPassword);
+//MULTER IMAGE
+const storage = multer.memoryStorage();
+const upload = multer({ storage });
 
+app.post('/admin/login', checkLogIn);
+app.post('/admin/upload', upload.single('image'), addProduct);
 app.get('/admin/products', displayProducts);
 
 // Serve static files from the 'public' directory

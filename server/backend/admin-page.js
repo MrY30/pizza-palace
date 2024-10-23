@@ -43,7 +43,6 @@ export const hashPassword = async (req, res) => {
 }
 
 //DISPLAYING PRODUCTS
-let filePath
 const bucketName = process.env.SUPABASE_BUCKET
 
 export const displayProducts = async (req,res) =>{
@@ -75,4 +74,38 @@ const getPublicUrl= async (bucketName, filePath) => {
     return data.publicUrl;
 }
 
+//UPLOAD ADD PRODUCT FORM TO DATABASE
+export const addProduct = async (req,res) =>{
+    const file = req.file;
+    const { name, price, inventory, category, image_name} = req.body;
 
+    if(!file){
+        return res.status(400).json({ error: 'No file uploaded' });
+    }
+    try {
+        const toTable = `
+            INSERT INTO products_list (name, price, inventory, category, image_name)
+            VALUES ($1, $2, $3, $4, $5)
+            RETURNING *;
+        `;
+        const values = [name, price, inventory, category, image_name];
+        const submit = await client.query(toTable, values);
+
+        const { data, error } = await supabase.storage
+            .from(bucketName)
+            .upload(file.originalname, file.buffer, {
+                contentType: file.mimetype
+            });
+
+        if (error) {
+            return res.status(400).json({ error: error.message });
+        }
+
+        res.json({ success: true, 
+                   message: 'File and data uploaded successfully',
+                   product: submit.rows[0],
+                });
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+}
