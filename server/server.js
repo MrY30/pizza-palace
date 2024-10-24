@@ -32,7 +32,7 @@ app.use('/img',express.static(path.join(__dirname, '/img')));
 
 // Root route
 app.get("/", (req, res) => {
-  res.send("Hello Pizza Palace!!!");
+  res.sendFile(path.join(__dirname, '/pages', 'homePage.html'));
 });
 
 // Serve the /pizza HTML file
