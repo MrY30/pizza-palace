@@ -188,7 +188,7 @@ header.sticky{
 }
 .menu-content{
 	display: grid;
-	grid-template-columns: repeat(auto-fit, minmax(300px, auto));
+	grid-template-columns: repeat(auto-fit, minmax(200px, auto));
 	gap: 2rem;
 	align-items: center;
 	margin-top: 4rem;
@@ -201,6 +201,17 @@ header.sticky{
 }
 .row{
 	transition: all .40s ease;
+}
+.image-frame{
+	width: 100%;
+	height: 200px;
+	overflow: hidden;
+	border-radius: 10px;
+}
+.image-frame img{
+	width: 100%;
+	height: auto;
+	object-fit: cover;
 }
 .menu{
 	padding-top: 110px;
@@ -224,11 +235,37 @@ header.sticky{
 	line-height: 30px;
 	margin-bottom: 15px;
 }
-.star i{
-	color: var(--main-color);
-	font-size: 17px;
-	margin-right: 4px;
+.favorite {
+    text-align: right;
+    margin-top: -5px;  /* Adjust spacing from the text above */
 }
+
+.favorite i {
+    color: var(--main-color);
+    font-size: 30px;  /* Slightly larger icon */
+    transition: all 0.3s ease;  /* Smooth transition for hover effects */
+    cursor: pointer;  /* Shows pointer on hover */
+    padding: 8px;  /* Adds some spacing around the icon */
+	/* border: 1px solid var(--main-color); */
+    border-radius: 50%;  /* Creates a circular hover effect */
+}
+
+.favorite i:hover {
+    transform: scale(1.2);
+    background-color: rgba(255, 71, 71, 0.1);
+}
+
+/* Optional: Add animation for when the heart is clicked/active */
+.favorite i.active {
+    color: var(--main-color);
+    animation: heartBeat 0.3s ease-in-out;
+}
+@keyframes heartBeat {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.3); }
+    100% { transform: scale(1); }
+}
+
 .row:hover{
 	transform: scale(1.02);
 }
