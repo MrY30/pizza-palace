@@ -11,7 +11,8 @@
         <h1>Dashboard</h1>
     </header>
     <main>
-        <div id="log-in">
+        <!-- REMOVE HIDDEN -->
+        <div id="log-in" >
             <h1 id="admin-title">ADMIN PAGE</h1>
             <div class="input-group">
                 <h2>Username:</h2>
@@ -22,6 +23,53 @@
                 <input id="admin-password" type="password" placeholder="Enter your password">
             </div>
             <input id="admin-button" type="submit" value="LOG IN">
+        </div>
+        <!-- add hidden -->
+        <div id="admin-center" class="hidden">
+            <h1>ADMIN CENTER</h1>
+            <div id="category-button">
+                <input id = "admin-products" type="submit" value="PRODUCTS">
+                <input id = "admin-orders" type="submit" value="ORDERS">
+            </div>
+            <div id="admin-table">
+                <input id = "add-product-button" type="submit" value = "ADD PRODUCT">
+                <div id="add-product" class="hidden">
+                    <div >
+                        <h3>Add a Product</h3>
+                        <input id = "add-close" type="submit" value = "X">
+                    </div>
+                    <form id="add-form" enctype="multipart/form-data">
+                        <div>
+                            <label for="name">Name:</label>
+                            <input type="text" id="add-name" required>
+                        </div>
+                        <div>
+                            <label for="price">Price:</label>
+                            <input type="number" id="add-price" required>
+                        </div>
+                        <div>
+                            <label for="inventory">Inventory:</label>
+                            <input type="number" id="add-inventory" required>
+                        </div>
+                        <div>
+                            <label for="category">Category:</label>
+                            <select id="add-category" required>
+                                <option value="" disabled selected >--Select a Category--</option>
+                                <option value="Pasta">Pasta</option>
+                                <option value="Appetizers">Appetizers</option>
+                                <option value="Salad">Salad</option>
+                                <option value="Dessert">Dessert</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label for="image">Select an Image:</label>
+                            <input type="file" id="add-image" accept="image/*" required>
+                        </div>
+                        <button type="submit" id = "add-button">Upload</button>
+                    </form>
+                </div>
+                <table id = "admin-tables"></table>
+            </div>
         </div>
     </main>
     <footer>
