@@ -34,7 +34,7 @@ sr.reveal('.container, .about, .menu, .contact',{delay:200, origin:'bottom'});
 
 
 
-// Get the modal element
+// Get the cart modal element
 const cartModal = document.getElementById("cartModal");
 
 // Get the cart icon that opens the modal
@@ -43,19 +43,78 @@ const cartIcon = document.querySelector(".bx-cart");
 // Get the close button inside the modal
 const cartCloseBtn = document.querySelector(".cart-close");
 
+// Function to open the cart modal
+function openCartModal() {
+    cartModal.style.display = "flex"; // Show the modal
+}
+
+// Function to close the cart modal
+function closeCartModal() {
+    cartModal.style.display = "none";
+}
+
 // When the user clicks on the cart icon, open the modal
 cartIcon.onclick = function() {
-    cartModal.style.display = "flex"; // Show the modal
+    openCartModal();
 }
 
 // When the user clicks on the close button (X), close the modal
 cartCloseBtn.onclick = function() {
-    cartModal.style.display = "none";
+    closeCartModal();
 }
 
 // When the user clicks anywhere outside of the modal, close it
 window.onclick = function(event) {
     if (event.target == cartModal) {
-        cartModal.style.display = "none";
+        closeCartModal();
+    }
+}
+
+
+
+
+
+
+
+
+// Get the modal element
+// Get the modal element
+const loginModal = document.getElementById("loginModal");
+
+// Get all clickable elements (links and buttons) on the homepage
+const clickableItems = document.querySelectorAll("a, button");
+
+// Get the close button inside the modal
+const loginCloseBtn = document.querySelector(".login-close");
+
+// Function to open the modal
+function openLoginModal() {
+    loginModal.style.display = "flex"; // Show the modal
+}
+
+// Function to close the modal
+function closeLoginModal() {
+    loginModal.style.display = "none";
+}
+
+// Attach the click event to all clickable items on the homepage
+clickableItems.forEach(item => {
+    item.addEventListener("click", function(event) {
+        // Prevent the default action of links/buttons
+        event.preventDefault();
+        // Open the login modal
+        openLoginModal();
+    });
+});
+
+// When the user clicks on the close button (X), close the modal
+loginCloseBtn.onclick = function() {
+    closeLoginModal();
+}
+
+// When the user clicks anywhere outside of the modal, close it
+window.onclick = function(event) {
+    if (event.target == loginModal) {
+        closeLoginModal();
     }
 }

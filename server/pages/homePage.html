@@ -244,15 +244,35 @@
 		</div>
 
 
-	<!-- Cart Floating Window (Modal) -->
+	<!-- Cart Modal -->
 	<div id="cartModal" class="cart-modal">
 		<div class="cart-modal-content">
 			<span class="cart-close">&times;</span>
 			<h2>Your Cart</h2>
-			<p>Your items will appear here.</p>
-			<!-- Add more cart content here if needed -->
+			<p>No items in the cart.</p>
+			<!-- You can add more cart content here, like a list of items -->
 		</div>
 	</div>
+
+
+
+		<!-- Login Modal -->
+	<div id="loginModal" class="login-modal">
+		<div class="login-modal-content">
+			<span class="login-close">&times;</span>
+			<h2>Login</h2>
+			<form action="/login" method="POST">
+				<label for="username">Username</label>
+				<input type="text" id="username" name="username" required>
+
+				<label for="password">Password</label>
+				<input type="password" id="password" name="password" required>
+
+				<button type="submit" class="login-btn">Login</button>
+			</form>
+		</div>
+	</div>
+
 
 
 	<!-- scroll top -->
