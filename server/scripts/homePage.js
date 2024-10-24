@@ -26,3 +26,16 @@ const sr = ScrollReveal ({
 sr.reveal('.home-text',{delay:200, origin:'left'});
 sr.reveal('.home-img',{delay:200, origin:'right'});
 sr.reveal('.container, .about, .menu, .contact',{delay:200, origin:'bottom'});
+
+document.querySelectorAll('.favorite i').forEach(heart => {
+    heart.addEventListener('click', function() {
+        // Toggle between outlined and filled heart icons
+        if (this.classList.contains('bx-heart')) {
+            this.classList.remove('bx-heart');
+            this.classList.add('bxs-heart', 'active');
+        } else {
+            this.classList.remove('bxs-heart', 'active');
+            this.classList.add('bx-heart');
+        }
+    });
+});
