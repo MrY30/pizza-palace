@@ -26,3 +26,36 @@ const sr = ScrollReveal ({
 sr.reveal('.home-text',{delay:200, origin:'left'});
 sr.reveal('.home-img',{delay:200, origin:'right'});
 sr.reveal('.container, .about, .menu, .contact',{delay:200, origin:'bottom'});
+
+
+
+
+
+
+
+
+// Get the modal element
+const cartModal = document.getElementById("cartModal");
+
+// Get the cart icon that opens the modal
+const cartIcon = document.querySelector(".bx-cart");
+
+// Get the close button inside the modal
+const cartCloseBtn = document.querySelector(".cart-close");
+
+// When the user clicks on the cart icon, open the modal
+cartIcon.onclick = function() {
+    cartModal.style.display = "flex"; // Show the modal
+}
+
+// When the user clicks on the close button (X), close the modal
+cartCloseBtn.onclick = function() {
+    cartModal.style.display = "none";
+}
+
+// When the user clicks anywhere outside of the modal, close it
+window.onclick = function(event) {
+    if (event.target == cartModal) {
+        cartModal.style.display = "none";
+    }
+}
