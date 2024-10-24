@@ -188,7 +188,7 @@ header.sticky{
 }
 .menu-content{
 	display: grid;
-	grid-template-columns: repeat(auto-fit, minmax(300px, auto));
+	grid-template-columns: repeat(auto-fit, minmax(200px, auto));
 	gap: 2rem;
 	align-items: center;
 	margin-top: 4rem;
