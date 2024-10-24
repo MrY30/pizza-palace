@@ -5,19 +5,27 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <link rel="stylesheet" href="/styles/createPizza.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Gidugu&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300..700&display=swap" rel="stylesheet">
 </head>
 <body>
     <header>
-        <h1>Dashboard</h1>
+            <img src="/img/pizzaurlogo.png" alt="">
+        <h1>Pizza Palace</h1>
     </header>
     <main>
         <div id="title">
-            <h1>Customize Pizza</h1>
+            <h1>Customize Your Pizza!</h1>
         </div>
         <div id="container">
             <div id="pizza">
                 <div class="regular" id="custom-pizza">
-                    <img src="/img/pizzaDough.png" alt="Customize Pizza">
+                    <img class="image1" src="/img/pepperoni.png" alt="Pepperoni">
+                    <img class="image2" src="/img/pizzaur.png" alt="Customize Pizza">
                 </div>
             </div>
             <div id="menu">
@@ -28,19 +36,77 @@
                     <div id="slice" class="category-button unselected">Slices</div>
                 </div>
                 <div id="sizes" class="menus">
-                    <div id="small" class="pizza-button">Small</div>
-                    <div id="regular" class="pizza-button">Regular</div>
-                    <div id="large" class="pizza-button">Large</div>
-                    <div id="family-size" class="pizza-button">Family Size</div>
+                    <div id="small" class="pizza-button">
+                        <h3>Small</h3>
+                        <p>₱0.00</p>
+                    </div>
+                    <div id="regular" class="pizza-button">
+                        <h3>Regular</h3>
+                        <p>₱0.00</p>
+                    </div>
+                    <div id="large" class="pizza-button">
+                        <h3>Large</h3>
+                        <p>₱0.00</p>
+                    </div>
+                    <div id="family-size" class="pizza-button">
+                        <h3>Family Size</h3>
+                        <p>₱0.00</p>
+                    </div>
+                    
                 </div>
                 <div id="crusts" class="menus hidden">
-                    <div id="thick" class="pizza-button">Thick</div>
+                    <div id="thick" class="pizza-button">
+                        <h3>Thick Crust</h3>
+                        <p>₱0.00</p>
+                    </div>
+                    <div id="thin" class="pizza-button">
+                        <h3>Thin Crust</h3>
+                        <p>₱0.00</p>
+                    </div>
+                    <div id="normal" class="pizza-button">
+                        <h3>Regular Crust</h3>
+                        <p>₱0.00</p>
+                    </div>
                 </div>
                 <div id="toppings" class="menus hidden">
-                    <div id="pepperoni" class="pizza-button">Pepperoni</div>
+                    <div id="pepperoni" class="pizza-button">
+                        <h3>Pepperoni</h3>
+                        <p>₱0.00</p>
+                    </div>
+                    <div id="mushrooms" class="pizza-button">
+                        <h3>Mushrooms</h3>
+                        <p>₱0.00</p>
+                    </div>
+                    <div id="olives" class="pizza-button">
+                        <h3>Olives</h3>
+                        <p>₱0.00</p>
+                    </div>
+                    <div id="pineapple" class="pizza-button">
+                        <h3>Pineapple</h3>
+                        <p>₱0.00</p>
+                    </div>
                 </div>
                 <div id="slices" class="menus hidden">
-                    <div id="triangle" class="pizza-button">Triangle Cut</div>
+                    <div id="triangle" class="pizza-button">
+                        <h3>Triangle Cut</h3>
+                        <p>₱0.00</p>
+                    </div>
+                    <div id="square" class="pizza-button">
+                        <h3>Square Cut</h3>
+                        <p>₱0.00</p>
+                    </div>
+                </div>
+                <div id="total-price">
+                    <h1>Total Price</h1>
+                    <h1>₱0.00</h1>
+                </div>
+                <div id="buttons">
+                    <div id="cart" class="order-button">
+                        <h3>Add to Cart</h3>
+                    </div>
+                    <div id="love" class="order-button">
+                        <h3>Add to Favorites</h3>
+                    </div>
                 </div>
             </div>
         </div>
