@@ -53,7 +53,7 @@ const displayMenu = (products) => {
 						<h5>₱${product.price}</h5>
 					</div>
 				</div>
-				<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Doloribus, magnam.</p>
+				<p>${product.description}</p>
 				<div class="favorite">
 					<i class='bx bx-heart' ></i>
 				</div>
