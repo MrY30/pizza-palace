@@ -163,6 +163,8 @@ header.sticky{
 	transform: translateX(7px);
 	cursor: pointer;
 }
+
+/* ABOUT SECTION */
 .about{
 	display: grid;
 	grid-template-columns: repeat(2, 1fr);
@@ -186,12 +188,14 @@ header.sticky{
 	line-height: 32px;
 	margin-bottom: 2.3rem;
 }
+
+/* MENU SECTION */
 .menu-content{
 	display: grid;
 	grid-template-columns: repeat(auto-fit, minmax(200px, auto));
 	gap: 2rem;
 	align-items: center;
-	margin-top: 4rem;
+	margin-top: 3rem;
 	cursor: pointer;
 }
 .row img{
@@ -201,6 +205,17 @@ header.sticky{
 }
 .row{
 	transition: all .40s ease;
+}
+.image-frame{
+	width: 100%;
+	height: 200px;
+	overflow: hidden;
+	border-radius: 10px;
+}
+.image-frame img{
+	width: 100%;
+	height: auto;
+	object-fit: cover;
 }
 .menu{
 	padding-top: 110px;
@@ -224,14 +239,76 @@ header.sticky{
 	line-height: 30px;
 	margin-bottom: 15px;
 }
-.star i{
-	color: var(--main-color);
-	font-size: 17px;
-	margin-right: 4px;
+.favorite {
+    text-align: right;
+    margin-top: -5px;  /* Adjust spacing from the text above */
 }
+
+.favorite i {
+    color: var(--main-color);
+    font-size: 30px;  /* Slightly larger icon */
+    transition: all 0.3s ease;  /* Smooth transition for hover effects */
+    cursor: pointer;  /* Shows pointer on hover */
+    padding: 8px;  /* Adds some spacing around the icon */
+	/* border: 1px solid var(--main-color); */
+    border-radius: 50%;  /* Creates a circular hover effect */
+}
+
+.favorite i:hover {
+    transform: scale(1.2);
+    background-color: rgba(255, 71, 71, 0.1);
+}
+
+/* Optional: Add animation for when the heart is clicked/active */
+.favorite i.active {
+    color: var(--main-color);
+    animation: heartBeat 0.3s ease-in-out;
+}
+@keyframes heartBeat {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.3); }
+    100% { transform: scale(1); }
+}
+
 .row:hover{
 	transform: scale(1.02);
 }
+
+.filter-category{
+	margin-top: 2rem;
+}
+
+.btn-select{
+	display: inline-block;
+	padding: 5px 26px;
+	background: var(--main-color);
+	color: var(--bg-color);
+	font-size: 15px;
+	font-weight: 600;
+	border-radius: 5rem;
+	border: 2px solid var(--main-color);
+	transition: all .38s ease;
+	margin-right: 0.5rem;
+}
+.btn-select:hover, .btn-unselect:hover{
+	background: var(--main-color);
+	border: 2px solid var(--main-color);
+	color: var(--bg-color);
+}
+.btn-unselect{
+	display: inline-block;
+	padding: 5px 26px;
+	background: var(--bg-color);
+	color: var(--main-color);
+	font-size: 15px;
+	font-weight: 600;
+	border-radius: 5rem;
+	border: 2px solid var(--main-color);
+	transition: all .38s ease;
+	margin-right: 0.5rem;
+}
+
+/* CONTACT SECTION */
 .contact{
 	padding: 50px 15% 40px;
 }
