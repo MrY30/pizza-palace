@@ -9,9 +9,10 @@
 }
 :root{
 	--text-color: #302e29;
-	--main-color: #ff9100;
-	--second-color: #858585;
-	--bg-color: #fffbf6;
+	--main-color: #da9147;
+	--second-color: #494830;
+	--bg-color: #FCF6B5;
+	--header-color: #32613E;
 	--big-font: 4.5rem;
 	--h2-font: 2.6rem;
 	--p-font: 1.1rem;
@@ -32,6 +33,7 @@ header{
 	background: transparent;
 	padding: 23px 15%;
 	transition: all .38s ease;
+	background-color: var(--header-color);
 }
 .logo{
 	font-size: 30px;
@@ -45,7 +47,7 @@ span{
 	display: flex;
 }
 .navbar a{
-	color: var(--text-color);
+	color: var(--main-color);
 	font-size: var(--p-font);
 	font-weight: 600;
 	padding: 5px 10px;
@@ -120,7 +122,7 @@ section{
 }
 header.sticky{
 	padding: 10px 15%;
-	background: var(--bg-color);
+	background: var(--header-color);
 	box-shadow: 0px 4px 15px rgb(0 0 0 / 8%);
 }
 .container{
