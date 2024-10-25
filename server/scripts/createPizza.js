@@ -45,6 +45,7 @@ const thinCrustButton = document.getElementById('thin');
 //topping buttons
 const pepperoniButton = document.getElementById('pepperoni');
 const mushroomButton = document.getElementById('mushrooms');
+const olivesButton = document.getElementById('olives');
 
 //total price element
 const totalPriceElement = document.querySelector('#total-price h1:nth-of-type(2)');
@@ -97,6 +98,14 @@ mushroomButton.addEventListener('click', () => {
     mushroomImage.src = '/img/mushroom.png'; 
     mushroomImage.classList.add('topping-image'); 
     customPizza.appendChild(mushroomImage); 
+});
+
+olivesButton.addEventListener('click', () => {
+    console.log('Olives topping is clicked');
+    const olivesImage = document.createElement('img');
+    olivesImage.src = '/img/olives.png'; 
+    olivesImage.classList.add('topping-image'); 
+    customPizza.appendChild(olivesImage); 
 });
 
 
@@ -189,7 +198,7 @@ familySizeButton.addEventListener('click', () => {
     customPizza.classList.toggle('rotate');
     selectedSizePrice = prices.familySize;
     updateTotalPrice();
-    });
+    }); 
 
     // Event listeners for crust buttons to change pizza image
     thickCrustButton.addEventListener('click', () => {
