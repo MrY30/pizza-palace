@@ -3,36 +3,38 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Pizza Palace - Admin Page</title>
     <link rel="stylesheet" href="/styles/adminPage.css">
 </head>
 <body>
     <header>
-        <h1>Dashboard</h1>
+        <div class="image-container">
+            <img src="/img/pizzaPalaceLogo.png" alt="">
+        </div>
+        <div class="nav-bar">
+            <a href="#" id="admin-products">PRODUCTS</a>
+            <a href="#" id="admin-orders">ORDERS</a>
+        </div>
+        <h1>Admin Center</h1>
     </header>
     <main>
         <!-- REMOVE HIDDEN -->
-        <div id="log-in" >
-            <h1 id="admin-title">ADMIN PAGE</h1>
+        <div id="log-in" class="hidden">
             <div class="input-group">
                 <h2>Username:</h2>
                 <input id="admin-username" type="text" placeholder="Enter your username">
+                <label for="admin-username" id="username-error-label" class="hidden-error">Username Not Found</label>
             </div>
             <div class="input-group">
                 <h2>Password:</h2>
                 <input id="admin-password" type="password" placeholder="Enter your password">
+                <label for="admin-username" id="password-error-label" class="hidden-error">Invalid Password</label>
             </div>
             <input id="admin-button" type="submit" value="LOG IN">
         </div>
         <!-- add hidden -->
-        <div id="admin-center" class="hidden">
-            <h1>ADMIN CENTER</h1>
-            <div id="category-button">
-                <input id = "admin-products" type="submit" value="PRODUCTS">
-                <input id = "admin-orders" type="submit" value="ORDERS">
-            </div>
+        <div id="admin-center">
             <div id="admin-table">
-                <input id = "add-product-button" type="submit" value = "ADD PRODUCT">
                 <div id="add-product" class="hidden">
                     <div >
                         <h3>Add a Product</h3>
@@ -69,11 +71,14 @@
                     </form>
                 </div>
                 <table id = "admin-tables"></table>
+                <!-- <input id = "add-product-button" type="submit" value = "ADD PRODUCT"> -->
             </div>
         </div>
     </main>
+    <!-- ADD PRODUCT BUTTON -->
+    <a href="#home" id="add-product-button"><h1>+</h1></a>
     <footer>
-        <p>&copy; 2024 Admin Dashboard. All rights reserved.</p>
+        <p>&copy; 2024 Pizza Palace Admin Center. All rights reserved.</p>
     </footer>
     <script src="/scripts/adminPage.js"></script>
 </body>
