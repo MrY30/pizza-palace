@@ -2,6 +2,8 @@
 const admin = document.getElementById("admin-username")
 const password = document.getElementById('admin-password')
 const btnLogIn = document.getElementById('admin-button')
+const lblUsername = document.getElementById('username-error-label')
+const lblPassword = document.getElementById('password-error-label')
 
 const adminPanel = document.getElementById('admin-center');
 const loginPanel = document.getElementById('log-in');
@@ -30,29 +32,50 @@ const productDisplay = async (e) => {
         noProductRow.innerHTML = '<td colspan="5">No Products Available</td>';
         adminTable.appendChild(noProductRow);
         return;
+    } else{
+        products.forEach(product => {
+            const productRow = document.createElement('tr');
+            
+            productRow.innerHTML = `
+                <td><img src="${product.productURL}" alt="${product.name}" class = "product-image"></td>
+                <td class = "product-name">${product.name}</td>
+                <td class="price">${product.price}</td>
+                <td class="inventory">${product.inventory}</td>
+                <td><span class = "category">${product.category}</span></td>
+            `;
+    
+            adminTable.appendChild(productRow);
+        });
     }
-    products.forEach(product => {
-        const productRow = document.createElement('tr');
-        
-        productRow.innerHTML = `
-            <td><img src="${product.productURL}" alt="${product.name}" class = "product-image"></td>
-            <td class = "product-name">${product.name}</td>
-            <td class="price">${product.price}</td>
-            <td class="inventory">${product.inventory}</td>
-            <td><span class = "category">${product.category}</span></td>
-        `;
 
-        adminTable.appendChild(productRow);
-    });
+    // adminTable.style.marginBottom = "20rem";
 };
 
 //LOG IN
 btnLogIn.addEventListener('click',async (e)=>{
     e.preventDefault();
     
+    //NO INPUT IN USERNAME OR PASSWORD
     const username = admin.value;
     const pass = password.value;
 
+    if(!username){
+        lblUsername.innerHTML = "Username is Required"
+        lblUsername.classList.remove('hidden-error')
+        admin.classList.add('error')
+    }else{
+        lblUsername.classList.add('hidden-error')
+        admin.classList.remove('error')
+    }
+
+    if(!pass){
+        lblPassword.innerHTML = "Password is Required"
+        lblPassword.classList.remove('hidden-error')
+        password.classList.add('error')
+    }else{
+        lblPassword.classList.add('hidden-error')
+        password.classList.remove('error')
+    }
     const response = await fetch('/admin/login', {
         method: 'POST',
         headers: {
@@ -68,7 +91,7 @@ btnLogIn.addEventListener('click',async (e)=>{
         adminPanel.classList.remove('hidden')
         productDisplay(e);
     } else {
-        alert(data.message);
+        // alert(data.message);
     }
 })
 
