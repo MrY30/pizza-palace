@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pizza Palace - Admin Page</title>
     <link rel="stylesheet" href="/styles/adminPage.css">
+    <link rel="stylesheet" href="https://unpkg.com/boxicons@latest/css/boxicons.min.css">
 </head>
 <body>
     <header>
@@ -19,7 +20,7 @@
     </header>
     <main>
         <!-- REMOVE HIDDEN -->
-        <div id="log-in" class="hidden">
+        <div id="log-in">
             <div class="input-group">
                 <h2>Username:</h2>
                 <input id="admin-username" type="text" placeholder="Enter your username">
@@ -33,50 +34,52 @@
             <input id="admin-button" type="submit" value="LOG IN">
         </div>
         <!-- add hidden -->
-        <div id="admin-center">
-            <div id="admin-table">
-                <div id="add-product" class="hidden">
-                    <div >
-                        <h3>Add a Product</h3>
-                        <input id = "add-close" type="submit" value = "X">
-                    </div>
-                    <form id="add-form" enctype="multipart/form-data">
-                        <div>
-                            <label for="name">Name:</label>
-                            <input type="text" id="add-name" required>
-                        </div>
-                        <div>
-                            <label for="price">Price:</label>
-                            <input type="number" id="add-price" required>
-                        </div>
-                        <div>
-                            <label for="inventory">Inventory:</label>
-                            <input type="number" id="add-inventory" required>
-                        </div>
-                        <div>
-                            <label for="category">Category:</label>
-                            <select id="add-category" required>
-                                <option value="" disabled selected >--Select a Category--</option>
-                                <option value="Pasta">Pasta</option>
-                                <option value="Appetizers">Appetizers</option>
-                                <option value="Salad">Salad</option>
-                                <option value="Dessert">Dessert</option>
-                            </select>
-                        </div>
-                        <div>
-                            <label for="image">Select an Image:</label>
-                            <input type="file" id="add-image" accept="image/*" required>
-                        </div>
-                        <button type="submit" id = "add-button">Upload</button>
-                    </form>
+        <div id="admin-center" class="hidden">
+            <!-- ADD PRODUCT BUTTON -->
+            <a href="#home" id="add-product-button"><i class='bx bx-plus' ></i></a>
+            <!-- ADD PRODUCT FORM * ADD HIDDEN -->
+            <div id="add-product" class="hidden">
+                <div >
+                    <h3>Add a Product</h3>
+                    <a id="add-close"><i class='bx bx-x'></i></a>
                 </div>
+                <form id="add-form" enctype="multipart/form-data">
+                    <div>
+                        <label for="name">Name:</label>
+                        <input type="text" id="add-name" required>
+                    </div>
+                    <div>
+                        <label for="description">Description:</label>
+                        <textarea id="add-description" name="add-description" required></textarea>
+                    </div>
+                    <div>
+                        <label for="price">Price:</label>
+                        <input type="number" id="add-price" required>
+                    </div>
+                    <div>
+                        <label for="category">Category:</label>
+                        <select id="add-category" required>
+                            <option value="" disabled selected >--Select a Category--</option>
+                            <option value="Pasta">Pasta</option>
+                            <option value="Appetizers">Appetizers</option>
+                            <option value="Salad">Salad</option>
+                            <option value="Dessert">Dessert</option>
+                        </select>
+                    </div>
+                    <div class="file-input-container">
+                        <label>Select an Image:</label>
+                        <input type="file" id="add-image" name="image" accept="image/*" style="display: none;" onchange="updateFileName()">
+                        <button type="button" class="choose-file-btn" onclick="document.getElementById('add-image').click()">Choose An Image</button>
+                        <span class="file-name">No file chosen</span>
+                    </div>
+                    <button type="submit" id = "add-button">Add the Product</button>
+                </form>
+            </div>
+            <div id="admin-table">
                 <table id = "admin-tables"></table>
-                <!-- <input id = "add-product-button" type="submit" value = "ADD PRODUCT"> -->
             </div>
         </div>
     </main>
-    <!-- ADD PRODUCT BUTTON -->
-    <a href="#home" id="add-product-button"><h1>+</h1></a>
     <footer>
         <p>&copy; 2024 Pizza Palace Admin Center. All rights reserved.</p>
     </footer>
