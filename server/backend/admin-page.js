@@ -77,18 +77,18 @@ const getPublicUrl= async (bucketName, filePath) => {
 //UPLOAD ADD PRODUCT FORM TO DATABASE
 export const addProduct = async (req,res) =>{
     const file = req.file;
-    const { name, price, inventory, category, image_name} = req.body;
+    const { name, price, description, category, image_name} = req.body;
 
     if(!file){
         return res.status(400).json({ error: 'No file uploaded' });
     }
     try {
         const toTable = `
-            INSERT INTO products_list (name, price, inventory, category, image_name)
+            INSERT INTO products_list (name, price, description, category, image_name)
             VALUES ($1, $2, $3, $4, $5)
             RETURNING *;
         `;
-        const values = [name, price, inventory, category, image_name];
+        const values = [name, price, description, category, image_name];
         const submit = await client.query(toTable, values);
 
         const { data, error } = await supabase.storage
