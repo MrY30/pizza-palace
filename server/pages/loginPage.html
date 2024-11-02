@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Page</title>
+    <link rel="stylesheet" href="/server/styles/loginPage.css">
+</head>
+<body>
+    <div class="container">
+        <div class="form-container">
+            <h2>Login</h2>
+            <form action="login.php" method="POST">
+                <label for="username">Email or Username</label>
+                <input type="text" id="username" name="username" required>
+
+                <label for="password">Password</label>
+                <input type="password" id="password" name="password" required>
+
+                <button type="submit">Login</button>
+
+                <p class="message">Don't have an account? <a href="#" onclick="showSignup()">Sign Up</a></p>
+            </form>
+        </div>
+
+        <div class="form-container hidden" id="signup-form">
+            <h2>Sign Up</h2>
+            <form action="signup.php" method="POST">
+                <label for="signup-email">Email</label>
+                <input type="email" id="signup-email" name="email" required>
+
+                <label for="signup-number">Phone Number</label>
+                <input type="tel" id="signup-number" name="number" required>
+
+                <label for="signup-password">Password</label>
+                <input type="password" id="signup-password" name="password" required>
+
+                <button type="submit">Sign Up</button>
+
+                <p class="message">Already have an account? <a href="#" onclick="showLogin()">Login</a></p>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        function showSignup() {
+            document.querySelector(".form-container").classList.add("hidden");
+            document.getElementById("signup-form").classList.remove("hidden");
+        }
+
+        function showLogin() {
+            document.querySelector(".form-container").classList.remove("hidden");
+            document.getElementById("signup-form").classList.add("hidden");
+        }
+    </script>
+</body>
+</html>
