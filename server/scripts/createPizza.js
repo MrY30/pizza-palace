@@ -1,220 +1,90 @@
-document.addEventListener("DOMContentLoaded", function(){
-    
-// category buttons
-const sizeButton = document.getElementById('size');
-const crustButton = document.getElementById('crust');
-const toppingButton = document.getElementById('topping');
-const sliceButton = document.getElementById('slice');
+document.addEventListener("DOMContentLoaded", function() {
+    console.log("JavaScript file loaded");
 
-//category menus
-const sizes = document.getElementById('sizes');
-const crusts = document.getElementById('crusts');
-const toppings = document.getElementById('toppings');
-const slices = document.getElementById('slices');
+    const progress = document.querySelector('.progress');
+    let progressStep = 0;
+    const totalSteps = 4;
 
-//prices for pizza size
-const prices = {
-    small: 129,
-    regular: 149,
-    large: 179,
-    familySize: 199
-};
+    const sizes = document.getElementById("sizes");
+    const crusts = document.getElementById("crusts");
+    const toppings = document.getElementById("toppings");
+    const slices = document.getElementById("slices");
 
-//prices for pizza crust
-const pricec = {
-    thick: 20,
-    thin: 40
-}
+    function updateProgressBar() {
+        const progressPercentage = ((progressStep + 1) / totalSteps) * 100;
+        progress.style.width = `${progressPercentage}%`;
+    }
 
-//variables to store selected size and crust prices
-let selectedSizePrice = 0;
-let selectedCrustPrice = 0;
+    function showSection(step) {
+        if (!sizes || !crusts || !toppings || !slices) {
+            console.error("One or more section elements are missing.");
+            return;
+        }
+        
+        sizes.classList.add('hidden');
+        crusts.classList.add('hidden');
+        toppings.classList.add('hidden');
+        slices.classList.add('hidden');
+        
+        switch (step) {
+            case 0:
+                crusts.classList.remove('hidden');
+                break;
+            case 1:
+                sizes.classList.remove('hidden');
+                break;
+            case 2:
+                toppings.classList.remove('hidden');
+                break;
+            case 3:
+                slices.classList.remove('hidden');
+                break;
+        }
+    }
 
-// size buttons for SIZES
-const smallButton = document.getElementById('small');
-const regularButton = document.getElementById('regular');
-const largeButton = document.getElementById('large');
-const familySizeButton = document.getElementById('family-size');
-const customPizza = document.getElementById('custom-pizza');
-const customPizzaImage = document.getElementById('pizzaur');
-
-//size buttons for CRUSTS
-const thickCrustButton = document.getElementById('thick');
-const thinCrustButton = document.getElementById('thin');
-
-//topping buttons
-const pepperoniButton = document.getElementById('pepperoni');
-const mushroomButton = document.getElementById('mushrooms');
-const olivesButton = document.getElementById('olives');
-
-//total price element
-const totalPriceElement = document.querySelector('#total-price h1:nth-of-type(2)');
-
-// Get all the pizza buttons for SIZES
-const smallPriceElement = smallButton.querySelector('p');
-const regularPriceElement = regularButton.querySelector('p');
-const largePriceElement = largeButton.querySelector('p');
-const familySizePriceElement = familySizeButton.querySelector('p');
-
-//Get all the pizza buttons for CRUSTS
-const thickPriceElement = thickCrustButton.querySelector('p');
-const thinPriceElement = thinCrustButton.querySelector('p');
-
-
-// Function to update the price in the button
-function updateButtonPrice(priceElement, price) {
-    priceElement.textContent = `₱${price.toFixed(2)}`;
-}
-
-// Function to update the total price based on selected SIZE & CRUST
-function updateTotalPrice() {
-    const totalPrice = selectedSizePrice + selectedCrustPrice;
-    totalPriceElement.textContent = `₱${totalPrice.toFixed(2)}`;
-}
-
- // Call updateButtonPrice for all sizes (SIZES)
- updateButtonPrice(smallPriceElement, prices.small);
- updateButtonPrice(regularPriceElement, prices.regular);
- updateButtonPrice(largePriceElement, prices.large);
- updateButtonPrice(familySizePriceElement, prices.familySize);
-
- //Call updateButtonPrice for all sizes (CRUST)
- updateButtonPrice(thickPriceElement, pricec.thick);
- updateButtonPrice(thinPriceElement, pricec.thin);
-
-
- //Event Listener for TOPPINGS (adding image on top)
- pepperoniButton.addEventListener('click', () => {
-    console.log('Pepperoni topping is clicked');
-    const pepperoniImage = document.createElement('img');
-    pepperoniImage.src = '/img/pepperoni.png'; // Path to pepperoni image
-    pepperoniImage.classList.add('topping-image'); // Adding class for styling
-    customPizza.appendChild(pepperoniImage); // Adding pepperoni image on top of pizza
-});
-
-mushroomButton.addEventListener('click', () => {
-    console.log('Mushroom topping is clicked');
-    const mushroomImage = document.createElement('img');
-    mushroomImage.src = '/img/mushroom.png'; 
-    mushroomImage.classList.add('topping-image'); 
-    customPizza.appendChild(mushroomImage); 
-});
-
-olivesButton.addEventListener('click', () => {
-    console.log('Olives topping is clicked');
-    const olivesImage = document.createElement('img');
-    olivesImage.src = '/img/olives.png'; 
-    olivesImage.classList.add('topping-image'); 
-    customPizza.appendChild(olivesImage); 
-});
-
-
-
-
-
-sizeButton.addEventListener('click',()=>{
-    sizeButton.classList.remove('unselected');
-    sizeButton.classList.add('selected');
-    crustButton.classList.add('unselected');
-    toppingButton.classList.add('unselected');
-    sliceButton.classList.add('unselected');
-
-    sizes.classList.remove('hidden');
-    crusts.classList.add('hidden');
-    toppings.classList.add('hidden');
-    slices.classList.add('hidden');
-});
-
-crustButton.addEventListener('click',()=>{
-    crustButton.classList.remove('unselected');
-    crustButton.classList.add('selected');
-    sizeButton.classList.add('unselected');
-    toppingButton.classList.add('unselected');
-    sliceButton.classList.add('unselected');
-
-    sizes.classList.add('hidden');
-    crusts.classList.remove('hidden');
-    toppings.classList.add('hidden');
-    slices.classList.add('hidden');
-});
-
-toppingButton.addEventListener('click',()=>{
-    toppingButton.classList.remove('unselected');
-    toppingButton.classList.add('selected');
-    sizeButton.classList.add('unselected');
-    crustButton.classList.add('unselected');
-    sliceButton.classList.add('unselected');
-
-    sizes.classList.add('hidden');
-    crusts.classList.add('hidden');
-    toppings.classList.remove('hidden');
-    slices.classList.add('hidden');
-});
-sliceButton.addEventListener('click',()=>{
-    sliceButton.classList.remove('unselected');
-    sliceButton.classList.add('selected');
-    sizeButton.classList.add('unselected');
-    toppingButton.classList.add('unselected');
-    crustButton.classList.add('unselected');
-
-    sizes.classList.add('hidden');
-    crusts.classList.add('hidden');
-    toppings.classList.add('hidden');
-    slices.classList.remove('hidden');
-});
-
-
-smallButton.addEventListener('click', () => {
-    console.log('Small button is clicked');
-    customPizza.classList.remove('regular', 'large', 'family-size');
-    customPizza.classList.add('small');
-    customPizza.classList.toggle('rotate');
-    selectedSizePrice = prices.small;
-    updateTotalPrice();
-});
-
-regularButton.addEventListener('click', () => {
-    console.log('Regular button is clicked');
-    customPizza.classList.remove('small', 'large', 'family-size');
-    customPizza.classList.add('regular');
-    customPizza.classList.toggle('rotate');
-    selectedSizePrice = prices.regular;
-    updateTotalPrice();
-});
-
-largeButton.addEventListener('click', () => {
-    console.log('Large button is clicked');
-    customPizza.classList.remove('small', 'regular', 'family-size');
-    customPizza.classList.add('large');
-    customPizza.classList.toggle('rotate');
-    selectedSizePrice = prices.large;
-    updateTotalPrice();
-});
-
-familySizeButton.addEventListener('click', () => {
-    console.log('Family Size button is clicked');
-    customPizza.classList.remove('small', 'regular', 'large');
-    customPizza.classList.add('family-size');
-    customPizza.classList.toggle('rotate');
-    selectedSizePrice = prices.familySize;
-    updateTotalPrice();
-    }); 
-
-    // Event listeners for crust buttons to change pizza image
-    thickCrustButton.addEventListener('click', () => {
-        console.log('Thick Crust button is clicked');
-        customPizzaImage.src = '/img/ThickCrust.png'; // Change image source for Thick Crust
-        customPizza.classList.toggle('rotate');
-        selectedCrustPrice = pricec.thick;
-        updateTotalPrice();
+    document.getElementById('next-page').addEventListener('click', () => {
+        if (progressStep < totalSteps - 1) {
+            progressStep += 1;
+            updateProgressBar();
+            showSection(progressStep);
+        }
     });
 
-    thinCrustButton.addEventListener('click', () => {
-        console.log('Thin Crust button is clicked');
-        customPizzaImage.src = '/img/ThinCrust.png'; // Change image source for Thin Crust
-        customPizza.classList.toggle('rotate');
-        selectedCrustPrice = pricec.thin;
-        updateTotalPrice();
+    document.getElementById('back-page').addEventListener('click', () => {
+        if (progressStep > 0) {
+            progressStep -= 1;
+            updateProgressBar();
+            showSection(progressStep);
+        }
     });
 
+    showSection(progressStep);
+    updateProgressBar();
+
+    // Reference to the main pizza image
+    const customPizza = document.getElementById("custom-pizza");
+    const thickCrustOption = document.getElementById("thickCrustOption");
+    const thinCrustOption = document.getElementById("thinCrustOption");
+
+    function changeImageWithRotation(newSrc) {
+        customPizza.classList.add('rotate');  // Add the rotate class
+
+        setTimeout(() => {
+            customPizza.src = newSrc;  // Change the image source
+        }, 250);  // Timing for midway through the rotation
+
+        setTimeout(() => {
+            customPizza.classList.remove('rotate');  // Remove the rotate class after rotation is complete
+        }, 500);  // Complete the rotation in 500ms
+    }
+
+    thickCrustOption.addEventListener("click", () => {
+        console.log('Thick Crust option is selected');
+        changeImageWithRotation('/img/ThickCrust.png');
+    });
+
+    thinCrustOption.addEventListener("click", () => {
+        console.log("Thin Crust option selected");
+        changeImageWithRotation('/img/ThinCrust.png');
+    });
 });
