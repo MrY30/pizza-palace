@@ -45,6 +45,7 @@ app.get("/admin", (req, res) => {
   res.sendFile(path.join(__dirname, '/pages', 'adminPage.html'));
 });
 
+
 app.listen(port, () => {
   console.log(`Listening to port ${port}`);
   console.log(`Enter: http://localhost:${port}/admin`);
