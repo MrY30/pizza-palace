@@ -11,12 +11,19 @@ const loginPanel = document.getElementById('log-in');
 //ADMIN TABLE PAGE [PRODUCTS]
 const adminTable = document.getElementById('admin-tables');
 const productButton = document.getElementById('admin-products');
-const productDisplay = async (e) => {
-    e.preventDefault();
-    
-    const res = await fetch('/admin/products');
-    const products = await res.json();
 
+
+//GET PRODUCTS FROM DATABASE
+let products;
+const getProducts = async (e) =>{
+    e.preventDefault();
+    const res = await fetch('/admin/products');
+    products = await res.json();
+    productDisplay(products);
+}
+
+//DISPLAY ALL PRODUCTS
+const productDisplay = (products) => {
     adminTable.innerHTML = `
         <tr>
             <th>Product Image</th>
@@ -26,7 +33,6 @@ const productDisplay = async (e) => {
             <th>Description</th>
         </tr>
     `;
-
     if (products.length === 0) {
         const noProductRow = document.createElement('tr');
         noProductRow.innerHTML = '<td colspan="5">No Products Available</td>';
@@ -48,6 +54,42 @@ const productDisplay = async (e) => {
         });
     }
 };
+
+//SEARCH AND FILTER [FILTERED FUNCTION]
+const selection = document.querySelector(".selection");
+const selected_text = document.querySelector(".selection p");
+const categories = document.querySelector(".categories");
+const options = document.querySelectorAll(".categories p");
+const searchInput = document. getElementById("searchProduct");
+
+selection.onclick = function(){
+    categories.classList.toggle("active");
+}
+
+options.forEach(option => {
+    option.onclick = () => {
+        selected_text.innerHTML = option.innerHTML;
+        categories.classList.toggle("active");
+        filteredDisplay(selected_text.textContent);
+    }
+});
+
+const filteredDisplay = (category) => {
+    const searchText = searchInput.value.toLowerCase();
+    let filteredProducts = products;
+
+    if (category !== 'All') {
+        filteredProducts = filteredProducts.filter(product => product.category === category);
+    }
+    if (searchText){
+        filteredProducts = filteredProducts.filter(product => product.name.toLowerCase().includes(searchText));
+    }
+    productDisplay(filteredProducts);
+}
+
+searchInput.addEventListener('input', () => {
+    filteredDisplay(selected_text.textContent);
+});
 
 //LOG IN
 btnLogIn.addEventListener('click',async (e)=>{
@@ -90,7 +132,7 @@ btnLogIn.addEventListener('click',async (e)=>{
         loginPanel.classList.add('hidden')
         adminPanel.classList.remove('hidden')
 
-        productDisplay(e);
+        getProducts(e);
     } else {
         lblUsername.innerHTML = "Incorrect Username / Password. Please Try Again!"
         lblUsername.classList.remove('hidden-error')
@@ -101,7 +143,7 @@ btnLogIn.addEventListener('click',async (e)=>{
 })
 
 //SHOW PRODUCTS THROUGH BUTTON
-productButton.addEventListener('click',productDisplay);
+productButton.addEventListener('click',getProducts);
 
 //SHOW ADD NEW PRODUCT FORM
 const addProductButton = document.getElementById('add-product-button');
@@ -153,23 +195,4 @@ document.getElementById('add-form').addEventListener('submit', async function (e
 //CLOSE FORM
 document.getElementById('add-close').addEventListener('click',()=>{
     addProduct.classList.add('hidden');
-});
-
-// SEARCH AND FILTER CODE
-let selection = document.querySelector(".selection");
-let selected_text = document.querySelector(".selection p");
-let categories = document.querySelector(".categories");
-let options = document.querySelectorAll(".categories p");
-
-
-selection.onclick = function(){
-    categories.classList.toggle("active");
-}
-
-options.forEach(option => {
-    option.onclick = function(){
-        selected_text.innerHTML = option.innerHTML;
-    categories.classList.toggle("active");
-
-    }
 });
