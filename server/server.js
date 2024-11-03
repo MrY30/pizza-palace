@@ -45,6 +45,11 @@ app.get("/admin", (req, res) => {
   res.sendFile(path.join(__dirname, '/pages', 'adminPage.html'));
 });
 
+// Serve the /admin HTML file
+app.get("/login", (req, res) => {
+  res.sendFile(path.join(__dirname, '/pages', 'loginPage.html'));
+});
+
 
 app.listen(port, () => {
   console.log(`Listening to port ${port}`);
