@@ -20,7 +20,7 @@
     </header>
     <main>
         <!-- REMOVE HIDDEN -->
-        <div id="log-in" class="hidden">
+        <div id="log-in">
             <div class="input-group">
                 <h2>Username:</h2>
                 <input id="admin-username" type="text" placeholder="Enter your username">
@@ -34,7 +34,7 @@
             <input id="admin-button" type="submit" value="LOG IN">
         </div>
         <!-- add hidden -->
-        <div id="admin-center">
+        <div id="admin-center" class="hidden">
             <!-- ADD PRODUCT BUTTON -->
             <a href="#home" id="add-product-button"><i class='bx bx-plus' ></i></a>
             <!-- ADD PRODUCT FORM * ADD HIDDEN -->
@@ -78,14 +78,14 @@
             <div class="search">
                 <form action="#">
                     <div class="search_box">
-                        <input type="text" placeholder="Search..." required>
+                        <input id = "searchProduct" type="text" placeholder="Search Product Name..." required>
                         <div class="selection">
                             <p>All</p><span></span>
                         </div>
                         <div class="categories">
                             <p class="option">All</p>
                             <p class="option">Pasta</p>
-                            <p class="option">Appetizer</p>
+                            <p class="option">Appetizers</p>
                             <p class="option">Salad</p>
                             <p class="option">Dessert</p>
                         </div>
