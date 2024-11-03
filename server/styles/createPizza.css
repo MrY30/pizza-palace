@@ -9,12 +9,13 @@ body {
     display: flex;
     flex-direction: column;
     font-family: 'Quicksand', sans-serif;
+    font-size: 0.9rem;
     background: #dfc997;
 }
 
 header {
     background: #3d5b3f;
-    padding: 1.5rem;
+    padding: 1rem;
     color: #db9247;
     display: flex;
     justify-content: flex-start;
@@ -22,7 +23,7 @@ header {
 }
 
 header img {
-    height: 4rem;
+    height: 3rem;
 }
 
 .progress-bar {
@@ -56,25 +57,28 @@ main {
 
 #container {
     display: flex;
-    align-items: center;
-    justify-content: space-around;
-    width: 90%;
+    justify-content: flex-start;
+    align-items: flex-start;
+    gap: 20px;
+    padding: 20px;
+    width: 100%;
     max-width: 1200px;
 }
 
 #pizza {
     flex: 1;
     display: flex;
-    align-items: flex-start;
-    justify-content: flex-start;
-    margin-left: -400px; /* Moves the container further left */
+    justify-content: center;
+    align-items: center;
+    margin-left: -150px;
 }
 
 #custom-pizza {
-    width: 100%;
-    max-width: 700px;
-    transition: transform 0.5s ease-in-out; /* Only transform transition for rotation */
+    width: 90%; /* Adjust size as needed */
+    max-width: 450px;
+    transition: transform 0.5s ease-in-out;
 }
+
 
 .rotate {
     transform: rotate(360deg); /* Rotate 360 degrees */
@@ -83,11 +87,12 @@ main {
 
 
 #menu-wrapper {
-    flex: 1;
+    flex: 2;
     display: flex;
     flex-direction: column;
     align-items: center;
-    max-width: 400px;
+    /*max-width: 400px; */
+    margin-right: -100px;
 }
 
 .title-container {
@@ -102,12 +107,13 @@ main {
 
 .crust-options {
     display: flex;
-    justify-content: space-around;
-    margin-bottom: 20px;
+    justify-content: center
 }
 
 .crust-options div {
     text-align: center;
+    margin: 0;
+    padding: 0;
 }
 
 .crust-options h3 {
@@ -115,12 +121,17 @@ main {
     margin-bottom: 10px;
 }
 
-.crust-options img {
-    width: 80px;
-    height: 80px;
+.crust-options img,
+.crust-options img.thick-crust,
+.crust-options img.thin-crust {
+    width: 300px !important; /* Adjust as needed */
+    height: 300px !important; /* Adjust as needed */
     margin-bottom: 10px;
     border-radius: 5px;
+    margin: 0;
+    padding: 0;
 }
+
 
 .crust-options p {
     font-size: 1.3rem;
@@ -130,8 +141,8 @@ main {
 
 #buttons {
     display: flex;
-    justify-content: center;
-    gap: 700px; /* Space between the two buttons */
+    justify-content: space-between;
+    gap: 400px; /* Space between the two buttons */
     margin-top: 20px;
 }
 
@@ -139,8 +150,8 @@ main {
     background-color: #b2381e;
     color: #dfc997;
     border: none;
-    padding: 15px 30px; /* Increased padding for larger buttons */
-    font-size: 1.9rem; /* Larger font size */
+    padding: 10px 30px; /* Increased padding for larger buttons */
+    font-size: 1.5rem; /* Larger font size */
     font-family: 'Goudy Bookletter 1911', serif;
     font-weight: bolder;
     border-radius: 20px; /* Rounded button corners */
@@ -185,6 +196,53 @@ footer {
     transition: transform 0.3s ease; /* Smooth transition */
 }
 
+.size-options-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr); /* Two columns */
+    gap: 5px 15px; /* Adjust the vertical and horizontal gaps */
+    margin-bottom: 20px;
+}
+
+.title-image {
+    max-width: 100%; /* Ensure consistent size */
+    width: 300px; /* Match this width with Section 1 */
+    height: auto;
+}
+
+.size-option {
+    width: 100%; /* Allow it to fit within the grid cell */
+    background-color: transparent;
+    text-align: center;
+    transition: transform 0.3s ease, background-color 0.3s ease;
+    cursor: pointer;
+}
+
+.size-option img {
+    max-width: 100%;
+    height: auto;
+    margin-bottom: 10px;
+}
+
+#smallOption, #regularOption, #largeOption, #familyOption {
+    max-width: 80%; /* Adjust as needed */
+    height: auto; /* Maintain aspect ratio */
+}
+
+.size-option h3,
+.size-option p {
+    margin: 5px 0;
+    color: #3d5b3f;
+}
+
+/* Hover effect for size-option images */
+.size-option img:hover {
+    transform: scale(1.1); /* Slightly enlarge on hover */
+    transition: transform 0.3s ease, box-shadow 0.3s ease; /* Smooth transition */
+    
+}
+
+
+
 /* Slide-left transition */
 .slide-left {
     animation: slideLeft 0.5s forwards;
@@ -199,4 +257,45 @@ footer {
         transform: translateX(-100%);
         opacity: 0;
     }
+}
+
+/* Slide-right transition */
+.slide-right {
+    animation: slideRight 0.5s forwards;
+}
+
+@keyframes slideRight {
+    0% {
+        transform: translateX(0);
+        opacity: 1;
+    }
+    100% {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+}
+
+/* Slide-in transition */
+.slide-section.active {
+    animation: slideIn 0.5s forwards;
+}
+
+@keyframes slideIn {
+    0% {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+    100% {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+.slide-section {
+    display: none; /* Hide sections by default */
+}
+
+.slide-section.active {
+    display: flex; /* Show the active section */
+    width: 100%; /* Ensure full width */
 }

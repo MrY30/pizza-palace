@@ -3,12 +3,10 @@ document.addEventListener("DOMContentLoaded", function() {
 
     const progress = document.querySelector('.progress');
     let progressStep = 0;
-    const totalSteps = 4;
-
-    const sizes = document.getElementById("sizes");
-    const crusts = document.getElementById("crusts");
-    const toppings = document.getElementById("toppings");
-    const slices = document.getElementById("slices");
+    const totalSteps = 5;
+    const sections = document.querySelectorAll('.slide-section');
+    const nextButton = document.getElementById('next-page');
+    const backButton = document.getElementById('back-page');
 
     function updateProgressBar() {
         const progressPercentage = ((progressStep + 1) / totalSteps) * 100;
@@ -16,45 +14,38 @@ document.addEventListener("DOMContentLoaded", function() {
     }
 
     function showSection(step) {
-        if (!sizes || !crusts || !toppings || !slices) {
-            console.error("One or more section elements are missing.");
-            return;
-        }
-        
-        sizes.classList.add('hidden');
-        crusts.classList.add('hidden');
-        toppings.classList.add('hidden');
-        slices.classList.add('hidden');
-        
-        switch (step) {
-            case 0:
-                crusts.classList.remove('hidden');
-                break;
-            case 1:
-                sizes.classList.remove('hidden');
-                break;
-            case 2:
-                toppings.classList.remove('hidden');
-                break;
-            case 3:
-                slices.classList.remove('hidden');
-                break;
+        sections.forEach((section, index) => {
+            section.classList.remove('active');
+            section.style.display = 'none';
+        });
+
+        if (sections[step]) {
+            sections[step].style.display = 'flex';
+            sections[step].classList.add('active');
         }
     }
 
-    document.getElementById('next-page').addEventListener('click', () => {
+    nextButton.addEventListener('click', () => {
         if (progressStep < totalSteps - 1) {
-            progressStep += 1;
-            updateProgressBar();
-            showSection(progressStep);
+            sections[progressStep].classList.add('slide-left');
+            setTimeout(() => {
+                sections[progressStep].style.display = 'none';
+                progressStep += 1;
+                updateProgressBar();
+                showSection(progressStep);
+            }, 300); // Matches CSS animation duration
         }
     });
 
-    document.getElementById('back-page').addEventListener('click', () => {
+    backButton.addEventListener('click', () => {
         if (progressStep > 0) {
-            progressStep -= 1;
-            updateProgressBar();
-            showSection(progressStep);
+            sections[progressStep].classList.add('slide-right');
+            setTimeout(() => {
+                sections[progressStep].style.display = 'none';
+                progressStep -= 1;
+                updateProgressBar();
+                showSection(progressStep);
+            }, 300); // Matches CSS animation duration
         }
     });
 
