@@ -61,6 +61,7 @@ btnLogIn.addEventListener('click',async (e)=>{
         lblUsername.innerHTML = "Username is Required"
         lblUsername.classList.remove('hidden-error')
         admin.classList.add('error')
+        return
     }else{
         lblUsername.classList.add('hidden-error')
         admin.classList.remove('error')
@@ -70,6 +71,7 @@ btnLogIn.addEventListener('click',async (e)=>{
         lblPassword.innerHTML = "Password is Required"
         lblPassword.classList.remove('hidden-error')
         password.classList.add('error')
+        return
     }else{
         lblPassword.classList.add('hidden-error')
         password.classList.remove('error')
@@ -90,10 +92,11 @@ btnLogIn.addEventListener('click',async (e)=>{
 
         productDisplay(e);
     } else {
-        lblUsername.innerHTML = "Account Not Found"
+        lblUsername.innerHTML = "Incorrect Username / Password. Please Try Again!"
         lblUsername.classList.remove('hidden-error')
         admin.classList.add('error')
         password.classList.add('error')
+        return
     }
 })
 
@@ -150,4 +153,23 @@ document.getElementById('add-form').addEventListener('submit', async function (e
 //CLOSE FORM
 document.getElementById('add-close').addEventListener('click',()=>{
     addProduct.classList.add('hidden');
+});
+
+// SEARCH AND FILTER CODE
+let selection = document.querySelector(".selection");
+let selected_text = document.querySelector(".selection p");
+let categories = document.querySelector(".categories");
+let options = document.querySelectorAll(".categories p");
+
+
+selection.onclick = function(){
+    categories.classList.toggle("active");
+}
+
+options.forEach(option => {
+    option.onclick = function(){
+        selected_text.innerHTML = option.innerHTML;
+    categories.classList.toggle("active");
+
+    }
 });

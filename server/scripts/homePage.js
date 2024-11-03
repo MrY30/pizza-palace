@@ -1,5 +1,5 @@
+//REPONSIVE MENU
 const header = document.querySelector("header");
-
 window.addEventListener("scroll", function(){
 	header.classList.toggle("sticky", window.scrollY > 0);
 
@@ -18,14 +18,16 @@ window.onscroll = () => {
 	navbar.classList.remove('open');
 }
 
-const sr = ScrollReveal ({
-	distance: '30px', 
-	duration: 2500,
-	reset: true
-})
-sr.reveal('.home-text',{delay:200, origin:'left'});
-sr.reveal('.home-img',{delay:200, origin:'right'});
-sr.reveal('.container, .about, .menu, .contact',{delay:200, origin:'bottom'});
+//NEW SCROLL REVEAL
+
+// const sr = ScrollReveal ({
+// 	distance: '30px', 
+// 	duration: 2500,
+// 	reset: true
+// })
+// sr.reveal('.home-text',{delay:200, origin:'left'});
+// sr.reveal('.home-img',{delay:200, origin:'right'});
+// sr.reveal('.about, .menu, .contact',{delay:200, origin:'bottom'});
 
 //DISPLAY PRODUCTS TO MENU
 const menuArea = document.getElementById("menu-content");
@@ -36,9 +38,6 @@ const getProduct = async () => {
 	return products;
 }
 const displayMenu = (products) => {
-
-
-
     products.forEach(product => {
         menuArea.innerHTML += `
             <div class="row">
@@ -153,14 +152,14 @@ function closeLoginModal() {
 }
 
 // Attach the click event to all clickable items on the homepage
-clickableItems.forEach(item => {
-    item.addEventListener("click", function(event) {
-        // Prevent the default action of links/buttons
-        event.preventDefault();
-        // Open the login modal
-        openLoginModal();
-    });
-});
+// clickableItems.forEach(item => {
+//     item.addEventListener("click", function(event) {
+//         // Prevent the default action of links/buttons
+//         event.preventDefault();
+//         // Open the login modal
+//         openLoginModal();
+//     });
+// });
 
 // When the user clicks on the close button (X), close the modal
 loginCloseBtn.onclick = function() {
