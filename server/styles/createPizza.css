@@ -52,7 +52,8 @@ main {
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 20px;
+    /*padding: 20px; */
+    padding-left: 150px;
 }
 
 #container {
@@ -70,13 +71,55 @@ main {
     display: flex;
     justify-content: center;
     align-items: center;
+    position: relative; /* Ensure toppings are positioned relative to this container */
+    width: 100%; /* Responsive width */
+    max-width: 450px; /* Adjust to your desired maximum */
     margin-left: -150px;
+}
+
+.topping-overlay {
+    position: absolute;
+    top: 50%; /* Center vertically */
+    left: 50%; /* Center horizontally */
+    transform: translate(-50%, -50%); /* Adjusts the image to be centered */
+    width: 90%; /* Adjust this size based on pizza size */
+    height: auto;
+    pointer-events: none;
+    z-index: 2; /* Ensure it stays on top of the base pizza */
+}
+
+.cut-overlay {
+    z-index: 3; /* Higher than the toppings */
+}
+
+
+img[id^="custom-pizza"] {
+    transition: transform 0.5s ease-in-out, width 0.5s ease; /* Smooth resizing */
+    width: 100%; /* Ensures responsive behavior */
+    max-width: 100%; /* Prevents image from exceeding container */
+    height: auto; /* Maintains aspect ratio */
+    object-fit: contain; /* Keeps image contained within boundaries */
 }
 
 #custom-pizza {
     width: 90%; /* Adjust size as needed */
     max-width: 450px;
     transition: transform 0.5s ease-in-out;
+}
+
+#custom-pizza5 {
+    width: 100%; /* Matches the pizza size */
+    max-width: 450px; /* Adjust for responsiveness */
+    height: auto; /* Maintain aspect ratio */
+    object-fit: contain; /* Keep image contained within its boundaries */
+}
+
+.review-option {
+    width: 90%; /* Adjust this value as needed */
+    max-width: 700px; /* Ensure it does not exceed the container size */
+    height: auto; /* Maintain aspect ratio */
+    display: block;
+    margin: 0 auto; /* Center align */
 }
 
 
@@ -93,17 +136,32 @@ main {
     align-items: center;
     /*max-width: 400px; */
     margin-right: -100px;
+    padding: 0;
 }
 
-.title-container {
-    margin-bottom: 10px;
-    margin-top: 10px;
+.title-container img {
+    max-width: 100%; /* Keep responsive */
+    width: 400px; /* Adjust this width to match your desired size */
+    height: auto; /* Maintain aspect ratio */
+    margin: 0 auto; /* Center align */
+    display: block; /* Ensure block layout for consistency */
 }
+
+/* Optional: Add a consistent container size */
+.title-container {
+    width: 300px; /* Match this width to align with the image */
+    margin: 0 auto; /* Center the container */
+    margin-bottom: 20px
+}
+
 
 .title-image {
     max-width: 100%;
-    width: 300px;
+    width: 350px; /* Adjust this value as needed for consistent size */
+    height: auto;
+    margin: 0 auto; /* Center the image */
 }
+
 
 .crust-options {
     display: flex;
@@ -172,10 +230,23 @@ footer {
     text-align: center;
 }
 
+img[id^="custom-pizza"] {
+    width: 90%; /* Ensures images have the same base width */
+    max-width: 450px; /* Adjust to match your desired maximum size */
+    height: auto; /* Maintain aspect ratio */
+    object-fit: contain; /* Ensure the image fits well within its container */
+    transition: transform 0.5s ease-in-out, width 0.5s ease; /* Smooth resizing */
+}
+
 
 .crust-options img.thick-crust {
     width: var(--crust-image-width);
     height: var(--crust-image-height);
+}
+
+.slice-options img.triangle-option {
+    width: var(--slice-image-width);
+    height: var(--slice-image-height);
 }
 
 .crust-options img.thin-crust {
@@ -183,7 +254,19 @@ footer {
     height: var(--crust-image-height);
 }
 
+.slice-options img.square-option {
+    width: var(--slice-image-width);
+    height: var(--slice-image-height);
+}
+
 .crust-options {
+    display: flex;
+    justify-content: space-around;
+    gap: 20px; /* Adjust value as needed for spacing */
+    margin-bottom: 20px;
+}
+
+.slice-options {
     display: flex;
     justify-content: space-around;
     gap: 20px; /* Adjust value as needed for spacing */
@@ -196,17 +279,36 @@ footer {
     transition: transform 0.3s ease; /* Smooth transition */
 }
 
-.size-options-grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr); /* Two columns */
-    gap: 5px 15px; /* Adjust the vertical and horizontal gaps */
-    margin-bottom: 20px;
+.slice-options img:hover {
+    transform: scale(1.1); /* Adjust scale as needed */
+    transition: transform 0.3s ease; /* Smooth transition */
 }
+
 
 .title-image {
     max-width: 100%; /* Ensure consistent size */
     width: 300px; /* Match this width with Section 1 */
     height: auto;
+}
+
+.size-options-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr); /* Two columns */
+    gap: 15px; /* Adjust as needed */
+    width: 70%; /* Ensure the grid container uses the full available width */
+    margin: 0 auto; /* Center the grid container */
+    padding: 0; /* Remove any padding */
+    box-sizing: border-box; /* Include padding/border in width calculation */
+}
+
+.topping-options-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); /* Two columns */
+    gap: 15px; /* Adjust as needed */
+    width: 70%; /* Ensure the grid container uses the full available width */
+    margin: 0 auto; /* Center the grid container */
+    padding: 0; /* Remove any padding */
+    box-sizing: border-box; /* Include padding/border in width calculation */
 }
 
 .size-option {
@@ -215,17 +317,53 @@ footer {
     text-align: center;
     transition: transform 0.3s ease, background-color 0.3s ease;
     cursor: pointer;
+    margin: 0 !important;
+    padding: 0 !important;
+    box-sizing: border-box;
 }
+
+.toppings-option {
+    width: 100%; /* Allow it to fit within the grid cell */
+    background-color: transparent;
+    text-align: center;
+    transition: transform 0.3s ease, background-color 0.3s ease;
+    cursor: pointer;
+    margin: 0 !important;
+    padding: 0 !important;
+    box-sizing: border-box;
+}
+
 
 .size-option img {
-    max-width: 100%;
+    display: block;
+    width: 100%;
     height: auto;
-    margin-bottom: 10px;
+    margin:0;
+    object-fit: cover;
 }
 
+.toppings-option img {
+    display: block;
+    width: 100%;
+    height: auto;
+    margin:0;
+    object-fit: cover;
+}
+
+
 #smallOption, #regularOption, #largeOption, #familyOption {
-    max-width: 80%; /* Adjust as needed */
+    max-width: 100%; /* Adjust as needed */
     height: auto; /* Maintain aspect ratio */
+}
+
+#pepperoniOption, #mushroomOption, #pineappleOption, #olivesOption, #baconOption, #shrimpOption {
+    max-width: 100%; /* Adjust as needed */
+    height: auto; /* Maintain aspect ratio */
+}
+
+.toppings-option img:hover {
+    transform: scale(1.1); /* Slightly enlarge on hover */
+    transition: transform 0.3s ease, box-shadow 0.3s ease; /* Smooth transition */
 }
 
 .size-option h3,
@@ -239,6 +377,24 @@ footer {
     transform: scale(1.1); /* Slightly enlarge on hover */
     transition: transform 0.3s ease, box-shadow 0.3s ease; /* Smooth transition */
     
+}
+
+/* Make the slice-options images match the crust-options */
+.slice-options img,
+.slice-options img.triangle-option,
+.slice-options img.square-option {
+    width: 300px !important; /* Adjust as needed */
+    height: 300px !important; /* Adjust as needed */
+    margin-bottom: 10px;
+    border-radius: 5px;
+    margin: 0;
+    padding: 0;
+}
+
+/* Ensure hover effect matches crust-options */
+.slice-options img:hover {
+    transform: scale(1.1); /* Adjust scale as needed */
+    transition: transform 0.3s ease; /* Smooth transition */
 }
 
 
@@ -275,6 +431,7 @@ footer {
     }
 }
 
+
 /* Slide-in transition */
 .slide-section.active {
     animation: slideIn 0.5s forwards;
@@ -299,3 +456,4 @@ footer {
     display: flex; /* Show the active section */
     width: 100%; /* Ensure full width */
 }
+
