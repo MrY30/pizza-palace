@@ -18,17 +18,6 @@ window.onscroll = () => {
 	navbar.classList.remove('open');
 }
 
-//NEW SCROLL REVEAL
-
-// const sr = ScrollReveal ({
-// 	distance: '30px', 
-// 	duration: 2500,
-// 	reset: true
-// })
-// sr.reveal('.home-text',{delay:200, origin:'left'});
-// sr.reveal('.home-img',{delay:200, origin:'right'});
-// sr.reveal('.about, .menu, .contact',{delay:200, origin:'bottom'});
-
 //DISPLAY PRODUCTS TO MENU
 const menuArea = document.getElementById("menu-content");
 const getProduct = async () => {
@@ -54,7 +43,7 @@ const displayMenu = (products) => {
 				</div>
 				<p>${product.description}</p>
 				<div class="favorite">
-					<i class='bx bx-heart' ></i>
+					<i class='bx bx-heart verify' ></i>
 				</div>
 			</div>
         `;
@@ -66,19 +55,6 @@ getProduct().then(products => {
 }).catch(error => {
     console.error("Error fetching products:", error);
 });
-
-// document.querySelectorAll('.favorite i').forEach(heart => {
-//     heart.addEventListener('click', function() {
-//         // Toggle between outlined and filled heart icons
-//         if (this.classList.contains('bx-heart')) {
-//             this.classList.remove('bx-heart');
-//             this.classList.add('bxs-heart', 'active');
-//         } else {
-//             this.classList.remove('bxs-heart', 'active');
-//             this.classList.add('bx-heart');
-//         }
-//     });
-// });
 
 // Attach event listener to the parent container (menuArea)
 menuArea.addEventListener('click', function(e) {
@@ -108,11 +84,6 @@ const cartCloseBtn = document.querySelector(".cart-close");
 // Function to toggle the cart modal open and close
 function toggleCartModal() {
     cartModal.classList.toggle("open"); // Toggle the open class
-}
-
-// When the user clicks on the cart icon, open or close the modal
-cartIcon.onclick = function() {
-    toggleCartModal();
 }
 
 // When the user clicks on the close button (X), close the modal
@@ -145,19 +116,6 @@ function updateCartTotal() {
     // This is a placeholder; you can add logic to dynamically update the cart total
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
 // Get the favorites modal element
 const favoritesModal = document.getElementById("favoritesModal");
 
@@ -172,22 +130,10 @@ function toggleFavoritesModal() {
     favoritesModal.classList.toggle("open"); // Toggle the open class
 }
 
-// When the user clicks on the heart icon, open or close the favorites modal
-favoritesIcon.onclick = function() {
-    toggleFavoritesModal();
-}
-
 // When the user clicks on the close button (X), close the favorites modal
 favoritesCloseBtn.onclick = function() {
     toggleFavoritesModal();
 }
-
-
-
-
-
-
-
 
 // When the user clicks anywhere outside of the modal, close it
 window.onclick = function(event) {
@@ -198,9 +144,6 @@ window.onclick = function(event) {
 
 // Get the modal element
 const loginModal = document.getElementById("loginModal");
-
-// Get all clickable elements (links and buttons) on the homepage
-const clickableItems = document.querySelectorAll("a, button");
 
 // Get the close button inside the modal
 const loginCloseBtn = document.querySelector(".login-close");
@@ -215,16 +158,6 @@ function closeLoginModal() {
     loginModal.style.display = "none";
 }
 
-// Attach the click event to all clickable items on the homepage
-// clickableItems.forEach(item => {
-//     item.addEventListener("click", function(event) {
-//         // Prevent the default action of links/buttons
-//         event.preventDefault();
-//         // Open the login modal
-//         openLoginModal();
-//     });
-// });
-
 // When the user clicks on the close button (X), close the modal
 loginCloseBtn.onclick = function() {
     closeLoginModal();
@@ -236,3 +169,29 @@ window.onclick = function(event) {
         closeLoginModal();
     }
 }
+
+//JWT TOKENS [HEART, CART, USER, CREATE PIZZA BUTTON]
+document.addEventListener('DOMContentLoaded', ()=>{
+    const premiumBtn = document.querySelectorAll('.verify');
+    const createPizza = document.getElementById('create-pizza');
+    const token = localStorage.getItem('token');
+
+    if (!token) {
+        // User is logged in
+        premiumBtn.forEach(btn => {
+            btn.addEventListener('click', () => {
+                window.location.href = '/login';
+            });
+        });
+    }else{
+        cartIcon.onclick = () =>{
+            toggleCartModal();
+        };
+        favoritesIcon.onclick = () =>{
+            toggleFavoritesModal();
+        };
+        createPizza.addEventListener('click',()=>{
+            window.location.href = '/pizza';
+        })
+    }
+})

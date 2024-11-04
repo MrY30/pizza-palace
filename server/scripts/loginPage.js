@@ -10,7 +10,7 @@ function showLogin() {
 
 //GET SIGN UP DATA
 const signUp = document.getElementById('signup-forms');
-const logIn = document.getElementById('login-forms');
+const logIn = document.getElementById('login-button');
 
 signUp.addEventListener("submit", async (e) => {
     e.preventDefault();
@@ -41,3 +41,29 @@ signUp.addEventListener("submit", async (e) => {
     const result = await response.json();
     alert(result);
 });
+
+logIn.addEventListener("click", async (e) =>{
+    e.preventDefault()
+
+    const username = document.getElementById('login-username').value;
+    const pass = document.getElementById('login-password').value;
+
+    const response = await fetch('/admin/login', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ username: username, password: pass })
+    });
+
+    const result = await response.json();
+
+    if (result.success) {
+        // Store the token in localStorage or a cookie
+        localStorage.setItem('token', result.token);
+        // Redirect to homePage.html
+        window.location.href = '/';
+    } else {
+        alert(result.message);
+    }
+})
