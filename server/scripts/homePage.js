@@ -120,6 +120,42 @@ cartCloseBtn.onclick = function() {
     toggleCartModal();
 }
 
+// Select all plus and minus buttons
+document.querySelectorAll('.plus-btn').forEach(button => {
+    button.addEventListener('click', function() {
+        let quantityInput = this.previousElementSibling;
+        quantityInput.value = parseInt(quantityInput.value) + 1;
+        updateCartTotal();
+    });
+});
+
+document.querySelectorAll('.minus-btn').forEach(button => {
+    button.addEventListener('click', function() {
+        let quantityInput = this.nextElementSibling;
+        if (parseInt(quantityInput.value) > 1) {
+            quantityInput.value = parseInt(quantityInput.value) - 1;
+            updateCartTotal();
+        }
+    });
+});
+
+// Function to update the total price (example function, adjust as needed)
+function updateCartTotal() {
+    // Calculate and update the total here
+    // This is a placeholder; you can add logic to dynamically update the cart total
+}
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 // Get the favorites modal element
