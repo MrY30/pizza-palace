@@ -247,6 +247,127 @@ header.sticky{
 	font-size: 25px;
 }
 
+
+
+/* Align Menu Header and Search Bar */
+.menu-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between; /* Space items between left and right */
+    gap: 20px; /* Space between the heading and search bar */
+    padding: 10px 0;
+}
+
+
+
+
+
+
+
+
+
+/* Adjusting Search Bar Styling */
+.search-bar {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    background: var(--white-color);
+    padding: 5px 10px;
+    border-radius: 20px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    height: 40px;
+}
+
+.search-bar input {
+    border: none;
+    outline: none;
+    padding: 8px 10px;
+    font-size: var(--p-font);
+    background: transparent;
+    width: 150px;
+    transition: width 0.3s ease;
+    height: 100%;
+    color: var(--text-color);
+}
+
+.search-bar button {
+    border: none;
+    background: none;
+    cursor: pointer;
+    font-size: 20px;
+    color: var(--main-color);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    padding: 0 5px;
+}
+
+/* Responsive Adjustment for Smaller Screens */
+@media (max-width: 880px) {
+    .menu-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    
+    .search-bar {
+        margin-top: 10px;
+        width: 100%;
+    }
+}
+
+
+
+
+/* Adjusted Search Bar Styling */
+.search-bar {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--white-color);
+    padding: 10px 15px;
+    border-radius: 30px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    height: 50px;
+}
+
+.search-bar input {
+    border: none;
+    outline: none;
+    padding: 10px 15px;
+    font-size: 1rem;
+    background: transparent;
+    width: 200px; /* Increased initial width */
+    transition: width 0.3s ease;
+    height: 100%;
+    color: var(--text-color);
+}
+
+.search-bar input:focus {
+    width: 300px; /* Expand further on focus */
+}
+
+.search-bar button {
+    border: none;
+    background: none;
+    cursor: pointer;
+    font-size: 22px;
+    color: var(--main-color);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    padding: 0 8px;
+}
+
+
+
+
+
+
+
+
+
 .favorite {
     text-align: right;
     margin-top: 10px;  /* Adjust spacing from the text above */
@@ -365,56 +486,141 @@ header.sticky{
 	border-radius: 5rem;
 }
 
-/* Modal for the cart */
+/* Sliding Cart Modal */
 .cart-modal {
-    display: none; 
     position: fixed;
-    z-index: 1000; 
-    top: 50%; 
-    right: 0; 
-    transform: translateY(-50%); 
-    width: 300px; 
-    height: 400px; 
-    background-color: rgba(0, 0, 0, 0.5); 
-    justify-content: center;
-    align-items: center;
-}
-
-/* Modal content box for the cart */
-.cart-modal-content {
+    top: 70px; /* Start below the header */
+    right: -100%; /* Initially hidden offscreen to the right */
+    width: 300px;
+    height: calc(100% - 70px); /* Adjust height to account for the header */
     background-color: #fff;
+    box-shadow: -4px 0 8px rgba(0, 0, 0, 0.2);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     padding: 20px;
-    border-radius: 10px;
-    width: 100%; 
-    height: 100%; 
-    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
-    position: relative;
+    transition: all 0.4s ease; /* Smooth slide-in effect */
+    z-index: 1000;
 }
 
-/* Close button for modal */
+.cart-modal.open {
+    right: 0; /* Slide the cart in fully when open */
+}
+
+/* Close button styling */
 .cart-close {
+    align-self: flex-end;
+    font-size: 24px;
+    cursor: pointer;
+    margin-bottom: 10px;
     color: #aaa;
     position: absolute;
     top: 10px;
     right: 20px;
-    font-size: 28px;
-    font-weight: bold;
-    cursor: pointer;
 }
 
 .cart-close:hover {
     color: #000;
 }
 
-/* Additional styling for cart content */
-.cart-modal-content h2 {
+
+/* Sliding Favorites Modal */
+.favorites-modal {
+    position: fixed;
+    top: 70px; /* Start below the header */
+    right: -100%; /* Initially hidden offscreen to the right */
+    width: 300px;
+    height: calc(100% - 70px); /* Adjust height to account for the header */
+    background-color: #fff;
+    box-shadow: -4px 0 8px rgba(0, 0, 0, 0.2);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    transition: all 0.4s ease; /* Smooth slide-in effect */
+    z-index: 1000;
+}
+
+.favorites-modal.open {
+    right: 0; /* Slide the favorites section in fully when open */
+}
+
+/* Close button styling */
+.favorites-close {
+    align-self: flex-end;
+    font-size: 24px;
+    cursor: pointer;
+    margin-bottom: 10px;
+    color: #aaa;
+    position: absolute;
+    top: 10px;
+    right: 20px;
+}
+
+.favorites-close:hover {
+    color: #000;
+}
+
+/* Additional styling for favorites content */
+.favorites-modal-content h2 {
     text-align: center;
     margin-bottom: 20px;
 }
 
-.cart-modal-content p {
+.favorites-modal-content p {
     text-align: center;
 }
+
+/* Responsive adjustments for smaller screens */
+@media (max-width: 880px) {
+    .favorites-modal {
+        width: 250px; /* Match the width of the navbar in mobile view */
+        padding-top: 20px;
+    }
+}
+
+
+
+
+
+
+
+
+
+/* Responsive adjustments for smaller screens */
+@media (max-width: 880px) {
+    .cart-modal {
+        width: 250px; /* Match the width of the navbar in mobile view */
+        padding-top: 20px;
+    }
+}
+
+
+/* Responsive adjustments for smaller screens */
+@media (max-width: 880px) {
+    .cart-modal {
+        width: 250px; /* Match the width of the navbar in mobile view */
+        padding-top: 180px; /* Match the padding of the navbar */
+    }
+}
+
+
+/* Responsive adjustments for smaller screens */
+@media (max-width: 768px) {
+    .cart-modal {
+        width: 100%; /* Full width on smaller screens */
+    }
+}
+
+
+/* Responsive adjustments for smaller screens */
+@media (max-width: 768px) {
+    .cart-modal {
+        width: 100%; /* Full width on smaller screens */
+    }
+}
+
+
 
 /* Modal for the login form */
 .login-modal {

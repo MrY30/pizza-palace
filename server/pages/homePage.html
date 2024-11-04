@@ -26,11 +26,14 @@
 			<li><a href="#contact">Contact</a></li>
 		</ul>
 
+		
 		<div class="h-icons">
 			<a href="#"><i class='bx bx-heart' ></i></a>
 			<a href="#"><i class='bx bx-cart' ></i></a>
+			<a href="#"><i class='bx bxs-user'></i></a>
 			<div class="bx bx-menu" id="menu-icon"></div>
 		</div>
+
 	</header>
 
 	<!-- home section -->
@@ -62,11 +65,18 @@
 
 	<!-- menu section -->
 	<section class="menu" id="menu">
-		<div class="main-text">
+		<div class="menu-header">
 			<h2>Our Menu</h2>
-			<p>We have selected for you the most exquisite tastes around the world</p>
+			
+			<!-- Search Bar -->
+			<div class="search-bar">
+				<input type="text" placeholder="Search Menu..." />
+				<button type="submit"><i class='bx bx-search'></i></button>
+			</div>
 		</div>
-
+	
+		<p>We have selected for you the most exquisite tastes around the world</p>
+	
 		<div class="filter-category">
 			<a class="btn-select">All</a>
 			<a class="btn-unselect">Pasta</a>
@@ -74,11 +84,11 @@
 			<a class="btn-unselect">Salad</a>
 			<a class="btn-unselect">Dessert</a>
 		</div>
-
+	
 		<div class="menu-content" id="menu-content">
 		</div>
-
 	</section>
+	
 
 	<!-- contact section -->
 	<section class="contact" id="contact">
@@ -131,6 +141,18 @@
 			<!-- You can add more cart content here, like a list of items -->
 		</div>
 	</div>
+
+<!-- Favorites Modal -->
+<div id="favoritesModal" class="favorites-modal">
+    <div class="favorites-modal-content">
+        <span class="favorites-close">&times;</span>
+        <h2>Your Favorites</h2>
+        <p>No items in your favorites list.</p>
+        <!-- Additional favorites content can go here -->
+    </div>
+</div>
+  
+
 
 	<!-- Login Modal -->
 	<div id="loginModal" class="login-modal">

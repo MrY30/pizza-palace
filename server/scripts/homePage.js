@@ -105,25 +105,53 @@ const cartIcon = document.querySelector(".bx-cart");
 // Get the close button inside the modal
 const cartCloseBtn = document.querySelector(".cart-close");
 
-// Function to open the cart modal
-function openCartModal() {
-    cartModal.style.display = "flex"; // Show the modal
+// Function to toggle the cart modal open and close
+function toggleCartModal() {
+    cartModal.classList.toggle("open"); // Toggle the open class
 }
 
-// Function to close the cart modal
-function closeCartModal() {
-    cartModal.style.display = "none";
-}
-
-// When the user clicks on the cart icon, open the modal
+// When the user clicks on the cart icon, open or close the modal
 cartIcon.onclick = function() {
-    openCartModal();
+    toggleCartModal();
 }
 
 // When the user clicks on the close button (X), close the modal
 cartCloseBtn.onclick = function() {
-    closeCartModal();
+    toggleCartModal();
 }
+
+
+
+// Get the favorites modal element
+const favoritesModal = document.getElementById("favoritesModal");
+
+// Get the heart icon that opens the favorites modal
+const favoritesIcon = document.querySelector(".bx-heart"); // Adjust selector if necessary
+
+// Get the close button inside the favorites modal
+const favoritesCloseBtn = document.querySelector(".favorites-close");
+
+// Function to toggle the favorites modal open and close
+function toggleFavoritesModal() {
+    favoritesModal.classList.toggle("open"); // Toggle the open class
+}
+
+// When the user clicks on the heart icon, open or close the favorites modal
+favoritesIcon.onclick = function() {
+    toggleFavoritesModal();
+}
+
+// When the user clicks on the close button (X), close the favorites modal
+favoritesCloseBtn.onclick = function() {
+    toggleFavoritesModal();
+}
+
+
+
+
+
+
+
 
 // When the user clicks anywhere outside of the modal, close it
 window.onclick = function(event) {
