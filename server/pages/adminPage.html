@@ -3,77 +3,105 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Pizza Palace - Admin Page</title>
     <link rel="stylesheet" href="/styles/adminPage.css">
+    <link rel="stylesheet" href="https://unpkg.com/boxicons@latest/css/boxicons.min.css">
 </head>
 <body>
     <header>
-        <h1>Dashboard</h1>
+        <div class="image-container">
+            <img src="/img/pizzaPalaceLogo.png" alt="">
+        </div>
+        <div class="nav-bar">
+            <a href="#" id="admin-products" class="hidden">PRODUCTS</a>
+            <a href="#" id="admin-deliver" class="hidden">DELIVERIES</a>
+        </div>
+        <h1>Admin Center</h1>
     </header>
     <main>
         <!-- REMOVE HIDDEN -->
-        <div id="log-in" >
-            <h1 id="admin-title">ADMIN PAGE</h1>
+        <div id="log-in">
             <div class="input-group">
                 <h2>Username:</h2>
                 <input id="admin-username" type="text" placeholder="Enter your username">
+                <label for="admin-username" id="username-error-label" class="hidden-error">Username Not Found</label>
             </div>
             <div class="input-group">
                 <h2>Password:</h2>
                 <input id="admin-password" type="password" placeholder="Enter your password">
+                <label for="admin-username" id="password-error-label" class="hidden-error">Invalid Password</label>
             </div>
             <input id="admin-button" type="submit" value="LOG IN">
         </div>
-        <!-- add hidden -->
+        <!-- add hidden PRODUCTS-->
         <div id="admin-center" class="hidden">
-            <h1>ADMIN CENTER</h1>
-            <div id="category-button">
-                <input id = "admin-products" type="submit" value="PRODUCTS">
-                <input id = "admin-orders" type="submit" value="ORDERS">
+            <!-- ADD PRODUCT BUTTON -->
+            <a href="#home" id="add-product-button"><i class='bx bx-plus' ></i></a>
+            <!-- ADD PRODUCT FORM * ADD HIDDEN -->
+            <div id="add-product" class="hidden">
+                <div >
+                    <h3>Add a Product</h3>
+                    <a id="add-close"><i class='bx bx-x'></i></a>
+                </div>
+                <form id="add-form" enctype="multipart/form-data">
+                    <div>
+                        <label for="name">Name:</label>
+                        <input type="text" id="add-name" required>
+                    </div>
+                    <div>
+                        <label for="description">Description:</label>
+                        <textarea id="add-description" name="add-description" required></textarea>
+                    </div>
+                    <div>
+                        <label for="price">Price:</label>
+                        <input type="number" id="add-price" required>
+                    </div>
+                    <div>
+                        <label for="category">Category:</label>
+                        <select id="add-category" required>
+                            <option value="" disabled selected >--Select a Category--</option>
+                            <option value="Pasta">Pasta</option>
+                            <option value="Appetizers">Appetizers</option>
+                            <option value="Salad">Salad</option>
+                            <option value="Dessert">Dessert</option>
+                        </select>
+                    </div>
+                    <div class="file-input-container">
+                        <label>Select an Image:</label>
+                        <input type="file" id="add-image" name="image" accept="image/*" style="display: none;" onchange="updateFileName()">
+                        <button type="button" class="choose-file-btn" onclick="document.getElementById('add-image').click()">Choose An Image</button>
+                        <span class="file-name">No file chosen</span>
+                    </div>
+                    <button type="submit" id = "add-button">Add the Product</button>
+                </form>
+            </div>
+            <div class="search">
+                <form action="#">
+                    <div class="search_box">
+                        <input id = "searchProduct" type="text" placeholder="Search Product Name..." required>
+                        <div class="selection">
+                            <p>All</p><span></span>
+                        </div>
+                        <div class="categories">
+                            <p class="option">All</p>
+                            <p class="option">Pasta</p>
+                            <p class="option">Appetizers</p>
+                            <p class="option">Salad</p>
+                            <p class="option">Dessert</p>
+                        </div>
+        
+                    </div>
+                </form>
             </div>
             <div id="admin-table">
-                <input id = "add-product-button" type="submit" value = "ADD PRODUCT">
-                <div id="add-product" class="hidden">
-                    <div >
-                        <h3>Add a Product</h3>
-                        <input id = "add-close" type="submit" value = "X">
-                    </div>
-                    <form id="add-form" enctype="multipart/form-data">
-                        <div>
-                            <label for="name">Name:</label>
-                            <input type="text" id="add-name" required>
-                        </div>
-                        <div>
-                            <label for="price">Price:</label>
-                            <input type="number" id="add-price" required>
-                        </div>
-                        <div>
-                            <label for="inventory">Inventory:</label>
-                            <input type="number" id="add-inventory" required>
-                        </div>
-                        <div>
-                            <label for="category">Category:</label>
-                            <select id="add-category" required>
-                                <option value="" disabled selected >--Select a Category--</option>
-                                <option value="Pasta">Pasta</option>
-                                <option value="Appetizers">Appetizers</option>
-                                <option value="Salad">Salad</option>
-                                <option value="Dessert">Dessert</option>
-                            </select>
-                        </div>
-                        <div>
-                            <label for="image">Select an Image:</label>
-                            <input type="file" id="add-image" accept="image/*" required>
-                        </div>
-                        <button type="submit" id = "add-button">Upload</button>
-                    </form>
-                </div>
                 <table id = "admin-tables"></table>
             </div>
         </div>
+        <!-- LOG OUT BUTTON -->
+        <a href="#home" id="log-out-button" class="hidden"><i class='bx bx-power-off' ></i></a>
     </main>
     <footer>
-        <p>&copy; 2024 Admin Dashboard. All rights reserved.</p>
+        <p>&copy; 2024 Pizza Palace Admin Center. All rights reserved.</p>
     </footer>
     <script src="/scripts/adminPage.js"></script>
 </body>

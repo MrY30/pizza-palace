@@ -24,6 +24,7 @@ const upload = multer({ storage });
 app.post('/admin/login', checkLogIn);
 app.post('/admin/upload', upload.single('image'), addProduct);
 app.get('/admin/products', displayProducts);
+app.get('/admin/deliveries', (req,res)=>{});
 
 // Serve static files from the 'public' directory
 app.use('/styles',express.static(path.join(__dirname, '/styles')));
@@ -45,9 +46,13 @@ app.get("/admin", (req, res) => {
   res.sendFile(path.join(__dirname, '/pages', 'adminPage.html'));
 });
 
+// Serve the /admin HTML file
+app.get("/login", (req, res) => {
+  res.sendFile(path.join(__dirname, '/pages', 'loginPage.html'));
+});
+
+
 app.listen(port, () => {
   console.log(`Listening to port ${port}`);
   console.log(`Enter: http://localhost:${port}/admin`);
 });
-
-//LYKA IS HERE
