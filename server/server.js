@@ -4,7 +4,7 @@ import { fileURLToPath } from 'url';
 import multer from 'multer';
 
 //IMPORT BACKEND
-import {checkLogIn, displayProducts, addProduct} from './backend/admin-page.js';
+import {checkLogIn, displayProducts, addProduct, checkCustomer, newUser} from './backend/admin-page.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -24,7 +24,10 @@ const upload = multer({ storage });
 app.post('/admin/login', checkLogIn);
 app.post('/admin/upload', upload.single('image'), addProduct);
 app.get('/admin/products', displayProducts);
-app.get('/admin/deliveries', (req,res)=>{});
+app.get('/admin/deliveries', (req,res)=>{});//TO CHANGE
+
+app.get('/login/login', checkCustomer);
+app.post('/login/signup', newUser);
 
 // Serve static files from the 'public' directory
 app.use('/styles',express.static(path.join(__dirname, '/styles')));

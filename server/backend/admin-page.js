@@ -6,10 +6,11 @@ dotenv.config();
 
 const { client } = connectToDatabase;
 
+//CHECK LOG IN [ADMIN]
 export const checkLogIn = async (req,res) =>{
     const { username, password } = req.body;
 
-    const admins = await client.query(`SELECT * FROM users_table WHERE status = 'admin' AND username = '${username}'`);
+    const admins = await client.query(`SELECT * FROM users WHERE status = 'Administrator' AND username = '${username}'`);
     
     if(admins.rows.length === 0){
         return res.json({ success: false, message: 'Admin not Found'});
@@ -24,6 +25,51 @@ export const checkLogIn = async (req,res) =>{
         return res.json({ success: true });
     }
 }
+
+//CHECK LOG IN [CUSTOMER]
+export const checkCustomer = async (req,res) =>{
+    const { username, password } = req.body;
+
+    const admins = await client.query(`SELECT * FROM users WHERE status = 'Customer' AND username = '${username}'`);
+    
+    if(admins.rows.length === 0){
+        return res.json({ success: false, message: 'Admin not Found'});
+    }
+
+    const user = admins.rows[0];
+    
+    const isPasswordValid = await bcrypt.compare(password, user.password);
+    if (!isPasswordValid) {
+        return res.json({ success: false, message: 'Invalid password' });
+    }else{
+        return res.json({ success: true });
+    }
+}
+
+//INSERT SIGN UP
+export const newUser = async (req, res) => {
+    const { firstName, lastName, userName, password, email, birthDate, contactNum, address } = req.body;
+    const status = "Customer"
+    // Hash the password before inserting it into the database
+    const hashedPassword = await bcrypt.hash(password, 10);
+
+    try {
+        // Insert the new user into the users_table
+        const result = await client.query(
+            `INSERT INTO users (status, first_name, last_name, username, password, email, birth_date, contact_num, address)
+             VALUES ('${status}', '${firstName}', '${lastName}', '${userName}', '${password}', '${email}', '${birthDate}', '${contactNum}', '${address}') RETURNING *`
+        );
+
+        if (result.rowCount > 0) {
+            return res.json({ success: true, message: 'User created successfully', user: result.rows[0] });
+        } else {
+            return res.json({ success: false, message: 'User creation failed' });
+        }
+    } catch (error) {
+        console.error('Error inserting user:', error);
+        return res.status(500).json({ success: false, message: 'Server error' });
+    }
+};
 
 
 //USE THIS TO ADMINS TO CONVERT PASSWORDS TO HASH
