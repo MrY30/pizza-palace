@@ -13,8 +13,8 @@
             <img src="/img/pizzaPalaceLogo.png" alt="">
         </div>
         <div class="nav-bar">
-            <a href="#" id="admin-products">PRODUCTS</a>
-            <a href="#" id="admin-orders">ORDERS</a>
+            <a href="#" id="admin-products" class="hidden">PRODUCTS</a>
+            <a href="#" id="admin-deliver" class="hidden">DELIVERIES</a>
         </div>
         <h1>Admin Center</h1>
     </header>
@@ -33,7 +33,7 @@
             </div>
             <input id="admin-button" type="submit" value="LOG IN">
         </div>
-        <!-- add hidden -->
+        <!-- add hidden PRODUCTS-->
         <div id="admin-center" class="hidden">
             <!-- ADD PRODUCT BUTTON -->
             <a href="#home" id="add-product-button"><i class='bx bx-plus' ></i></a>
@@ -97,6 +97,8 @@
                 <table id = "admin-tables"></table>
             </div>
         </div>
+        <!-- LOG OUT BUTTON -->
+        <a href="#home" id="log-out-button" class="hidden"><i class='bx bx-power-off' ></i></a>
     </main>
     <footer>
         <p>&copy; 2024 Pizza Palace Admin Center. All rights reserved.</p>

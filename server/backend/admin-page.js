@@ -40,6 +40,7 @@ export const hashPassword = async (req, res) => {
     const hashedPassword = await bcrypt.hash(users.rows[0].password, 10);
 
     await client.query(`UPDATE users_table SET password = '${hashedPassword}' WHERE username = '${name}'`)
+    console.log(`${name} has been updated.`)
 }
 
 //DISPLAYING PRODUCTS

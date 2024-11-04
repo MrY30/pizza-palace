@@ -87,10 +87,17 @@ header h1{
     height: 100%;
 }
 
+.nav-bar .nav-selected{
+    border-bottom: 2px solid var(--main-color);
+	color: var(--main-color);
+}
+
 .nav-bar a:hover{
 	border-bottom: 2px solid var(--main-color);
 	color: var(--main-color);
 }
+
+
 
 main {
     display: flex;
@@ -197,7 +204,7 @@ footer {
 #admin-button:hover {
     transform: translateY(-2px);
 }
-#admin-center {
+#admin-center{
     width: 100%;
     height: 100%;
     display: flex;
@@ -248,11 +255,11 @@ footer {
 
 .product-name {
     font-weight: 500;
-    color: #2c3e50;
+    color: var(--header-color);
 }
 
 .price {
-    color: var(--light-header-color);
+    color: var(--lighter-header-color);
     font-weight: 600;
 }
 
@@ -270,7 +277,24 @@ footer {
     border-radius: 20px;
     font-size: 14px;
 }
+.no-product{
+    height: 53vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+.no-product img{
+    width: 150px;
+    height: auto;
 
+}
+.no-product p{
+    margin-top: 20px;
+    font-size: 30px;
+    font-weight: 500;
+    color: #2c3e50;
+}
 /* FORM DESIGN */
 #add-product{
     position: fixed;
@@ -413,16 +437,26 @@ footer {
 /* TABLE ADD PRODUCT */
 #add-product-button{
 	position: fixed;
+	bottom: 10rem;
+	right: 2.2rem;
+    z-index: 10;
+}
+#log-out-button{
+    position: fixed;
 	bottom: 6rem;
 	right: 2.2rem;
     z-index: 10;
 }
-#add-product-button i{
+#add-product-button i, #log-out-button i{
 	padding: 8px;
 	font-size: 2rem;
 	color: var(--white-color);
 	background: var(--light-main-color);
 	border-radius: 5rem;
+}
+#add-product-button i:hover, #log-out-button i:hover{
+    background: var(--dark-main-color);
+    border-radius: 5rem;
 }
 
 /* SEARCH AND FILTER */

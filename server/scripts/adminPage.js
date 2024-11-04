@@ -11,15 +11,66 @@ const loginPanel = document.getElementById('log-in');
 //ADMIN TABLE PAGE [PRODUCTS]
 const adminTable = document.getElementById('admin-tables');
 const productButton = document.getElementById('admin-products');
+const deliveryButton = document.getElementById('admin-deliver');
 
+//SEARCH AND FILTER [FILTERED FUNCTION]
+const selection = document.querySelector(".selection");
+const selected_text = document.querySelector(".selection p");
+const categories = document.querySelector(".categories");
+const options = document.querySelectorAll(".categories p");
+const searchInput = document. getElementById("searchProduct");
+
+const addProductButton = document.getElementById('add-product-button');
+const addProduct = document.getElementById('add-product');
 
 //GET PRODUCTS FROM DATABASE
-let products;
+let products, deliveries = [];
+
+//LOG OUT
+const logOutButton = document.getElementById('log-out-button');
+
+// Check login state on page load
+window.addEventListener('load', () => {
+    if (localStorage.getItem('isLoggedIn') === 'true') {
+        showAdminPanel();
+    }
+});
+
+// Function to show admin panel and hide login form
+const showAdminPanel = () => {
+    loginPanel.classList.add('hidden');
+    adminPanel.classList.remove('hidden');
+    logOutButton.classList.remove('hidden');
+    productButton.classList.remove('hidden');
+    deliveryButton.classList.remove('hidden');
+    if (localStorage.getItem('products') === 'true') {
+        productButton.classList.add('nav-selected');
+        deliveryButton.classList.remove('nav-selected');
+        addProductButton.classList.remove('hidden');
+        getProducts(new Event('load'));
+    }
+    if (localStorage.getItem('products') === 'false') {
+        productButton.classList.remove('nav-selected');
+        deliveryButton.classList.add('nav-selected');
+        addProductButton.classList.add('hidden');
+        getDeliveries(new Event('load'));
+    }
+};
+
+//FUNCTION GETS PRODUCTS
 const getProducts = async (e) =>{
     e.preventDefault();
     const res = await fetch('/admin/products');
     products = await res.json();
     productDisplay(products);
+}
+
+//FUNCTION GETS DELIVERY
+const getDeliveries = async (e) =>{
+    e.preventDefault();
+    //const res = await fetch('/admin/deliveries');
+    //deliveries = await res.json();
+    deliveryDisplay(deliveries);
 }
 
 //DISPLAY ALL PRODUCTS
@@ -35,7 +86,14 @@ const productDisplay = (products) => {
     `;
     if (products.length === 0) {
         const noProductRow = document.createElement('tr');
-        noProductRow.innerHTML = '<td colspan="5">No Products Available</td>';
+        noProductRow.innerHTML = `
+                <td colspan="5">
+                <div class = "no-product">
+                    <img src="/img/sadPizza.png" alt="">
+                    <p>No Products Available</p>
+                </div>
+                </td>
+        `;
         adminTable.appendChild(noProductRow);
         return;
     } else{
@@ -55,12 +113,46 @@ const productDisplay = (products) => {
     }
 };
 
-//SEARCH AND FILTER [FILTERED FUNCTION]
-const selection = document.querySelector(".selection");
-const selected_text = document.querySelector(".selection p");
-const categories = document.querySelector(".categories");
-const options = document.querySelectorAll(".categories p");
-const searchInput = document. getElementById("searchProduct");
+//DISPLAY ALL DELIVERIES
+const deliveryDisplay = (deliveries) => {
+    console.log("i entered here")
+    adminTable.innerHTML = `
+        <tr>
+            <th>Delivery ID</th>
+            <th>Customer</th>
+            <th>Products</th>
+            <th>Amount</th>
+            <th>Status</th>
+        </tr>
+    `;
+    if (deliveries.length === 0) {
+        const noProductRow = document.createElement('tr');
+        noProductRow.innerHTML = `
+                <td colspan="5">
+                <div class = "no-product">
+                    <img src="/img/sadPizza.png" alt="">
+                    <p>No Deliveries Available</p>
+                </div>
+                </td>
+        `;
+        adminTable.appendChild(noProductRow);
+        return;
+    } else{
+        deliveries.forEach(product => {
+            const productRow = document.createElement('tr');
+            
+            productRow.innerHTML = `
+                <td></td>
+                <td class = "product-name">${deliveries.name}</td>
+                <td class="price">${deliveries.price}</td>
+                <td><span class = "category">${pdeliveries.category}</span></td>
+                <td class="description">${deliveries.description}</td>
+            `;
+    
+            adminTable.appendChild(productRow);
+        });
+    }
+};
 
 selection.onclick = function(){
     categories.classList.toggle("active");
@@ -129,10 +221,9 @@ btnLogIn.addEventListener('click',async (e)=>{
     const data = await response.json();
     if (data.success) {
         alert('Login successful');
-        loginPanel.classList.add('hidden')
-        adminPanel.classList.remove('hidden')
-
-        getProducts(e);
+        localStorage.setItem('isLoggedIn', 'true'); // Save login state
+        localStorage.setItem('products', 'true');
+        showAdminPanel();
     } else {
         lblUsername.innerHTML = "Incorrect Username / Password. Please Try Again!"
         lblUsername.classList.remove('hidden-error')
@@ -142,12 +233,30 @@ btnLogIn.addEventListener('click',async (e)=>{
     }
 })
 
+//LOG OUT
+logOutButton.addEventListener('click', () =>{
+    localStorage.removeItem('isLoggedIn');
+    loginPanel.classList.remove('hidden');
+    adminPanel.classList.add('hidden');
+    logOutButton.classList.add('hidden');
+    productButton.classList.add('hidden')
+    deliveryButton.classList.add('hidden')
+    admin.value = ''
+    password.value = ''
+})
+
 //SHOW PRODUCTS THROUGH BUTTON
-productButton.addEventListener('click',getProducts);
+productButton.addEventListener('click', (e)=>{
+    localStorage.setItem('products', 'true');
+    showAdminPanel()
+});
+
+deliveryButton.addEventListener('click', (e) =>{
+    localStorage.setItem('products', 'false');
+    showAdminPanel()
+})
 
 //SHOW ADD NEW PRODUCT FORM
-const addProductButton = document.getElementById('add-product-button');
-const addProduct = document.getElementById('add-product');
 addProductButton.addEventListener('click',()=>{
     addProduct.classList.remove('hidden');
 })
@@ -159,7 +268,6 @@ function updateFileName() {
     const fileName = fileInput.files.length > 0 ? fileInput.files[0].name : 'No file chosen';
     fileNameDisplay.textContent = fileName;
 }
-
 
 //UPLOAD DETAILS
 document.getElementById('add-form').addEventListener('submit', async function (e) {
