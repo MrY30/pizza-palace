@@ -2,9 +2,12 @@ import connectToDatabase from './dbConnection.js';
 import { supabase } from './dbConnection.js';
 import bcrypt from "bcrypt";
 import dotenv from 'dotenv';
+import jwt from 'jsonwebtoken';
 dotenv.config();
 
 const { client } = connectToDatabase;
+
+const secretKey = process.env.ACCESS_TOKEN_SECRET
 
 //CHECK LOG IN [ADMIN]
 export const checkLogIn = async (req,res) =>{
@@ -30,20 +33,28 @@ export const checkLogIn = async (req,res) =>{
 export const checkCustomer = async (req,res) =>{
     const { username, password } = req.body;
 
-    const admins = await client.query(`SELECT * FROM users WHERE status = 'Customer' AND username = '${username}'`);
+    const customers = await client.query(`SELECT * FROM users WHERE status = 'Customer' AND username = '${username}'`);
     
     if(admins.rows.length === 0){
-        return res.json({ success: false, message: 'Admin not Found'});
+        return res.json({ success: false, message: 'Customer not Found'});
     }
 
-    const user = admins.rows[0];
+    const user = customers.rows[0];
     
     const isPasswordValid = await bcrypt.compare(password, user.password);
     if (!isPasswordValid) {
         return res.json({ success: false, message: 'Invalid password' });
-    }else{
-        return res.json({ success: true });
     }
+
+    const token = jwt.sign({ id: user.user_id, 
+                             name: `${user.last_name}, ${user.first_name}`, 
+                             address: user.address,  
+                             email: user.email, 
+                             contact: user.contact_num, 
+                             birthDate: user.birth_date }
+                             , secretKey);
+
+    res.json({ success: true, token})
 }
 
 //INSERT SIGN UP
