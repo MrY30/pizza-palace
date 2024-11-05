@@ -42,28 +42,31 @@ signUp.addEventListener("submit", async (e) => {
     alert(result);
 });
 
-logIn.addEventListener("click", async (e) =>{
-    e.preventDefault()
+logIn.addEventListener("click", async (e) => {
+    e.preventDefault();
 
     const username = document.getElementById('login-username').value;
-    const pass = document.getElementById('login-password').value;
+    const password = document.getElementById('login-password').value;
 
-    const response = await fetch('/admin/login', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ username: username, password: pass })
-    });
+    try {
+        const response = await fetch('/login/login', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ username, password })
+        });
 
-    const result = await response.json();
+        const result = await response.json();
 
-    if (result.success) {
-        // Store the token in localStorage or a cookie
-        localStorage.setItem('token', result.token);
-        // Redirect to homePage.html
-        window.location.href = '/';
-    } else {
-        alert(result.message);
+        if (result.success) {
+            alert(result.message);
+            window.location.href = '/'
+        } else {
+            alert(result.message);
+        }
+    } catch (error) {
+        console.error('Login failed:', error);
+        alert('An error occurred. Please try again.');
     }
-})
+});

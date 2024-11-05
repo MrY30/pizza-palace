@@ -1,12 +1,10 @@
 import connectToDatabase from './dbConnection.js';
 import { supabase } from './dbConnection.js';
-import bcrypt from "bcrypt";
+import bcrypt, { hash } from "bcrypt";
 import dotenv from 'dotenv';
-import jwt from 'jsonwebtoken';
 dotenv.config();
 
 const { client } = connectToDatabase;
-
 const secretKey = process.env.ACCESS_TOKEN_SECRET
 
 //CHECK LOG IN [ADMIN]
@@ -35,7 +33,7 @@ export const checkCustomer = async (req,res) =>{
 
     const customers = await client.query(`SELECT * FROM users WHERE status = 'Customer' AND username = '${username}'`);
     
-    if(admins.rows.length === 0){
+    if(customers.rows.length === 0){
         return res.json({ success: false, message: 'Customer not Found'});
     }
 
@@ -46,15 +44,25 @@ export const checkCustomer = async (req,res) =>{
         return res.json({ success: false, message: 'Invalid password' });
     }
 
-    const token = jwt.sign({ id: user.user_id, 
-                             name: `${user.last_name}, ${user.first_name}`, 
-                             address: user.address,  
-                             email: user.email, 
-                             contact: user.contact_num, 
-                             birthDate: user.birth_date }
-                             , secretKey);
+    req.session.user = {
+        id: user.user_id,
+        name: `${user.last_name}, ${user.first_name}`,
+        address: user.address,
+        email: user.email,
+        contact: user.contact_num,
+        birthDate: user.birth_date
+    };
 
-    res.json({ success: true, token})
+    res.json({ success: true, message: 'Log In Verified' });
+}
+
+//GET DATA
+export const getData = (req, res) => {
+    if (req.session.user) {
+        res.json({ success: true, userId: req.session.user.name });
+    } else {
+        res.status(401).json({ success: false, message: 'Not authenticated' });
+    }
 }
 
 //INSERT SIGN UP
@@ -68,7 +76,7 @@ export const newUser = async (req, res) => {
         // Insert the new user into the users_table
         const result = await client.query(
             `INSERT INTO users (status, first_name, last_name, username, password, email, birth_date, contact_num, address)
-             VALUES ('${status}', '${firstName}', '${lastName}', '${userName}', '${password}', '${email}', '${birthDate}', '${contactNum}', '${address}') RETURNING *`
+             VALUES ('${status}', '${firstName}', '${lastName}', '${userName}', '${hashedPassword}', '${email}', '${birthDate}', '${contactNum}', '${address}') RETURNING *`
         );
 
         if (result.rowCount > 0) {
@@ -82,21 +90,20 @@ export const newUser = async (req, res) => {
     }
 };
 
-
 //USE THIS TO ADMINS TO CONVERT PASSWORDS TO HASH
 export const hashPassword = async (req, res) => {
     //USERNAME: ejMamacos PASSWORD: jeojeojeo
     //USERNAME: lsJardeleza PASSWORD: lykalykalyka
     //USERNAME: glDeocampo PASSWORD: jimsjimsjims
 
-    const name = 'glDeocampo'
-    const users = await client.query(`SELECT password FROM users_table WHERE status = 'admin' AND username = '${name}'`);
+    const name = 'dbb73ce2-7c7d-41b1-8e1d-eca8ae3a2228'
+    const users = await client.query(`SELECT password FROM users WHERE status = 'Customer' AND user_id = '${name}'`);
 
     console.log(users.rows[0].password);
 
     const hashedPassword = await bcrypt.hash(users.rows[0].password, 10);
 
-    await client.query(`UPDATE users_table SET password = '${hashedPassword}' WHERE username = '${name}'`)
+    await client.query(`UPDATE users SET password = '${hashedPassword}' WHERE user_id = '${name}'`)
     console.log(`${name} has been updated.`)
 }
 

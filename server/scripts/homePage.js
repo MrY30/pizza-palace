@@ -43,7 +43,7 @@ const displayMenu = (products) => {
 				</div>
 				<p>${product.description}</p>
 				<div class="favorite">
-					<i class='bx bx-heart verify' ></i>
+					<i id="add-fave" class='bx bx-heart' ></i>
 				</div>
 			</div>
         `;
@@ -55,22 +55,6 @@ getProduct().then(products => {
 }).catch(error => {
     console.error("Error fetching products:", error);
 });
-
-// Attach event listener to the parent container (menuArea)
-menuArea.addEventListener('click', function(e) {
-    if (e.target.classList.contains('bx-heart') || e.target.classList.contains('bxs-heart')) {
-        // Toggle between outlined and filled heart icons
-        const heart = e.target;
-        if (heart.classList.contains('bx-heart')) {
-            heart.classList.remove('bx-heart');
-            heart.classList.add('bxs-heart', 'active');
-        } else {
-            heart.classList.remove('bxs-heart', 'active');
-            heart.classList.add('bx-heart');
-        }
-    }
-});
-
 
 // Get the cart modal element
 const cartModal = document.getElementById("cartModal");
@@ -170,18 +154,26 @@ window.onclick = function(event) {
     }
 }
 
-//JWT TOKENS [HEART, CART, USER, CREATE PIZZA BUTTON]
-document.addEventListener('DOMContentLoaded', ()=>{
+//ON LOAD CHECKS IF USER HAS BEEN LOGGED IN OR NOT
+document.addEventListener('DOMContentLoaded', async (e)=>{
+    e.preventDefault()
+
+    const res = await fetch('/getUserData');
+    const userData = await res.json();
+
     const premiumBtn = document.querySelectorAll('.verify');
     const createPizza = document.getElementById('create-pizza');
-    const token = localStorage.getItem('token');
 
-    if (!token) {
-        // User is logged in
+    if(!userData.userId){
         premiumBtn.forEach(btn => {
             btn.addEventListener('click', () => {
                 window.location.href = '/login';
             });
+        });
+        menuArea.addEventListener('click', (event) => {
+            if (event.target && event.target.id === 'add-fave') {
+                window.location.href = '/login';
+            }
         });
     }else{
         cartIcon.onclick = () =>{
@@ -193,5 +185,20 @@ document.addEventListener('DOMContentLoaded', ()=>{
         createPizza.addEventListener('click',()=>{
             window.location.href = '/pizza';
         })
+        // Attach event listener to the parent container (menuArea)
+        menuArea.addEventListener('click', function(e) {
+            if (e.target.classList.contains('bx-heart') || e.target.classList.contains('bxs-heart')) {
+                // Toggle between outlined and filled heart icons
+                const heart = e.target;
+                if (heart.classList.contains('bx-heart')) {
+                    heart.classList.remove('bx-heart');
+                    heart.classList.add('bxs-heart', 'active');
+                } else {
+                    heart.classList.remove('bxs-heart', 'active');
+                    heart.classList.add('bx-heart');
+                }
+            }
+        });
+        console.log(userData.userId)
     }
 })
