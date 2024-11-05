@@ -24,10 +24,12 @@ header {
 
 header img {
     height: 3rem;
+    max-width: 100%;
 }
 
 .progress-bar {
-    width: 80%;
+    width: 90%;
+    max-width: 1200px;
     height: 12px;
     background-color: #c05d34;
     margin: 20px auto;
@@ -50,14 +52,16 @@ header img {
 main {
     flex: 1;
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
-    /*padding: 20px; */
+    padding: 20px;
     padding-left: 150px;
 }
 
 #container {
     display: flex;
+    flex-direction: column;
     justify-content: flex-start;
     align-items: flex-start;
     gap: 20px;
@@ -299,6 +303,35 @@ img[id^="custom-pizza"] {
     gap: 400px; /* Space between the two buttons */
     margin-top: 20px;
 }
+
+#section5 #buttons {
+    display: flex;
+    justify-content: center;
+    gap: 40px; /* Adjust the space between buttons as needed */
+    margin-top: 20px;
+    width: 100%; /* Ensure full-width layout */
+}
+
+#section5 .order-button {
+    background-color: #b2381e;
+    color: #dfc997;
+    border: none;
+    padding: 10px 30px; /* Consistent padding */
+    font-size: 1.5rem; /* Consistent font size */
+    font-family: 'Goudy Bookletter 1911', serif;
+    font-weight: bolder;
+    border-radius: 20px; /* Rounded corners */
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    min-width: 150px; /* Ensure a consistent button width */
+    text-align: center;
+}
+
+#section5 .order-button:hover {
+    background-color: #db9247;
+    transform: scale(1.05);
+}
+
 
 .order-button {
     background-color: #b2381e;
@@ -552,4 +585,3 @@ img[id^="custom-pizza"] {
     display: flex; /* Show the active section */
     width: 100%; /* Ensure full width */
 }
-

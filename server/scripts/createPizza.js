@@ -419,7 +419,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
                 // Log summary in Section 5
                 const formattedToppings = chosenToppings.map(topping => topping.split(' ')[0]); // Extracts just the topping names
-                const summarySentence = `You have selected ${chosenCrust}, ${chosenSize}, toppings (${formattedToppings.join(', ')}), and ${chosenSlice}.`;
+                const summarySentence = `${chosenCrust}, ${chosenSize}, toppings (${formattedToppings.join(', ')}), and ${chosenSlice}`;
                 console.log(summarySentence);
 
             }
