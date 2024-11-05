@@ -136,7 +136,6 @@
                 </div>
             </section>
 
-            <!-- Section 5 -->
             <section id="section5" class="slide-section">
                 <div id="pizza">
                     <img id="custom-pizza5" src="/img/pizzaur.png" alt="Customize Pizza">
@@ -145,17 +144,27 @@
                     <div class="title-container">
                         <img src="/img/reviewpizza.png" alt="Review Pizza" class="title-image">
                     </div>
-                    <div class="review-options">
-                        <div>
-                            <img id="reviewOption" src="/img/reviewS.png" alt="Review Option" class="review-option">
-                        </div>
-                    </div>                    
+                    <div class="review-details">
+                        <table class="styled-table">
+                            <thead>
+                                <tr>
+                                    <th>Item</th>
+                                    <th>Specification</th>
+                                    <th>Price (₱)</th>
+                                </tr>
+                            </thead>
+                            <tbody id="review-table-body">
+                                <!-- Rows will be dynamically added here -->
+                            </tbody>
+                        </table>
+                    </div>
                     <div id="buttons">
                         <button id="back-page" class="order-button">BACK</button>
                         <button id="next-page" class="order-button">NEXT</button>
                     </div>
                 </div>
             </section>
+            
         </div>
     </main>
 

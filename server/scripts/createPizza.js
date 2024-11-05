@@ -10,6 +10,70 @@ document.addEventListener("DOMContentLoaded", function() {
     let currentPizzaSize = "400px"; // Default size
     const selectedToppings = {}; // Track selected toppings to toggle on/off
 
+    // Variables to store choices
+    let chosenCrust = '';
+    let chosenSize = '';
+    let chosenToppings = [];
+    let chosenSlice = '';
+
+    // Prices for options
+    const prices = {
+        crust: {
+            thickCrustC: 80.00,
+            thinCrustC: 100.00
+        },
+        size: {
+            smallC: 19.00,
+            regularC: 29.00,
+            largeC: 49.00,
+            familyC: 64.00
+        },
+        toppings: {
+            pepperoniC: 30.00,
+            mushroomC: 25.00,
+            pineappleC: 20.00,
+            olivesC: 25.00,
+            baconC: 35.00,
+            shrimpC: 40.00
+        },
+        slice: {
+            triangleC: 5.00,
+            squareC: 10.00
+        }
+    };
+
+    // Assign descriptions for each section's options
+    const optionDescriptions = {
+        crust: {
+            thickCrustC: "Thick Crust",
+            thinCrustC: "Thin Crust"
+        },
+        size: {
+            smallC: "Small Size",
+            regularC: "Regular Size",
+            largeC: "Large Size",
+            familyC: "Family-Size"
+        },
+        toppings: {
+            pepperoniC: "Pepperoni",
+            mushroomC: "Mushroom",
+            pineappleC: "Pineapple",
+            olivesC: "Olives",
+            baconC: "Bacon",
+            shrimpC: "Shrimp"
+        },
+        slice: {
+            triangleC: "Triangle Cut",
+            squareC: "Square Cut"
+        }
+    };
+
+    // Variables to track selections
+    let selectedCrustPrice = 0;
+    let selectedSizePrice = 0;
+    let selectedToppingsPrice = 0;
+    let selectedSlicePrice = 0;
+
     function updateProgressBar() {
         const progressPercentage = ((progressStep + 1) / totalSteps) * 100;
         progress.style.width = `${progressPercentage}%`;
@@ -94,15 +158,20 @@ document.addEventListener("DOMContentLoaded", function() {
 
     let selectedCrustImageSrc = '/img/pizzaur.png';
 
+    // Update crust selection
     thickCrustOption.addEventListener("click", () => {
+        chosenCrust = optionDescriptions.crust.thickCrustC;
         console.log('Thick Crust option is selected');
         selectedCrustImageSrc = '/img/pizzaur.png';
+        selectedCrustPrice = prices.crust.thickCrustC;
         changeImageWithRotation('/img/ThickCrust.png');
     });
 
     thinCrustOption.addEventListener("click", () => {
+        chosenCrust = optionDescriptions.crust.thinCrustC;
         console.log("Thin Crust option selected");
         selectedCrustImageSrc = '/img/pizzaurt.png';
+        selectedCrustPrice = prices.crust.thinCrustC;
         changeImageWithRotation('/img/ThinCrust.png');
     });
 
@@ -128,6 +197,8 @@ document.addEventListener("DOMContentLoaded", function() {
         option.addEventListener('click', () => {
             const section3PizzaContainer = document.querySelector('#section3 #pizza');
             const toppingSrc = getToppingImageSrc(option.id);
+            const toppingId = option.id.replace('Option', 'C');
+            const toppingName = optionDescriptions.toppings[toppingId];
 
             if (toppingSrc) {
                 if (selectedToppings[option.id]) {
@@ -135,7 +206,10 @@ document.addEventListener("DOMContentLoaded", function() {
                     const existingTopping = document.getElementById(`topping-${option.id}`);
                     if (existingTopping) {
                         section3PizzaContainer.removeChild(existingTopping);
+                        selectedToppingsPrice -= prices.toppings[toppingId];
+                        chosenToppings = chosenToppings.filter(t => t !== `${toppingName} (${toppingSrc})`);
                         delete selectedToppings[option.id];
+                        console.log(`Removed ${toppingId}, updated toppings price: ${selectedToppingsPrice}`);
                     }
                 } else {
                     // Add new topping
@@ -145,7 +219,10 @@ document.addEventListener("DOMContentLoaded", function() {
                     setToppingSize(toppingImage); // Adjust size based on current pizza size
                     toppingImage.id = `topping-${option.id}`;
                     section3PizzaContainer.appendChild(toppingImage);
+                    selectedToppingsPrice += prices.toppings[toppingId];
+                    chosenToppings.push(`${toppingName} (${toppingSrc})`);
                     selectedToppings[option.id] = true;
+                    console.log(`Added ${toppingId}, updated toppings price: ${selectedToppingsPrice}`);
                 }
             }
         });
@@ -177,11 +254,15 @@ document.addEventListener("DOMContentLoaded", function() {
         family: "480px"
     };
 
+    // Update size selection
     document.querySelectorAll('.size-option img').forEach(option => {
         option.addEventListener('click', () => {
-            const size = sizeOptions[option.id.replace('Option', '').toLowerCase()];
-            console.log(`${option.alt} size selected`);
-            changePizzaSize(size);
+            const sizeName = option.alt;
+            const sizeImage = option.src.split('/').pop();
+            chosenSize = `${optionDescriptions.size[sizeImage.split('.')[0]]}`;
+            console.log(`${sizeName} size selected`);
+            selectedSizePrice = prices.size[option.id.replace('Option', 'C')];
+            changePizzaSize(sizeOptions[option.id.replace('Option', '').toLowerCase()]);
         });
     });
 
@@ -255,31 +336,72 @@ document.addEventListener("DOMContentLoaded", function() {
         const squareOption = document.getElementById('squareOption');
 
         triangleOption.addEventListener('click', () => {
+            chosenSlice = optionDescriptions.slice.triangleC;
+            selectedSlicePrice = prices.slice.triangleC;
+            console.log('Triangle slice selected, price:', selectedSlicePrice);
             overlayCutImage(section4PizzaContainer, '/img/TriCut.png');
         });
 
         squareOption.addEventListener('click', () => {
+            chosenSlice = optionDescriptions.slice.squareC;
+            selectedSlicePrice = prices.slice.squareC;
+            console.log('Square slice selected, price:', selectedSlicePrice);
             overlayCutImage(section4PizzaContainer, '/img/SquCut.png');
         });
+    }
+
+    function updateReviewDetails() {
+        const tableBody = document.getElementById('review-table-body');
+        tableBody.innerHTML = ''; // Clear previous rows
+
+        const items = [
+            { item: 'Crust', specification: selectedCrustPrice === prices.crust.thickCrustC ? 'Thick' : 'Thin', price: selectedCrustPrice.toFixed(2) },
+            { item: 'Size', specification: selectedSizePrice === prices.size.smallC ? 'Small' : selectedSizePrice === prices.size.regularC ? 'Regular' : selectedSizePrice === prices.size.largeC ? 'Large' : 'Family', price: selectedSizePrice.toFixed(2) },
+            ...Object.keys(selectedToppings).map(topping => ({
+                item: 'Topping',
+                specification: topping.replace('Option', ''),
+                price: prices.toppings[topping.replace('Option', 'C')].toFixed(2)
+            })),
+            { item: 'Slice', specification: selectedSlicePrice === prices.slice.triangleC ? 'Triangle' : 'Square', price: selectedSlicePrice.toFixed(2) }
+        ];
+
+        items.forEach(item => {
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                <td>${item.item}</td>
+                <td>${item.specification}</td>
+                <td>${item.price}</td>
+            `;
+            tableBody.appendChild(row);
+        });
+
+        const totalPrice = selectedCrustPrice + selectedSizePrice + selectedToppingsPrice + selectedSlicePrice;
+        const totalRow = document.createElement('tr');
+        totalRow.classList.add('total-price-row');
+        totalRow.innerHTML = `
+            <td colspan="2">Total Price</td>
+            <td>₱${totalPrice.toFixed(2)}</td>
+        `;
+        tableBody.appendChild(totalRow);
     }
 
     function updateSection5Image() {
         const section5PizzaContainer = document.querySelector('#section5 #pizza');
         section5PizzaContainer.innerHTML = ''; // Clear any existing elements
-    
+
         // Clone the current pizza image from Section 4 and add it to Section 5
         const section4PizzaImage = document.getElementById('custom-pizza4');
         const clonedPizzaImage = section4PizzaImage.cloneNode(true);
         clonedPizzaImage.id = 'custom-pizza5';
         section5PizzaContainer.appendChild(clonedPizzaImage);
-    
+
         // Clone each topping from Section 4 and add it to Section 5
         const section4Toppings = document.querySelectorAll('#section4 .topping-overlay');
         section4Toppings.forEach(topping => {
             const clonedTopping = topping.cloneNode(true);
             section5PizzaContainer.appendChild(clonedTopping);
         });
-    
+
         // Clone any cut overlay from Section 4 and add it to Section 5
         const section4CutOverlay = document.querySelector('#section4 .cut-overlay');
         if (section4CutOverlay) {
@@ -287,12 +409,19 @@ document.addEventListener("DOMContentLoaded", function() {
             section5PizzaContainer.appendChild(clonedCutOverlay);
         }
     }
-    
-    // Update Section 5 when moving to it
+
+    // Log final summary when moving to Section 5
     nextButtons.forEach(nextButton => {
         nextButton.addEventListener('click', () => {
             if (progressStep === 3) {
                 updateSection5Image();
+                updateReviewDetails();
+
+                // Log summary in Section 5
+                const formattedToppings = chosenToppings.map(topping => topping.split(' ')[0]); // Extracts just the topping names
+                const summarySentence = `You have selected ${chosenCrust}, ${chosenSize}, toppings (${formattedToppings.join(', ')}), and ${chosenSlice}.`;
+                console.log(summarySentence);
+
             }
         });
     });
@@ -314,7 +443,7 @@ document.addEventListener("DOMContentLoaded", function() {
         cutImage.style.transform = 'translate(-50%, -50%)';
         cutImage.style.width = '100%';
         cutImage.style.height = 'auto';
-        cutImage.style.zIndex = '3'; 
+        cutImage.style.zIndex = '3';
         container.appendChild(cutImage);
     }
 });
