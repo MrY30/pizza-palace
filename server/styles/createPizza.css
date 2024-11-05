@@ -122,6 +122,102 @@ img[id^="custom-pizza"] {
     margin: 0 auto; /* Center align */
 }
 
+.review-details {
+    display: flex;
+    justify-content: flex-start; /* Ensures the table aligns to the left */
+    margin-top: 10px; /* Adjust as needed */
+    margin-left: 150px; /* Use negative margin to move it further to the left */
+    width: 100%;
+    max-width: 800px; /* Adjust width as needed */
+    position: relative;
+    top: -30px; /* Adjust upward if needed */
+}
+
+
+/* Adjust font size, color, and alignment */
+.specification, .price {
+    flex: 1;
+    margin: 0 10px;
+    text-align: center; /* Change alignment here (e.g., left, right, center) */
+    background-color: #dfc997; /* Background color if needed */
+    border: 1px solid #b2381e;
+    padding: 15px;
+    border-radius: 10px;
+}
+
+.specification h3, .price h3 {
+    color: #3d5b3f; /* Change color as needed */
+    font-family: 'Goudy Bookletter 1911', serif;
+    margin-bottom: 10px;
+    font-size: 1.5rem; /* Adjust font size */
+}
+
+.specification p, .price p {
+    color: #3d5b3f; /* Change color as needed */
+    font-size: 1.2rem; /* Adjust font size */
+    line-height: 1.5; /* Adjust line height */
+    text-align: center; /* Change alignment here */
+}
+
+
+.styled-table {
+    width: 80%; /* Adjust width */
+    margin: 0; /* Remove top margin */
+    border-collapse: collapse;
+    font-family: Arial, sans-serif;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.styled-table th, .styled-table td {
+    border: 1px solid #ddd;
+    padding: 10px;
+    text-align: center;
+}
+
+.styled-table th {
+    background-color: #b2381e;
+    color: #dfc997;
+    font-size: 1.1em;
+    font-family: 'Rubik', sans-serif;
+    font-weight: bold; /* Optionally make it bold */
+
+}
+
+.styled-table tr:nth-child() {
+    background-color: #dfc997;
+}
+
+.styled-table tr:last-child td {
+    color: #dfc997; /* Replace with your desired color */
+}
+
+
+.styled-table td {
+    font-size: 1em;
+    color: #3d5b3f;
+}
+
+.styled-table .total-price-row {
+    font-family: 'Rubik', sans-serif;
+    font-weight: bold; /* Optional: make the text bold */
+    font-weight: bold;
+    background-color: #b2381e;
+}
+
+.total-price {
+    margin-top: 20px;
+    text-align: center;
+}
+.total-price h3 {
+    color: #3d5b3f;
+    font-size: 1.5em;
+}
+.total-price p {
+    font-size: 1.3em;
+    color: #3d5b3f;
+}
+
+
 
 .rotate {
     transform: rotate(360deg); /* Rotate 360 degrees */
