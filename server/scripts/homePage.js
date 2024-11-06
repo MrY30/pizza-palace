@@ -1,5 +1,80 @@
 //GET USER ID
-let userData
+let userID
+
+//WINDOWS ON LOAD PROGRAM [CHECKS IF USER HAS BEEN LOGGED IN OR NOT]
+window.addEventListener('load', async (e)=>{
+    e.preventDefault()
+
+    const res = await fetch('/getUserData');
+    const userData = await res.json();
+
+    userID = userData.userId
+
+    const premiumBtn = document.querySelectorAll('.verify');
+    const createPizza = document.getElementById('create-pizza');
+
+    if(!userData.userId){
+        premiumBtn.forEach(btn => {
+            btn.addEventListener('click', () => {
+                window.location.href = '/login';
+            });
+        });
+        menuArea.addEventListener('click', (event) => {
+            if (event.target && event.target.classList.contains('add-fave')) {
+                window.location.href = '/login';
+            }
+        });
+    }else{
+        //ALLOWS USER BUTTONS
+        cartIcon.onclick = () =>{ toggleCartModal(); };
+        favoritesIcon.onclick = () =>{ toggleFavoritesModal();};
+        createPizza.addEventListener('click',()=>{ window.location.href = '/pizza'; })
+
+        //HEART BUTTON
+        menuArea.addEventListener('click', function(e) {
+            if (e.target.classList.contains('bx-heart') || e.target.classList.contains('bxs-heart')) {
+                // Toggle between outlined and filled heart icons
+                const heart = e.target;
+                if (heart.classList.contains('bx-heart')) {
+                    //ADD TO 'CART'
+                    console.log(`Added: ${heart.dataset.id}`)
+                    addToCart(heart.dataset.id)
+                    heart.classList.remove('bx-heart');
+                    heart.classList.add('bxs-heart', 'active');
+                } else {
+                    //REMOVE TO 'CART'
+                    console.log(`Remove: ${heart.dataset.id}`)
+                    heart.classList.remove('bxs-heart', 'active');
+                    heart.classList.add('bx-heart');
+                }
+            }
+        });
+
+        //DISPLAY CART
+        getCart().then(carts => {
+            displayCart(carts);
+        }).catch(error => {
+            console.error("Error fetching products for carts:", error);
+        });
+    }
+})
+
+//ADD TO CART
+async function addToCart(productId){
+    const id = productId
+    const response = await fetch(`/cart/${userID}`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ productID: id }),
+    });
+
+    const result = await response.json();
+    if(result.success === 2){
+
+    }
+}
 
 //DISPLAY FUNCTIONS
 
@@ -28,7 +103,7 @@ const displayMenu = (products) => {
 				</div>
 				<p>${product.description}</p>
 				<div class="favorite">
-					<i id="add-fave" class='bx bx-heart' ></i>
+					<i data-id="${product.id}" class='bx bx-heart add-fave' ></i>
 				</div>
 			</div>
         `;
@@ -43,36 +118,31 @@ getProduct().then(products => {
 //DISPLAY CARTS TO SHOPPING CART
 const cartArea = document.getElementById('cart-area');
 const getCart = async () =>{
-    const res = await fetch(`/cart/${userData.userId}`);
+    const res = await fetch(`/cart/${userID}`);
     const carts = await res.json();
-
 	return carts;
 }
 const displayCart = (carts) =>{
     carts.forEach(cart =>{
+        console.log(cart.cartURL)
         cartArea.innerHTML += `
             <div class="cart-item">
                 <div class="cart-item-image">
-                    <img src="/img/spaghetti.jpg" alt="Pizza Image">
+                    <img src="${cart.cartURL}" alt="${cart.name}">
                 </div>
                 <div class="cart-item-details">
-                    <h4>Margherita Pizza</h4>
+                    <h4>${cart.name}</h4>
                     <div class="quantity-control">
                         <button class="quantity-btn minus-btn">-</button>
-                        <input type="number" class="quantity-input" value="2" min="1">
+                        <input type="number" class="quantity-input" value="${cart.amount}" min="1">
                         <button class="quantity-btn plus-btn">+</button>
                     </div>
-                    <p>Price: ₱500</p>
+                    <p>Price: ₱${cart.price}</p>
                 </div>
             </div>
         `
     })
 }
-getCart().then(carts => {
-    displayCart(carts);
-}).catch(error => {
-    console.error("Error fetching products for carts:", error);
-});
 
 
 //STYLES AND DESIGN
@@ -143,52 +213,3 @@ window.onclick = function(event) {
         closeCartModal();
     }
 }
-
-//WINDOWS ON LOAD PROGRAM [CHECKS IF USER HAS BEEN LOGGED IN OR NOT]
-window.addEventListener('load', async (e)=>{
-    e.preventDefault()
-
-    const res = await fetch('/getUserData');
-    userData = await res.json();
-
-    const premiumBtn = document.querySelectorAll('.verify');
-    const createPizza = document.getElementById('create-pizza');
-
-    if(!userData.userId){
-        premiumBtn.forEach(btn => {
-            btn.addEventListener('click', () => {
-                window.location.href = '/login';
-            });
-        });
-        menuArea.addEventListener('click', (event) => {
-            if (event.target && event.target.id === 'add-fave') {
-                window.location.href = '/login';
-            }
-        });
-    }else{
-        cartIcon.onclick = () =>{
-            toggleCartModal();
-        };
-        favoritesIcon.onclick = () =>{
-            toggleFavoritesModal();
-        };
-        createPizza.addEventListener('click',()=>{
-            window.location.href = '/pizza';
-        })
-        // Attach event listener to the parent container (menuArea)
-        menuArea.addEventListener('click', function(e) {
-            if (e.target.classList.contains('bx-heart') || e.target.classList.contains('bxs-heart')) {
-                // Toggle between outlined and filled heart icons
-                const heart = e.target;
-                if (heart.classList.contains('bx-heart')) {
-                    heart.classList.remove('bx-heart');
-                    heart.classList.add('bxs-heart', 'active');
-                } else {
-                    heart.classList.remove('bxs-heart', 'active');
-                    heart.classList.add('bx-heart');
-                }
-            }
-        });
-        console.log(userData.userId)
-    }
-})
