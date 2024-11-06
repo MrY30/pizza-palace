@@ -136,23 +136,11 @@
 		<div class="cart-modal-content">
 			<span class="cart-close">&times;</span>
 			<h2>Your Cart</h2>
-
-			<!-- Static Example of Cart Item with Editable Quantity -->
-			<div class="cart-item">
-				<div class="cart-item-image">
-					<img src="/img/spaghetti.jpg" alt="Pizza Image">
-				</div>
-				<div class="cart-item-details">
-					<h4>Margherita Pizza</h4>
-					<div class="quantity-control">
-						<button class="quantity-btn minus-btn">-</button>
-						<input type="number" class="quantity-input" value="2" min="1">
-						<button class="quantity-btn plus-btn">+</button>
-					</div>
-					<p>Price: ₱500</p>
+			<div id="cart-area">
+				<!-- Static Example of Cart Item with Editable Quantity -->
+				<div class="cart-item">
 				</div>
 			</div>
-
 			<!-- Bottom Section for Total and Order Button -->
 			<div class="cart-bottom">
 				<!-- Total Price -->
@@ -165,9 +153,6 @@
 		</div>
 	</div>
 
-
-
-
 	<!-- Favorites Modal -->
 	<div id="favoritesModal" class="favorites-modal">
 		<div class="favorites-modal-content">
@@ -178,25 +163,6 @@
 		</div>
 	</div>
 	
-
-
-	<!-- Login Modal -->
-	<div id="loginModal" class="login-modal">
-		<div class="login-modal-content">
-			<span class="login-close">&times;</span>
-			<h2>Login</h2>
-			<form action="/login" method="POST">
-				<label for="username">Username</label>
-				<input type="text" id="username" name="username" required>
-
-				<label for="password">Password</label>
-				<input type="password" id="password" name="password" required>
-
-				<button type="submit" class="login-btn">Login</button>
-			</form>
-		</div>
-	</div>
-
 	<!-- scroll top -->
 	<a href="#home" class="scroll-top">
 		<i class='bx bx-up-arrow-alt' ></i>
