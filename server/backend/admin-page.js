@@ -59,7 +59,7 @@ export const checkCustomer = async (req,res) =>{
 //GET DATA
 export const getData = (req, res) => {
     if (req.session.user) {
-        res.json({ success: true, userId: req.session.user.name });
+        res.json({ success: true, userId: req.session.user.id });
     } else {
         res.status(401).json({ success: false, message: 'Not authenticated' });
     }
@@ -173,4 +173,22 @@ export const addProduct = async (req,res) =>{
     } catch (error) {
         res.status(500).json({ error: error.message });
     }
+}
+
+export const displayCart = async (req,res) =>{
+    const userID = req.params.userId
+    const carts = await  client.query(`SELECT * FROM shopping_cart WHERE user_id = ${userID}`);
+    
+    if(carts.rows.length === 0){
+        return res.json({ success: false, message: 'Nothing were saved'});
+    }
+
+    const newResult = await Promise.all(carts.rows.map(async (cart) => {
+        const url = await getPublicUrl(bucketName, carts.image_name)
+        return{
+            ...cart,
+            cartURL: url || null
+        }
+    }))
+    return res.json(newResult);
 }

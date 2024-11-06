@@ -1,22 +1,7 @@
-//REPONSIVE MENU
-const header = document.querySelector("header");
-window.addEventListener("scroll", function(){
-	header.classList.toggle("sticky", window.scrollY > 0);
+//GET USER ID
+let userData
 
-})
-
-let menu = document.querySelector('#menu-icon');
-let navbar = document.querySelector('.navbar');
-
-menu.onclick = () => {
-	menu.classList.toggle('bx-x');
-	navbar.classList.toggle('open');
-}
-
-window.onscroll = () => {
-	menu.classList.remove('bx-x');
-	navbar.classList.remove('open');
-}
+//DISPLAY FUNCTIONS
 
 //DISPLAY PRODUCTS TO MENU
 const menuArea = document.getElementById("menu-content");
@@ -49,33 +34,79 @@ const displayMenu = (products) => {
         `;
     });
 };
-
 getProduct().then(products => {
     displayMenu(products);
 }).catch(error => {
     console.error("Error fetching products:", error);
 });
 
-// Get the cart modal element
+//DISPLAY CARTS TO SHOPPING CART
+const cartArea = document.getElementById('cart-area');
+const getCart = async () =>{
+    const res = await fetch(`/cart/${userData.userId}`);
+    const carts = await res.json();
+
+	return carts;
+}
+const displayCart = (carts) =>{
+    carts.forEach(cart =>{
+        cartArea.innerHTML += `
+            <div class="cart-item">
+                <div class="cart-item-image">
+                    <img src="/img/spaghetti.jpg" alt="Pizza Image">
+                </div>
+                <div class="cart-item-details">
+                    <h4>Margherita Pizza</h4>
+                    <div class="quantity-control">
+                        <button class="quantity-btn minus-btn">-</button>
+                        <input type="number" class="quantity-input" value="2" min="1">
+                        <button class="quantity-btn plus-btn">+</button>
+                    </div>
+                    <p>Price: ₱500</p>
+                </div>
+            </div>
+        `
+    })
+}
+getCart().then(carts => {
+    displayCart(carts);
+}).catch(error => {
+    console.error("Error fetching products for carts:", error);
+});
+
+
+//STYLES AND DESIGN
+
+//REPONSIVE MENU
+const header = document.querySelector("header");
+window.addEventListener("scroll", function(){
+	header.classList.toggle("sticky", window.scrollY > 0);
+
+})
+
+let menu = document.querySelector('#menu-icon');
+let navbar = document.querySelector('.navbar');
+
+menu.onclick = () => {
+	menu.classList.toggle('bx-x');
+	navbar.classList.toggle('open');
+}
+
+window.onscroll = () => {
+	menu.classList.remove('bx-x');
+	navbar.classList.remove('open');
+}
+
+//STYLE FOR CART
 const cartModal = document.getElementById("cartModal");
-
-// Get the cart icon that opens the modal
 const cartIcon = document.querySelector(".bx-cart");
-
-// Get the close button inside the modal
 const cartCloseBtn = document.querySelector(".cart-close");
-
-// Function to toggle the cart modal open and close
 function toggleCartModal() {
     cartModal.classList.toggle("open"); // Toggle the open class
 }
-
-// When the user clicks on the close button (X), close the modal
 cartCloseBtn.onclick = function() {
     toggleCartModal();
 }
-
-// Select all plus and minus buttons
 document.querySelectorAll('.plus-btn').forEach(button => {
     button.addEventListener('click', function() {
         let quantityInput = this.previousElementSibling;
@@ -83,7 +114,6 @@ document.querySelectorAll('.plus-btn').forEach(button => {
         updateCartTotal();
     });
 });
-
 document.querySelectorAll('.minus-btn').forEach(button => {
     button.addEventListener('click', function() {
         let quantityInput = this.nextElementSibling;
@@ -93,73 +123,33 @@ document.querySelectorAll('.minus-btn').forEach(button => {
         }
     });
 });
-
-// Function to update the total price (example function, adjust as needed)
 function updateCartTotal() {
     // Calculate and update the total here
     // This is a placeholder; you can add logic to dynamically update the cart total
 }
 
-// Get the favorites modal element
+//STYLE FOR FAVORITE
 const favoritesModal = document.getElementById("favoritesModal");
-
-// Get the heart icon that opens the favorites modal
-const favoritesIcon = document.querySelector(".bx-heart"); // Adjust selector if necessary
-
-// Get the close button inside the favorites modal
+const favoritesIcon = document.querySelector(".bx-heart")
 const favoritesCloseBtn = document.querySelector(".favorites-close");
-
-// Function to toggle the favorites modal open and close
 function toggleFavoritesModal() {
-    favoritesModal.classList.toggle("open"); // Toggle the open class
+    favoritesModal.classList.toggle("open");
 }
-
-// When the user clicks on the close button (X), close the favorites modal
 favoritesCloseBtn.onclick = function() {
     toggleFavoritesModal();
 }
-
-// When the user clicks anywhere outside of the modal, close it
 window.onclick = function(event) {
     if (event.target == cartModal) {
         closeCartModal();
     }
 }
 
-// Get the modal element
-const loginModal = document.getElementById("loginModal");
-
-// Get the close button inside the modal
-const loginCloseBtn = document.querySelector(".login-close");
-
-// Function to open the modal
-function openLoginModal() {
-    loginModal.style.display = "flex"; // Show the modal
-}
-
-// Function to close the modal
-function closeLoginModal() {
-    loginModal.style.display = "none";
-}
-
-// When the user clicks on the close button (X), close the modal
-loginCloseBtn.onclick = function() {
-    closeLoginModal();
-}
-
-// When the user clicks anywhere outside of the modal, close it
-window.onclick = function(event) {
-    if (event.target == loginModal) {
-        closeLoginModal();
-    }
-}
-
-//ON LOAD CHECKS IF USER HAS BEEN LOGGED IN OR NOT
-document.addEventListener('DOMContentLoaded', async (e)=>{
+//WINDOWS ON LOAD PROGRAM [CHECKS IF USER HAS BEEN LOGGED IN OR NOT]
+window.addEventListener('load', async (e)=>{
     e.preventDefault()
 
     const res = await fetch('/getUserData');
-    const userData = await res.json();
+    userData = await res.json();
 
     const premiumBtn = document.querySelectorAll('.verify');
     const createPizza = document.getElementById('create-pizza');
