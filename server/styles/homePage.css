@@ -560,6 +560,9 @@ header.sticky{
     margin: 2px 0;
 }
 
+#cart-area{
+	overflow: auto;
+}
 
 
 /* Cart Modal Content Layout */

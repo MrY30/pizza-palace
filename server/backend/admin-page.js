@@ -177,18 +177,36 @@ export const addProduct = async (req,res) =>{
 
 export const displayCart = async (req,res) =>{
     const userID = req.params.userId
-    const carts = await  client.query(`SELECT * FROM shopping_cart WHERE user_id = ${userID}`);
-    
+    const carts = await  client.query(`SELECT * FROM shopping_cart WHERE user_id = '${userID}' AND status = 'Cart'`);
     if(carts.rows.length === 0){
         return res.json({ success: false, message: 'Nothing were saved'});
     }
 
     const newResult = await Promise.all(carts.rows.map(async (cart) => {
-        const url = await getPublicUrl(bucketName, carts.image_name)
+        const url = await getPublicUrl(bucketName, cart.image_name)
         return{
             ...cart,
-            cartURL: url || null
+            cartURL: url || null,
+            inCart: true
         }
     }))
     return res.json(newResult);
+}
+
+export const addCart = async (req,res) =>{
+    const userID = req.params.userId
+    const { productID } = req.body
+    const checkProduct = await client.query(`SELECT * FROM shopping_cart WHERE user_id = '${userID}' AND product_id = '${productID}' AND status = 'Cart'`)
+    if(checkProduct.rows.length > 0){
+        return res.json({ result: 2, message: 'Product is available at the cart'})
+    }
+    
+    const selectProduct = await client.query(`SELECT * FROM products_list WHERE id = '${productID}'`)
+    const productCart = selectProduct.rows[0]
+    const addCart = await client.query(`INSERT INTO shopping_cart (user_id, status, name, price, image_name, amount) VALUES ('${userID}', 'Cart', '${productCart.name}', '${productCart.price}', '${productCart.image_name}', '1') RETURNING *`);
+    if (addCart.rowCount > 0) {
+        return res.json({ success: true, message: 'Cart added successfully', user: addCart.rows[0] });
+    } else {
+        return res.json({ success: false, message: 'Cart addition failed' });
+    }
 }
