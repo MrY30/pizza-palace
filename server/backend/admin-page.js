@@ -211,3 +211,4 @@ export const addCart = async (req,res) =>{
         return res.json({ success: false, message: 'Cart addition failed' });
     }
 }
+

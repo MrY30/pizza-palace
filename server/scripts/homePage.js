@@ -147,7 +147,6 @@ const displayCart = (carts) =>{
     })
 }
 
-
 //STYLES AND DESIGN
 
 //REPONSIVE MENU
