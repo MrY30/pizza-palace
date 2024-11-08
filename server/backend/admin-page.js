@@ -118,6 +118,7 @@ export const displayProducts = async (req,res) =>{
 
     const newResult = await Promise.all(products.rows.map(async (product) => {
         const url = await getPublicUrl(bucketName, product.image_name)
+        //const checkProduct = await client.query(`SELECT * FROM shopping_cart WHERE user_id = '${userID}' AND product_id = '${productID}' AND status = 'Cart'`)
         return{
             ...product,
             productURL: url || null

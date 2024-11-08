@@ -85,6 +85,24 @@
 		</div>
 	
 		<div class="menu-content" id="menu-content">
+			<div class="row">
+				<div class="image-frame">
+					<img src="carbonara.jpg" alt="carbonara">
+				</div>
+				<div class="menu-text">
+					<div class="menu-left">
+						<h4>carbonara</h4>
+					</div>
+					<div class="menu-right">
+						<h5>carbonara</h5>
+					</div>
+				</div>
+				<p>A rich and creamy Italian pasta dish made with eggs, cheese, cured pork, and black pepper</p>
+				<div class="favorite">
+                    <span class = "category">Pasta</span>
+					<i data-id="1" class='bx bxs-cart add-fave' ></i>
+				</div>
+			</div>
 		</div>
 	</section>
 	
@@ -138,6 +156,20 @@
 			<h2>Your Cart</h2>
 			<div id="cart-area">
 				<!-- CART ITEMS ARE ADDED DYANMICALLY -->
+				<div class="cart-item">
+					<div class="cart-item-image">
+						<img src="${cart.cartURL}" alt="${cart.name}">
+					</div>
+					<div class="cart-item-details">
+						<h4>${cart.name}</h4>
+						<div class="quantity-control">
+							<button class="quantity-btn minus-btn">-</button>
+							<input type="number" class="quantity-input" value="${cart.amount}" min="1">
+							<button class="quantity-btn plus-btn">+</button>
+						</div>
+						<p>Price: ₱${cart.price}</p>
+					</div>
+				</div>
 			</div>
 			<!-- Bottom Section for Total and Order Button -->
 			<div class="cart-bottom">
