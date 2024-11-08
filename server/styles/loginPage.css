@@ -6,7 +6,7 @@
     --light-main-color: #ff9831;
     --lighter-main-color: #fff0e0;
     --second-color: #494830;
-    --bg-color: #FCF6B5;
+    --bg-color: #dfc997;
     --header-color: #32613E;
     --dark-header-color: #2E5939;
     --light-header-color: #357745;
@@ -19,26 +19,58 @@
     box-sizing: border-box;
     margin: 0;
     padding: 0;
-    font-family: Arial, sans-serif;
+    font-family: 'Goudy Bookletter 1911', serif;
 }
 
 body {
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh;
+    height: 100vh; /* Ensures the container takes full viewport height */
+    margin: 0;
     background-color: var(--bg-color);
 }
 
 .container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
     width: 100%;
-    max-width: 500px;
+    max-width: 1200px; /* Adjusted to match the form width */
     padding: 20px;
 }
 
-.form-container {
+.logo-container {
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+.logo-container img {
+    width: 250px; /* Adjust based on your preference */
+    height: auto;
+    margin-bottom: -20px;
+}
+
+/* Targeting the logo inside the signup-form container */
+#signup-form .logo-container img {
+    width: 150px; /* Adjust the width for the signup form */
+    height: auto; /* Maintain aspect ratio */
+    margin-bottom: -20px; /* Small margin to separate from form */
+}
+
+/* Optional: Adjust positioning for the logo container inside signup form */
+#signup-form .logo-container {
+    text-align: center;
+    margin-bottom: 20px; /* Decrease the gap between logo and form */
+}
+
+#signup-form {
+    width: 100%;
+    max-width: 1200px;
+    margin: 10px auto 0 auto; /* Adjusted top margin to push form lower */
     background-color: var(--white-color);
-    padding: 30px;
+    padding: 20px;
     border-radius: 10px;
     box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
     text-align: center;
@@ -46,9 +78,125 @@ body {
     transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-.form-container:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.3);
+
+#signup-form label {
+    font-family: 'Goudy Bookletter 1911', serif;
+    font-size: 16px;
+    font-weight: bold;
+    color: #b2381e;
+}
+
+/* Style for the signup-specific logo above the form */
+#signup-logo {
+    display: flex;
+    justify-content: center;
+    margin-top: -70px; /* Use a negative value to move it up */
+}
+
+/* Customize the signup logo image size */
+#signup-logo img {
+    width: 150px; /* Adjust as needed */
+    height: auto;
+}
+
+/* Ensure the logo only shows when signup form is visible */
+#signup-logo.hidden {
+    display: none;
+}
+
+/* Adjust the size of the Sign Up button */
+#signup-form button {
+    width: 50%; /* Shortens the button width */
+    padding: 12px;
+    background-color: #b2381e;
+    color: #dfc997;
+    border: none;
+    border-radius: 8px;
+    font-family: 'Goudy Bookletter 1911', serif;
+    font-weight: bold;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin-top: 20px;
+}
+
+
+/* Styling for Two-Column Layout in Signup Form */
+#signup-form .two-column {
+    display: flex;
+    gap: 20px; /* Spacing between columns */
+    margin-bottom: 20px;
+}
+
+/* Adjust Input Fields to Span Half Width */
+#signup-form .two-column > div {
+    flex: 1;
+}
+
+/* Full-Width Single Column (for elements like Password) */
+#signup-form .single-column {
+    margin-bottom: 20px;
+}
+
+/* Styling the Message Text */
+#signup-form .message {
+    font-size: 14px;
+    color: #b2381e;
+    font-family: 'Goudy Bookletter 1911', serif;
+    font-weight: bold;
+    text-align: center;
+    margin-top: 15px;
+}
+
+/* Add extra space after the first row in the signup form */
+#signup-form .form-column .two-column + label {
+    margin-top: -20px; /* Adjust this value to increase or decrease the gap */
+}
+
+#signup-form .message a {
+    color: var(--main-color);
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+#signup-form .message a:hover {
+    color: var(--dark-main-color);
+}
+
+.form-container {
+    width: 100%; /* Takes full width of the container */
+    max-width: 500px; /* Limits the max width to 350px */
+    margin: 20px auto; /* Center-aligns the container and adds vertical space */
+    background-color: var(--white-color);
+    padding: 25px 35px; /* Internal padding for a spacious feel */
+    border-radius: 10px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    text-align: center;
+    color: var(--text-color);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.form-container label {
+    font-family: 'Goudy Bookletter 1911', serif; /* Change to your desired font */
+    font-size: 16px; /* Adjust the size as needed */
+    font-weight: bold; /* Make it bold if desired */
+    color: #b2381e; /* Adjust color as desired */
+}
+
+
+.form-container h2 {
+    color: #b2381e; /* Use a color variable or specify a custom color */
+    font-family: 'Goudy Bookletter 1911', serif; /* Change to a different font style */
+    font-size: 28px; /* Adjust the size as needed */
+    font-weight: bold; /* Make it bold if desired */
+    margin-bottom: 20px;
+}
+
+@media (max-width: 480px) {
+    .form-container {
+        max-width: 90%; /* Makes it almost full-width on mobile */
+        padding: 20px; /* Reduces padding for smaller screens */
+    }
 }
 
 .hidden {
@@ -77,12 +225,25 @@ input[type="date"] {
     width: 100%;
     padding: 12px;
     margin-bottom: 15px;
-    border: 1px solid var(--light-main-color);
+    border: 2.5px solid #b2381e;
     border-radius: 8px;
     background-color: var(--lighter-main-color);
     color: var(--text-color);
     font-size: 14px;
+    font-family: 'Goudy Bookletter 1911', serif;
     transition: border-color 0.3s ease;
+    background-color: #f4dca7;
+}
+
+input[type="text"]::placeholder,
+input[type="email"]::placeholder,
+input[type="tel"]::placeholder,
+input[type="password"]::placeholder,
+input[type="date"]::placeholder {
+    color: #b2381e; /* Set font color for placeholder text */
+    font-family: 'Goudy Bookletter 1911', serif; /* Set desired font style for placeholder */
+    font-size: 16px; /* Adjust font size for placeholder */
+    font-weight: normal; /* Set font weight for placeholder */
 }
 
 input[type="text"]:focus,
@@ -91,17 +252,20 @@ input[type="tel"]:focus,
 input[type="password"]:focus,
 input[type="date"]:focus {
     outline: none;
-    border-color: var(--dark-main-color);
+    border-color: #3d5b3f;
 }
 
 button {
     width: 100%;
     padding: 12px;
-    background-color: var(--main-color);
-    color: var(--white-color);
+    margin-top: 10px; /* Add space above the button */
+    background-color: #b2381e;
+    color: #dfc997;
     border: none;
     border-radius: 8px;
     font-size: 16px;
+    font-family: 'Goudy Bookletter 1911', serif; /* Set the desired font */
+    font-weight: bolder;
     cursor: pointer;
     transition: background-color 0.3s ease, transform 0.3s ease;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
@@ -115,7 +279,9 @@ button:hover {
 
 .message {
     font-size: 14px;
-    color: var(--light-text-color);
+    color: #b2381e;
+    font-family: 'Goudy Bookletter 1911', serif; /* Set the desired font for the message */
+    font-weight: bold; /* Optional: make the text bold */
 }
 
 .message a {
@@ -130,12 +296,44 @@ button:hover {
     text-decoration: underline;
 }
 
+/* Center the form columns and make them aligned */
+.form-columns {
+    display: flex;
+    gap: 30px; /* Adjust the spacing between columns */
+    justify-content: center; /* Center align the columns */
+}
+
+
+.form-column {
+    flex: 1;
+    /*display: flex;
+    flex-direction: column; */
+}
+
 .two-column {
     display: flex;
     gap: 10px;
+    margin-bottom: 15px;
 }
 
-.two-column div,
-.two-column input[type="text"] {
+.single-column {
+    margin-bottom: 15px;
+}
+
+.two-column > div,
+.two-column > input[type="text"],
+.two-column > input[type="tel"],
+.two-column > input[type="date"],
+.two-column > input[type="email"],
+.two-column > input[type="password"] {
     flex: 1;
+}
+
+/* Align inputs inside each column */
+.form-column input[type="text"],
+.form-column input[type="email"],
+.form-column input[type="tel"],
+.form-column input[type="password"],
+.form-column input[type="date"] {
+    width: 100%; /* Ensures the inputs take full width within their column */
 }

@@ -24,10 +24,12 @@ header {
 
 header img {
     height: 3rem;
+    max-width: 100%;
 }
 
 .progress-bar {
-    width: 80%;
+    width: 90%;
+    max-width: 1200px;
     height: 12px;
     background-color: #c05d34;
     margin: 20px auto;
@@ -50,13 +52,16 @@ header img {
 main {
     flex: 1;
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
     padding: 20px;
+    padding-left: 150px;
 }
 
 #container {
     display: flex;
+    flex-direction: column;
     justify-content: flex-start;
     align-items: flex-start;
     gap: 20px;
@@ -70,7 +75,34 @@ main {
     display: flex;
     justify-content: center;
     align-items: center;
+    position: relative; /* Ensure toppings are positioned relative to this container */
+    width: 100%; /* Responsive width */
+    max-width: 450px; /* Adjust to your desired maximum */
     margin-left: -150px;
+}
+
+.topping-overlay {
+    position: absolute;
+    top: 50%; /* Center vertically */
+    left: 50%; /* Center horizontally */
+    transform: translate(-50%, -50%); /* Adjusts the image to be centered */
+    width: 90%; /* Adjust this size based on pizza size */
+    height: auto;
+    pointer-events: none;
+    z-index: 2; /* Ensure it stays on top of the base pizza */
+}
+
+.cut-overlay {
+    z-index: 3; /* Higher than the toppings */
+}
+
+
+img[id^="custom-pizza"] {
+    transition: transform 0.5s ease-in-out, width 0.5s ease; /* Smooth resizing */
+    width: 100%; /* Ensures responsive behavior */
+    max-width: 100%; /* Prevents image from exceeding container */
+    height: auto; /* Maintains aspect ratio */
+    object-fit: contain; /* Keeps image contained within boundaries */
 }
 
 #custom-pizza {
@@ -78,6 +110,117 @@ main {
     max-width: 450px;
     transition: transform 0.5s ease-in-out;
 }
+
+#custom-pizza5 {
+    width: 100%; /* Matches the pizza size */
+    max-width: 450px; /* Adjust for responsiveness */
+    height: auto; /* Maintain aspect ratio */
+    object-fit: contain; /* Keep image contained within its boundaries */
+}
+
+.review-option {
+    width: 90%; /* Adjust this value as needed */
+    max-width: 700px; /* Ensure it does not exceed the container size */
+    height: auto; /* Maintain aspect ratio */
+    display: block;
+    margin: 0 auto; /* Center align */
+}
+
+.review-details {
+    display: flex;
+    justify-content: flex-start; /* Ensures the table aligns to the left */
+    margin-top: 10px; /* Adjust as needed */
+    margin-left: 150px; /* Use negative margin to move it further to the left */
+    width: 100%;
+    max-width: 800px; /* Adjust width as needed */
+    position: relative;
+    top: -30px; /* Adjust upward if needed */
+}
+
+
+/* Adjust font size, color, and alignment */
+.specification, .price {
+    flex: 1;
+    margin: 0 10px;
+    text-align: center; /* Change alignment here (e.g., left, right, center) */
+    background-color: #dfc997; /* Background color if needed */
+    border: 1px solid #b2381e;
+    padding: 15px;
+    border-radius: 10px;
+}
+
+.specification h3, .price h3 {
+    color: #3d5b3f; /* Change color as needed */
+    font-family: 'Goudy Bookletter 1911', serif;
+    margin-bottom: 10px;
+    font-size: 1.5rem; /* Adjust font size */
+}
+
+.specification p, .price p {
+    color: #3d5b3f; /* Change color as needed */
+    font-size: 1.2rem; /* Adjust font size */
+    line-height: 1.5; /* Adjust line height */
+    text-align: center; /* Change alignment here */
+}
+
+
+.styled-table {
+    width: 80%; /* Adjust width */
+    margin: 0; /* Remove top margin */
+    border-collapse: collapse;
+    font-family: Arial, sans-serif;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.styled-table th, .styled-table td {
+    border: 1px solid #ddd;
+    padding: 10px;
+    text-align: center;
+}
+
+.styled-table th {
+    background-color: #b2381e;
+    color: #dfc997;
+    font-size: 1.1em;
+    font-family: 'Rubik', sans-serif;
+    font-weight: bold; /* Optionally make it bold */
+
+}
+
+.styled-table tr:nth-child() {
+    background-color: #dfc997;
+}
+
+.styled-table tr:last-child td {
+    color: #dfc997; /* Replace with your desired color */
+}
+
+
+.styled-table td {
+    font-size: 1em;
+    color: #3d5b3f;
+}
+
+.styled-table .total-price-row {
+    font-family: 'Rubik', sans-serif;
+    font-weight: bold; /* Optional: make the text bold */
+    font-weight: bold;
+    background-color: #b2381e;
+}
+
+.total-price {
+    margin-top: 20px;
+    text-align: center;
+}
+.total-price h3 {
+    color: #3d5b3f;
+    font-size: 1.5em;
+}
+.total-price p {
+    font-size: 1.3em;
+    color: #3d5b3f;
+}
+
 
 
 .rotate {
@@ -93,17 +236,32 @@ main {
     align-items: center;
     /*max-width: 400px; */
     margin-right: -100px;
+    padding: 0;
 }
 
-.title-container {
-    margin-bottom: 10px;
-    margin-top: 10px;
+.title-container img {
+    max-width: 100%; /* Keep responsive */
+    width: 400px; /* Adjust this width to match your desired size */
+    height: auto; /* Maintain aspect ratio */
+    margin: 0 auto; /* Center align */
+    display: block; /* Ensure block layout for consistency */
 }
+
+/* Optional: Add a consistent container size */
+.title-container {
+    width: 300px; /* Match this width to align with the image */
+    margin: 0 auto; /* Center the container */
+    margin-bottom: 20px
+}
+
 
 .title-image {
     max-width: 100%;
-    width: 300px;
+    width: 350px; /* Adjust this value as needed for consistent size */
+    height: auto;
+    margin: 0 auto; /* Center the image */
 }
+
 
 .crust-options {
     display: flex;
@@ -146,6 +304,35 @@ main {
     margin-top: 20px;
 }
 
+#section5 #buttons {
+    display: flex;
+    justify-content: center;
+    gap: 40px; /* Adjust the space between buttons as needed */
+    margin-top: 20px;
+    width: 100%; /* Ensure full-width layout */
+}
+
+#section5 .order-button {
+    background-color: #b2381e;
+    color: #dfc997;
+    border: none;
+    padding: 10px 30px; /* Consistent padding */
+    font-size: 1.5rem; /* Consistent font size */
+    font-family: 'Goudy Bookletter 1911', serif;
+    font-weight: bolder;
+    border-radius: 20px; /* Rounded corners */
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    min-width: 150px; /* Ensure a consistent button width */
+    text-align: center;
+}
+
+#section5 .order-button:hover {
+    background-color: #db9247;
+    transform: scale(1.05);
+}
+
+
 .order-button {
     background-color: #b2381e;
     color: #dfc997;
@@ -172,10 +359,23 @@ footer {
     text-align: center;
 }
 
+img[id^="custom-pizza"] {
+    width: 90%; /* Ensures images have the same base width */
+    max-width: 450px; /* Adjust to match your desired maximum size */
+    height: auto; /* Maintain aspect ratio */
+    object-fit: contain; /* Ensure the image fits well within its container */
+    transition: transform 0.5s ease-in-out, width 0.5s ease; /* Smooth resizing */
+}
+
 
 .crust-options img.thick-crust {
     width: var(--crust-image-width);
     height: var(--crust-image-height);
+}
+
+.slice-options img.triangle-option {
+    width: var(--slice-image-width);
+    height: var(--slice-image-height);
 }
 
 .crust-options img.thin-crust {
@@ -183,7 +383,19 @@ footer {
     height: var(--crust-image-height);
 }
 
+.slice-options img.square-option {
+    width: var(--slice-image-width);
+    height: var(--slice-image-height);
+}
+
 .crust-options {
+    display: flex;
+    justify-content: space-around;
+    gap: 20px; /* Adjust value as needed for spacing */
+    margin-bottom: 20px;
+}
+
+.slice-options {
     display: flex;
     justify-content: space-around;
     gap: 20px; /* Adjust value as needed for spacing */
@@ -196,17 +408,36 @@ footer {
     transition: transform 0.3s ease; /* Smooth transition */
 }
 
-.size-options-grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr); /* Two columns */
-    gap: 5px 15px; /* Adjust the vertical and horizontal gaps */
-    margin-bottom: 20px;
+.slice-options img:hover {
+    transform: scale(1.1); /* Adjust scale as needed */
+    transition: transform 0.3s ease; /* Smooth transition */
 }
+
 
 .title-image {
     max-width: 100%; /* Ensure consistent size */
     width: 300px; /* Match this width with Section 1 */
     height: auto;
+}
+
+.size-options-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr); /* Two columns */
+    gap: 15px; /* Adjust as needed */
+    width: 70%; /* Ensure the grid container uses the full available width */
+    margin: 0 auto; /* Center the grid container */
+    padding: 0; /* Remove any padding */
+    box-sizing: border-box; /* Include padding/border in width calculation */
+}
+
+.topping-options-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); /* Two columns */
+    gap: 15px; /* Adjust as needed */
+    width: 70%; /* Ensure the grid container uses the full available width */
+    margin: 0 auto; /* Center the grid container */
+    padding: 0; /* Remove any padding */
+    box-sizing: border-box; /* Include padding/border in width calculation */
 }
 
 .size-option {
@@ -215,17 +446,53 @@ footer {
     text-align: center;
     transition: transform 0.3s ease, background-color 0.3s ease;
     cursor: pointer;
+    margin: 0 !important;
+    padding: 0 !important;
+    box-sizing: border-box;
 }
+
+.toppings-option {
+    width: 100%; /* Allow it to fit within the grid cell */
+    background-color: transparent;
+    text-align: center;
+    transition: transform 0.3s ease, background-color 0.3s ease;
+    cursor: pointer;
+    margin: 0 !important;
+    padding: 0 !important;
+    box-sizing: border-box;
+}
+
 
 .size-option img {
-    max-width: 100%;
+    display: block;
+    width: 100%;
     height: auto;
-    margin-bottom: 10px;
+    margin:0;
+    object-fit: cover;
 }
 
+.toppings-option img {
+    display: block;
+    width: 100%;
+    height: auto;
+    margin:0;
+    object-fit: cover;
+}
+
+
 #smallOption, #regularOption, #largeOption, #familyOption {
-    max-width: 80%; /* Adjust as needed */
+    max-width: 100%; /* Adjust as needed */
     height: auto; /* Maintain aspect ratio */
+}
+
+#pepperoniOption, #mushroomOption, #pineappleOption, #olivesOption, #baconOption, #shrimpOption {
+    max-width: 100%; /* Adjust as needed */
+    height: auto; /* Maintain aspect ratio */
+}
+
+.toppings-option img:hover {
+    transform: scale(1.1); /* Slightly enlarge on hover */
+    transition: transform 0.3s ease, box-shadow 0.3s ease; /* Smooth transition */
 }
 
 .size-option h3,
@@ -239,6 +506,24 @@ footer {
     transform: scale(1.1); /* Slightly enlarge on hover */
     transition: transform 0.3s ease, box-shadow 0.3s ease; /* Smooth transition */
     
+}
+
+/* Make the slice-options images match the crust-options */
+.slice-options img,
+.slice-options img.triangle-option,
+.slice-options img.square-option {
+    width: 300px !important; /* Adjust as needed */
+    height: 300px !important; /* Adjust as needed */
+    margin-bottom: 10px;
+    border-radius: 5px;
+    margin: 0;
+    padding: 0;
+}
+
+/* Ensure hover effect matches crust-options */
+.slice-options img:hover {
+    transform: scale(1.1); /* Adjust scale as needed */
+    transition: transform 0.3s ease; /* Smooth transition */
 }
 
 
@@ -274,6 +559,7 @@ footer {
         opacity: 0;
     }
 }
+
 
 /* Slide-in transition */
 .slide-section.active {

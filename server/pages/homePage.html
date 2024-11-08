@@ -8,7 +8,6 @@
     <link rel="stylesheet" href="/styles/homePage.css">
 
 	<link rel="stylesheet" href="https://unpkg.com/boxicons@latest/css/boxicons.min.css">
-
 	<link rel="preconnect" href="https://fonts.googleapis.com">
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 	<link href="https://fonts.googleapis.com/css2?family=Raleway:wght@100;200;300;400;500;600;700&display=swap" rel="stylesheet">
@@ -26,11 +25,14 @@
 			<li><a href="#contact">Contact</a></li>
 		</ul>
 
+		
 		<div class="h-icons">
-			<a href="#"><i class='bx bx-heart' ></i></a>
-			<a href="#"><i class='bx bx-cart' ></i></a>
+			<a href="#"><i class='bx bx-heart verify' ></i></a>
+			<a href="#"><i class='bx bx-cart verify' ></i></a>
+			<a href="#"><i class='bx bxs-user verify'></i></a>
 			<div class="bx bx-menu" id="menu-icon"></div>
 		</div>
+
 	</header>
 
 	<!-- home section -->
@@ -62,11 +64,18 @@
 
 	<!-- menu section -->
 	<section class="menu" id="menu">
-		<div class="main-text">
+		<div class="menu-header">
 			<h2>Our Menu</h2>
-			<p>We have selected for you the most exquisite tastes around the world</p>
+			
+			<!-- Search Bar -->
+			<div class="search-bar">
+				<input type="text" placeholder="Search Menu..." />
+				<button type="submit"><i class='bx bx-search'></i></button>
+			</div>
 		</div>
-
+	
+		<p>We have selected for you the most exquisite tastes around the world</p>
+	
 		<div class="filter-category">
 			<a class="btn-select">All</a>
 			<a class="btn-unselect">Pasta</a>
@@ -74,11 +83,12 @@
 			<a class="btn-unselect">Salad</a>
 			<a class="btn-unselect">Dessert</a>
 		</div>
-
+	
 		<div class="menu-content" id="menu-content">
+			
 		</div>
-
 	</section>
+	
 
 	<!-- contact section -->
 	<section class="feedback" id="feedback">
@@ -109,43 +119,44 @@
 
 	<!-- footer -->
 	<div class="last-text">
-		<p>© Developed 2023 by Ilya Korobeynikov</p>
+		<p>© Developed 2024 by Error:404</p>
 	</div>
 
-	<!-- Cart Modal -->
-	<div id="cartModal" class="cart-modal">
-		<div class="cart-modal-content">
-			<span class="cart-close">&times;</span>
-			<h2>Your Cart</h2>
-			<p>No items in the cart.</p>
-			<!-- You can add more cart content here, like a list of items -->
+<!-- Cart Modal -->
+<div id="cartModal" class="cart-modal">
+    <div class="cart-modal-content">
+        <span class="cart-close">&times;</span>
+        <h2>Your Cart</h2>
+        <div id="cart-area">
+            <!-- CART ITEMS ARE ADDED DYNAMICALLY -->
+        </div>
+        <!-- Bottom Section for Total and Order Button -->
+        <div class="cart-bottom">
+            <!-- Total Price -->
+            <div class="cart-total">
+                <p>Total: ₱1000</p>
+            </div>
+            <!-- Order Now Button -->
+            <button class="order-now-btn">Order Now</button>
+        </div>
+    </div>
+</div>
+
+
+	<!-- Favorites Modal -->
+	<div id="favoritesModal" class="favorites-modal">
+		<div class="favorites-modal-content">
+			<span class="favorites-close">&times;</span>
+			<h2>Your Favorites</h2>
+			<p>No items in your favorites list.</p>
+			<!-- Additional favorites content can go here -->
 		</div>
 	</div>
-
-	<!-- Login Modal -->
-	<div id="loginModal" class="login-modal">
-		<div class="login-modal-content">
-			<span class="login-close">&times;</span>
-			<h2>Login</h2>
-			<form action="/login" method="POST">
-				<label for="username">Username</label>
-				<input type="text" id="username" name="username" required>
-
-				<label for="password">Password</label>
-				<input type="password" id="password" name="password" required>
-
-				<button type="submit" class="login-btn">Login</button>
-			</form>
-		</div>
-	</div>
-
+	
 	<!-- scroll top -->
 	<a href="#home" class="scroll-top">
 		<i class='bx bx-up-arrow-alt' ></i>
 	</a>
-
-	<!-- custom scrollreveal link -->
-	<!-- <script src="https://unpkg.com/scrollreveal"></script> -->
 	
 	<!-- custom js link -->
 	<script type="text/javascript" src="/scripts/homePage.js"></script>

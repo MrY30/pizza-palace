@@ -1,33 +1,73 @@
-//REPONSIVE MENU
-const header = document.querySelector("header");
-window.addEventListener("scroll", function(){
-	header.classList.toggle("sticky", window.scrollY > 0);
+let userID
+//WINDOWS ON LOAD PROGRAM [CHECKS IF USER HAS BEEN LOGGED IN OR NOT]
+window.addEventListener('load', async (e)=>{
+    e.preventDefault()
 
+    const res = await fetch('/getUserData');
+    const userData = await res.json();
+    userID = userData.userId
+
+    const premiumBtn = document.querySelectorAll('.verify');
+    const createPizza = document.getElementById('create-pizza');
+
+    if(!userData.userId){
+        premiumBtn.forEach(btn => {
+            btn.addEventListener('click', () => {
+                window.location.href = '/login';
+            });
+        });
+        menuArea.addEventListener('click', (event) => {
+            if (event.target && event.target.classList.contains('add-fave')) {
+                window.location.href = '/login';
+            }
+        });
+    }else{
+        //ALLOWS USER BUTTONS
+        cartIcon.onclick = () =>{ toggleCartModal(); };
+        favoritesIcon.onclick = () =>{ toggleFavoritesModal();};
+        createPizza.addEventListener('click',()=>{ window.location.href = '/pizza'; })
+
+        //HEART BUTTON
+        menuArea.addEventListener('click', function(e) {
+            if (e.target.classList.contains('add-cart-image')) {
+                // Toggle between outlined and filled heart icons
+                const cart = e.target;
+                addToCart(cart.dataset.id);
+            }
+        });
+
+        //DISPLAY CART
+        getCart().then(carts => {
+            displayCart(carts);
+        }).catch(error => {
+            console.error("Error fetching products for carts:", error);
+        });
+    }
 })
 
-let menu = document.querySelector('#menu-icon');
-let navbar = document.querySelector('.navbar');
+//ADD TO CART
+async function addToCart(productId){
+    const id = productId
+    const response = await fetch(`/cart/${userID}`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ productID: id }),
+    });
 
-menu.onclick = () => {
-	menu.classList.toggle('bx-x');
-	navbar.classList.toggle('open');
+    const result = await response.json();
+    alert(result.message);
+    if(result.success){
+        getCart().then(carts => {
+            displayCart(carts);
+        }).catch(error => {
+            console.error("Error fetching products for carts:", error);
+        });
+    }
 }
 
-window.onscroll = () => {
-	menu.classList.remove('bx-x');
-	navbar.classList.remove('open');
-}
-
-//NEW SCROLL REVEAL
-
-// const sr = ScrollReveal ({
-// 	distance: '30px', 
-// 	duration: 2500,
-// 	reset: true
-// })
-// sr.reveal('.home-text',{delay:200, origin:'left'});
-// sr.reveal('.home-img',{delay:200, origin:'right'});
-// sr.reveal('.about, .menu, .contact',{delay:200, origin:'bottom'});
+//DISPLAY FUNCTIONS
 
 //DISPLAY PRODUCTS TO MENU
 const menuArea = document.getElementById("menu-content");
@@ -53,79 +93,157 @@ const displayMenu = (products) => {
 					</div>
 				</div>
 				<p>${product.description}</p>
-				<div class="favorite">
-					<i class='bx bx-heart' ></i>
-				</div>
+				<div class="menu-actions">
+					<span class="category-text">${product.category}</span>
+					<button class="add-cart-btn">
+						<img src="/img/addtoCart.png" alt="Add to Cart" class="add-cart-image" data-id="${product.id}">
+					</button>
+				</div>				
 			</div>
         `;
     });
 };
-
 getProduct().then(products => {
     displayMenu(products);
 }).catch(error => {
     console.error("Error fetching products:", error);
 });
 
-// document.querySelectorAll('.favorite i').forEach(heart => {
-//     heart.addEventListener('click', function() {
-//         // Toggle between outlined and filled heart icons
-//         if (this.classList.contains('bx-heart')) {
-//             this.classList.remove('bx-heart');
-//             this.classList.add('bxs-heart', 'active');
-//         } else {
-//             this.classList.remove('bxs-heart', 'active');
-//             this.classList.add('bx-heart');
-//         }
-//     });
-// });
+//DISPLAY CARTS TO SHOPPING CART
+const cartArea = document.getElementById('cart-area');
+const getCart = async () =>{
+    const res = await fetch(`/cart/${userID}`);
+    const carts = await res.json();
+	return carts;
+}
+const displayCart = (carts) =>{
+    cartArea.innerHTML = ''
+    carts.forEach(cart =>{
+        cartArea.innerHTML += `
+            <div class="cart-item">
+                <div class="cart-item-image">
+                    <input type="checkbox" class="cart-checkbox">
+                    <img src="${cart.cartURL}" alt="${cart.name}">
+                </div>
+                <div class="cart-item-details">
+                    <h4>${cart.name}</h4>
+                    <div class="quantity-control">
+                        <button class="quantity-btn minus-btn">-</button>
+                        <input type="number" class="quantity-input" value="${cart.amount}" min="1">
+                        <button class="quantity-btn plus-btn">+</button>
+                    </div>
+                    <p>Price: ${cart.price}</p>
+                    <span class="delete-item" id="delete-item" data-product-id="${cart.product_id}">Remove Item</span>
+                </div>
+            </div>
+        `
+    })
+}
 
-// Attach event listener to the parent container (menuArea)
-menuArea.addEventListener('click', function(e) {
-    if (e.target.classList.contains('bx-heart') || e.target.classList.contains('bxs-heart')) {
-        // Toggle between outlined and filled heart icons
-        const heart = e.target;
-        if (heart.classList.contains('bx-heart')) {
-            heart.classList.remove('bx-heart');
-            heart.classList.add('bxs-heart', 'active');
-        } else {
-            heart.classList.remove('bxs-heart', 'active');
-            heart.classList.add('bx-heart');
-        }
+//DELETING ITEMS FROM CART
+document.getElementById("cart-area").addEventListener("click", async (e) => {
+    e.preventDefault()
+    if (e.target.classList.contains("delete-item")) {
+        const res = await fetch('/getUserData');
+        const userData = await res.json();
+
+        const productId = e.target.getAttribute("data-product-id");
+
+        deleteCartItem(userData.userId, productId, e.target.closest('.cart-item'));
     }
 });
 
+const deleteCartItem = async (userId, productId, cartItemElement) => {
+    try {
+        const response = await fetch(`/cart/${userId}/${productId}`, {
+            method: 'DELETE',
+        });
 
-// Get the cart modal element
+        const result = await response.json();
+        if (result.success) {
+            // Remove the cart item from the DOM
+            cartItemElement.remove();
+            alert(result.message);
+        } else {
+            alert(result.message);
+        }
+    } catch (error) {
+        console.error('Error:', error);
+        alert('An error occurred while removing the product from the cart');
+    }
+};
+
+//STYLES AND DESIGN
+
+//REPONSIVE MENU
+const header = document.querySelector("header");
+window.addEventListener("scroll", function(){
+	header.classList.toggle("sticky", window.scrollY > 0);
+
+})
+
+let menu = document.querySelector('#menu-icon');
+let navbar = document.querySelector('.navbar');
+
+menu.onclick = () => {
+	menu.classList.toggle('bx-x');
+	navbar.classList.toggle('open');
+}
+
+window.onscroll = () => {
+	menu.classList.remove('bx-x');
+	navbar.classList.remove('open');
+}
+
+//STYLE FOR CART
 const cartModal = document.getElementById("cartModal");
-
-// Get the cart icon that opens the modal
 const cartIcon = document.querySelector(".bx-cart");
-
-// Get the close button inside the modal
 const cartCloseBtn = document.querySelector(".cart-close");
-
-// Function to open the cart modal
-function openCartModal() {
-    cartModal.style.display = "flex"; // Show the modal
+function toggleCartModal() {
+    cartModal.classList.toggle("open"); // Toggle the open class
 }
-
-// Function to close the cart modal
-function closeCartModal() {
-    cartModal.style.display = "none";
-}
-
-// When the user clicks on the cart icon, open the modal
-cartIcon.onclick = function() {
-    openCartModal();
-}
-
-// When the user clicks on the close button (X), close the modal
 cartCloseBtn.onclick = function() {
-    closeCartModal();
+    toggleCartModal();
+}
+document.querySelectorAll('.plus-btn').forEach(button => {
+    button.addEventListener('click', function() {
+        let quantityInput = this.previousElementSibling;
+        quantityInput.value = parseInt(quantityInput.value) + 1;
+        updateCartTotal();
+    });
+});
+document.querySelectorAll('.minus-btn').forEach(button => {
+    button.addEventListener('click', function() {
+        let quantityInput = this.nextElementSibling;
+        if (parseInt(quantityInput.value) > 1) {
+            quantityInput.value = parseInt(quantityInput.value) - 1;
+            updateCartTotal();
+        }
+    });
+});
+document.querySelectorAll('.delete-item').forEach((item) => {
+    item.addEventListener('click', (event) => {
+        const cartItem = event.target.closest('.cart-item');
+        cartItem.remove();
+        // Update the cart total if necessary
+    });
+});
+
+function updateCartTotal() {
+    // Calculate and update the total here
+    // This is a placeholder; you can add logic to dynamically update the cart total
 }
 
-// When the user clicks anywhere outside of the modal, close it
+//STYLE FOR FAVORITE
+const favoritesModal = document.getElementById("favoritesModal");
+const favoritesIcon = document.querySelector(".bx-heart")
+const favoritesCloseBtn = document.querySelector(".favorites-close");
+function toggleFavoritesModal() {
+    favoritesModal.classList.toggle("open");
+}
+favoritesCloseBtn.onclick = function() {
+    toggleFavoritesModal();
+}
 window.onclick = function(event) {
     if (event.target == cartModal) {
         closeCartModal();

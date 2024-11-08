@@ -293,7 +293,7 @@ document.getElementById('add-form').addEventListener('submit', async function (e
         if(result.success){
             alert(result.message);
             addProduct.classList.add('hidden');
-            productDisplay(e);
+            showAdminPanel();
         }
     } catch (error) {
         console.log('Error uploading file and data:', error);
