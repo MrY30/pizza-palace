@@ -7,7 +7,7 @@ import dotenv from 'dotenv';
 dotenv.config();
 
 //IMPORT BACKEND
-import {checkLogIn, displayProducts, addProduct, checkCustomer, newUser, getData, displayCart, addCart} from './backend/admin-page.js';
+import {checkLogIn, displayProducts, addProduct, checkCustomer, newUser, getData, displayCart, addCart, deleteCart} from './backend/admin-page.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -41,6 +41,7 @@ app.post('/login/signup', newUser);
 //CARTS
 app.get('/cart/:userId', displayCart)
 app.post('/cart/:userId', addCart)
+app.delete('/cart/:userId/:productId', deleteCart)
 
 app.get('/getUserData', getData)
 
@@ -64,9 +65,19 @@ app.get("/admin", (req, res) => {
   res.sendFile(path.join(__dirname, '/pages', 'adminPage.html'));
 });
 
-// Serve the /admin HTML file
+// Serve the /login HTML file
 app.get("/login", (req, res) => {
   res.sendFile(path.join(__dirname, '/pages', 'loginPage.html'));
+});
+
+// Serve the /order HTML file
+app.get("/order", (req, res) => {
+  res.sendFile(path.join(__dirname, '/pages', 'orderPage.html'));
+});
+
+// Serve the /profile HTML file
+app.get("/profile", (req, res) => {
+  res.sendFile(path.join(__dirname, '/pages', 'profilePage.html'));
 });
 
 app.listen(port, () => {

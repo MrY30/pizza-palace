@@ -1,13 +1,10 @@
-//GET USER ID
 let userID
-
 //WINDOWS ON LOAD PROGRAM [CHECKS IF USER HAS BEEN LOGGED IN OR NOT]
 window.addEventListener('load', async (e)=>{
     e.preventDefault()
 
     const res = await fetch('/getUserData');
     const userData = await res.json();
-
     userID = userData.userId
 
     const premiumBtn = document.querySelectorAll('.verify');
@@ -32,21 +29,10 @@ window.addEventListener('load', async (e)=>{
 
         //HEART BUTTON
         menuArea.addEventListener('click', function(e) {
-            if (e.target.classList.contains('bx-heart') || e.target.classList.contains('bxs-heart')) {
+            if (e.target.classList.contains('add-cart-image')) {
                 // Toggle between outlined and filled heart icons
-                const heart = e.target;
-                if (heart.classList.contains('bx-heart')) {
-                    //ADD TO 'CART'
-                    console.log(`Added: ${heart.dataset.id}`)
-                    addToCart(heart.dataset.id)
-                    heart.classList.remove('bx-heart');
-                    heart.classList.add('bxs-heart', 'active');
-                } else {
-                    //REMOVE TO 'CART'
-                    console.log(`Remove: ${heart.dataset.id}`)
-                    heart.classList.remove('bxs-heart', 'active');
-                    heart.classList.add('bx-heart');
-                }
+                const cart = e.target;
+                addToCart(cart.dataset.id);
             }
         });
 
@@ -71,8 +57,13 @@ async function addToCart(productId){
     });
 
     const result = await response.json();
-    if(result.success === 2){
-
+    alert(result.message);
+    if(result.success){
+        getCart().then(carts => {
+            displayCart(carts);
+        }).catch(error => {
+            console.error("Error fetching products for carts:", error);
+        });
     }
 }
 
@@ -126,11 +117,12 @@ const getCart = async () =>{
 	return carts;
 }
 const displayCart = (carts) =>{
+    cartArea.innerHTML = ''
     carts.forEach(cart =>{
-        console.log(cart.cartURL)
         cartArea.innerHTML += `
             <div class="cart-item">
                 <div class="cart-item-image">
+                    <input type="checkbox" class="cart-checkbox">
                     <img src="${cart.cartURL}" alt="${cart.name}">
                 </div>
                 <div class="cart-item-details">
@@ -140,12 +132,46 @@ const displayCart = (carts) =>{
                         <input type="number" class="quantity-input" value="${cart.amount}" min="1">
                         <button class="quantity-btn plus-btn">+</button>
                     </div>
-                    <p>Price: ₱${cart.price}</p>
+                    <p>Price: ${cart.price}</p>
+                    <span class="delete-item" id="delete-item" data-product-id="${cart.product_id}">Remove Item</span>
                 </div>
             </div>
         `
     })
 }
+
+//DELETING ITEMS FROM CART
+document.getElementById("cart-area").addEventListener("click", async (e) => {
+    e.preventDefault()
+    if (e.target.classList.contains("delete-item")) {
+        const res = await fetch('/getUserData');
+        const userData = await res.json();
+
+        const productId = e.target.getAttribute("data-product-id");
+
+        deleteCartItem(userData.userId, productId, e.target.closest('.cart-item'));
+    }
+});
+
+const deleteCartItem = async (userId, productId, cartItemElement) => {
+    try {
+        const response = await fetch(`/cart/${userId}/${productId}`, {
+            method: 'DELETE',
+        });
+
+        const result = await response.json();
+        if (result.success) {
+            // Remove the cart item from the DOM
+            cartItemElement.remove();
+            alert(result.message);
+        } else {
+            alert(result.message);
+        }
+    } catch (error) {
+        console.error('Error:', error);
+        alert('An error occurred while removing the product from the cart');
+    }
+};
 
 //STYLES AND DESIGN
 
