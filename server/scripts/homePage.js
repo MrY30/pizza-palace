@@ -102,10 +102,12 @@ const displayMenu = (products) => {
 					</div>
 				</div>
 				<p>${product.description}</p>
-				<div class="favorite">
-                    <span class = "category">${product.category}</span>
-					<i data-id="${product.id}" class='bx bx-heart add-fave' ></i>
-				</div>
+				<div class="menu-actions">
+					<span class="category-text">${product.category}</span>
+					<button class="add-cart-btn">
+						<img src="/img/addtoCart.png" alt="Add to Cart" class="add-cart-image" data-id="${product.id}">
+					</button>
+				</div>				
 			</div>
         `;
     });
@@ -194,6 +196,14 @@ document.querySelectorAll('.minus-btn').forEach(button => {
         }
     });
 });
+document.querySelectorAll('.delete-item').forEach((item) => {
+    item.addEventListener('click', (event) => {
+        const cartItem = event.target.closest('.cart-item');
+        cartItem.remove();
+        // Update the cart total if necessary
+    });
+});
+
 function updateCartTotal() {
     // Calculate and update the total here
     // This is a placeholder; you can add logic to dynamically update the cart total
