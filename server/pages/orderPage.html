@@ -11,18 +11,21 @@
     <!-- Left Column: Order Summary -->
     <section class="order-summary">
       <h2>Your Order</h2>
-      <div class="order-item">
-        <img src="path/to/carbonara.jpg" alt="Carbonara" class="product-image">
-        <div class="item-details">
-          <h3 class="product-name">Carbonara</h3>
-          <div class="quantity-controls">
-            <button class="quantity-button minus">-</button>
-            <span class="quantity">1</span>
-            <button class="quantity-button plus">+</button>
+      <div id = "order-area">
+        <div class="order-item">
+          <img src="path/to/carbonara.jpg" alt="Carbonara" class="product-image">
+          <div class="item-details">
+            <h3 class="product-name">Carbonara</h3>
+            <div class="quantity-controls">
+              <button class="quantity-button minus">-</button>
+              <span class="quantity">1</span>
+              <button class="quantity-button plus">+</button>
+            </div>
+            <p class="item-price">₱250.50</p>
           </div>
-          <p class="item-price">₱250.50</p>
         </div>
       </div>
+      
       <!-- Repeat similar blocks for each item in the order -->
       <div class="total">
         <span>Total:</span> <span class="total-price">₱600.50</span>
@@ -58,5 +61,6 @@
       <button class="checkout-button">Place Order</button>
     </section>
   </div>
+  <script type="text/javascript" src="/scripts/orderPage.js"></script>
 </body>
 </html>
