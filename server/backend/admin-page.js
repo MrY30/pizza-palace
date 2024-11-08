@@ -118,6 +118,7 @@ export const displayProducts = async (req,res) =>{
 
     const newResult = await Promise.all(products.rows.map(async (product) => {
         const url = await getPublicUrl(bucketName, product.image_name)
+        //const checkProduct = await client.query(`SELECT * FROM shopping_cart WHERE user_id = '${userID}' AND product_id = '${productID}' AND status = 'Cart'`)
         return{
             ...product,
             productURL: url || null
@@ -198,15 +199,37 @@ export const addCart = async (req,res) =>{
     const { productID } = req.body
     const checkProduct = await client.query(`SELECT * FROM shopping_cart WHERE user_id = '${userID}' AND product_id = '${productID}' AND status = 'Cart'`)
     if(checkProduct.rows.length > 0){
-        return res.json({ result: 2, message: 'Product is available at the cart'})
+        return res.json({ result: false, message: 'Product is available at the cart'})
     }
     
     const selectProduct = await client.query(`SELECT * FROM products_list WHERE id = '${productID}'`)
     const productCart = selectProduct.rows[0]
-    const addCart = await client.query(`INSERT INTO shopping_cart (user_id, status, name, price, image_name, amount) VALUES ('${userID}', 'Cart', '${productCart.name}', '${productCart.price}', '${productCart.image_name}', '1') RETURNING *`);
+    const addCart = await client.query(`INSERT INTO shopping_cart (user_id, status, name, price, image_name, amount, product_id) VALUES ('${userID}', 'Cart', '${productCart.name}', '${productCart.price}', '${productCart.image_name}', '1', '${productID}') RETURNING *`);
     if (addCart.rowCount > 0) {
         return res.json({ success: true, message: 'Cart added successfully', user: addCart.rows[0] });
     } else {
         return res.json({ success: false, message: 'Cart addition failed' });
     }
 }
+
+export const deleteCart = async (req, res) => {
+    const userID = req.params.userId;
+    const productID = req.params.productId;
+
+    try {
+        // Delete the cart item from the shopping_cart table
+        const deleteResult = await client.query(
+            `DELETE FROM shopping_cart WHERE user_id = '${userID}' AND product_id = '${productID}' AND status = 'Cart'`
+        );
+
+        if (deleteResult.rowCount > 0) {
+            return res.json({ success: true, message: 'Product removed from cart successfully' });
+        } else {
+            return res.json({ success: false, message: 'Product not found in the cart' });
+        }
+    } catch (error) {
+        console.error('Error deleting cart item:', error);
+        return res.status(500).json({ success: false, message: 'Failed to delete product from cart' });
+    }
+};
+
