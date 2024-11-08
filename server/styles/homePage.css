@@ -945,6 +945,117 @@ input[type="text"], input[type="password"] {
 }
 
 
+
+/* Design for the rating: */
+/* Feedback Section Styling */
+/* Feedback Section Styling */
+.feedback {
+    padding: 60px 12%;
+    background-color: var(--bg-color);
+    text-align: center;
+    border-radius: 10px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.main-feedback h2 {
+    font-size: calc(var(--h2-font) + 0.2rem);
+    margin-bottom: 1.8rem;
+    color: var(--text-color);
+}
+
+.star-rating {
+    font-size: 2.2rem;
+    color: #ccc;
+    margin-bottom: 1rem;
+    display: inline-flex;
+    gap: 10px;
+    cursor: pointer;
+}
+
+.star {
+    transition: color 0.3s ease, transform 0.2s ease;
+    padding: 5px;
+}
+
+.star:hover,
+.star.selected {
+    color: var(--main-color);
+    transform: scale(1.1);
+}
+
+.rating-message {
+    font-size: calc(var(--p-font) + 0.1rem);
+    color: var(--second-color);
+    margin-top: 0.5rem;
+    margin-bottom: 2rem;
+}
+
+/* Comment Box Styling */
+.comment-box {
+    margin: 1.8rem 0;
+    text-align: left;
+}
+
+.comment-box label {
+    font-size: calc(var(--p-font) + 0.1rem);
+    color: var(--text-color);
+    display: block;
+    margin-bottom: 0.5rem;
+}
+
+.comment-box textarea {
+    width: 100%;
+    padding: 12px;
+    font-size: calc(var(--p-font) + 0.1rem);
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    box-shadow: inset 0px 2px 5px rgba(0, 0, 0, 0.05);
+    resize: vertical;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.comment-box textarea:focus {
+    border-color: var(--main-color);
+    box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.1);
+    outline: none;
+}
+
+/* Submit Button Styling */
+#submit-feedback {
+    padding: 14px 30px;
+    background: var(--main-color);
+    color: var(--bg-color);
+    font-size: calc(var(--p-font) + 0.1rem);
+    font-weight: bold;
+    border-radius: 5rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+#submit-feedback:hover {
+    background-color: var(--second-color);
+    transform: translateY(-2px);
+    box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+#submit-feedback:active {
+    transform: translateY(0);
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
 @media (max-width: 1690px){
 	section{
 		padding: 70px 2%;
