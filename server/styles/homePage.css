@@ -563,7 +563,14 @@ header.sticky{
 #cart-area{
 	overflow: auto;
 }
-
+.category {
+    display: inline-block;
+    padding: 4px 12px;
+    background-color: var(--lighter-main-color);
+    color: var(--main-color);
+    border-radius: 20px;
+    font-size: 14px;
+}
 
 /* Cart Modal Content Layout */
 .cart-modal-content {

@@ -103,6 +103,7 @@ const displayMenu = (products) => {
 				</div>
 				<p>${product.description}</p>
 				<div class="favorite">
+                    <span class = "category">${product.category}</span>
 					<i data-id="${product.id}" class='bx bx-heart add-fave' ></i>
 				</div>
 			</div>
