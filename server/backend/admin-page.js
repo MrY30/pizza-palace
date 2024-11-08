@@ -233,3 +233,46 @@ export const deleteCart = async (req, res) => {
     }
 };
 
+export const orderCart = async (req, res) => {
+    const { userID, selectedProductIds } = req.body;
+
+    if (!selectedProductIds || selectedProductIds.length === 0) {
+        return res.json({ success: false, message: 'No items selected.' });
+    }
+
+    try {
+        // Update each product_id individually
+        for (const productId of selectedProductIds) {
+            await client.query(
+                `UPDATE shopping_cart 
+                 SET status = 'Order' 
+                 WHERE user_id = $1 AND product_id = $2`,
+                [userID, productId]
+            );
+        }
+
+        return res.json({ success: true, message: 'Selected items updated to "Order"' });
+    } catch (error) {
+        console.error('Error updating items:', error);
+        return res.json({ success: false, message: 'Error updating items', error });
+    }
+};
+
+//ORDERS
+export const displayOrder = async (req,res) =>{
+    const userID = req.params.userId
+    const orders = await  client.query(`SELECT * FROM shopping_cart WHERE user_id = '${userID}' AND status = 'Order'`);
+    if(orders.rows.length === 0){
+        return res.json({ success: false, message: 'Nothing were saved'});
+    }
+
+    const newResult = await Promise.all(orders.rows.map(async (order) => {
+        const url = await getPublicUrl(bucketName, order.image_name)
+        return{
+            ...order,
+            orderURL: url || null
+        }
+    }))
+    return res.json(newResult);
+}
+

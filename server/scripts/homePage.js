@@ -117,12 +117,13 @@ const getCart = async () =>{
 	return carts;
 }
 const displayCart = (carts) =>{
+    
     cartArea.innerHTML = ''
     carts.forEach(cart =>{
         cartArea.innerHTML += `
             <div class="cart-item">
                 <div class="cart-item-image">
-                    <input type="checkbox" class="cart-checkbox">
+                    <input type="checkbox" class="cart-checkbox" data-product-id="${cart.product_id}">
                     <img src="${cart.cartURL}" alt="${cart.name}">
                 </div>
                 <div class="cart-item-details">
@@ -140,9 +141,9 @@ const displayCart = (carts) =>{
     })
 }
 
+
 //DELETING ITEMS FROM CART
 document.getElementById("cart-area").addEventListener("click", async (e) => {
-    e.preventDefault()
     if (e.target.classList.contains("delete-item")) {
         const res = await fetch('/getUserData');
         const userData = await res.json();
@@ -172,6 +173,37 @@ const deleteCartItem = async (userId, productId, cartItemElement) => {
         alert('An error occurred while removing the product from the cart');
     }
 };
+
+//ORDER BUTTON
+const orderNowBtn = document.querySelector('.order-now-btn');
+orderNowBtn.addEventListener('click',async ()=>{
+    const selectedItems = [];
+    document.querySelectorAll('.cart-checkbox:checked').forEach(checkbox => {
+        selectedItems.push(checkbox.getAttribute('data-product-id'));
+    });
+    console.log(selectedItems);
+    console.log(userID)
+    try {
+        const response = await fetch('/cart/order', {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ userID, selectedProductIds: selectedItems }),
+        });
+
+        const result = await response.json();
+        if (result.success) {
+            alert(result.message);
+        } else {
+            alert(result.message);
+        }
+    } catch (error) {
+        console.error('Error:', error);
+        alert('An error occurred while removing the product from the cart');
+    }
+    window.location.href = '/order'
+})
 
 //STYLES AND DESIGN
 
