@@ -324,4 +324,3 @@ export const deliverItems = async (req, res) => {
         return res.json({ success: false, message: 'Error updating items', error });
     }
 };
-
