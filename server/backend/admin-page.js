@@ -255,10 +255,9 @@ export const orderCart = async (req, res) => {
     }
 
     try {
-        // Update each product_id with its corresponding amount
         for (let i = 0; i < selectedProductIds.length; i++) {
             const productId = selectedProductIds[i];
-            const productAmount = amount[i]; // Get the corresponding amount for each product
+            const productAmount = amount[i] !== null && amount[i] !== undefined ? amount[i] : 0; // Fallback to 0 if null or undefined
 
             await client.query(
                 `UPDATE shopping_cart 
@@ -273,6 +272,7 @@ export const orderCart = async (req, res) => {
         return res.json({ success: false, message: 'Error updating items', error });
     }
 };
+
 
 
 //ORDERS
