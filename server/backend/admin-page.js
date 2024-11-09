@@ -246,8 +246,12 @@ export const deleteCart = async (req, res) => {
 export const orderCart = async (req, res) => {
     const { userID, selectedProductIds, amount } = req.body;
 
-    if (!selectedProductIds || selectedProductIds.length === 0) {
+    if (!selectedProductIds || !Array.isArray(selectedProductIds) || selectedProductIds.length === 0) {
         return res.json({ success: false, message: 'No items selected.' });
+    }
+
+    if (!Array.isArray(amount) || selectedProductIds.length !== amount.length) {
+        return res.json({ success: false, message: 'Mismatch between selected products and amounts.' });
     }
 
     try {
@@ -269,6 +273,7 @@ export const orderCart = async (req, res) => {
         return res.json({ success: false, message: 'Error updating items', error });
     }
 };
+
 
 //ORDERS
 export const displayOrder = async (req,res) =>{

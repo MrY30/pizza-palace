@@ -56,6 +56,8 @@ const displayOrder = (orders) =>{
     updateOrderTotal()
 }
 
+
+
 const customerName = document.getElementById('name')
 const address = document.getElementById('address')
 const contact = document.getElementById('contact')
