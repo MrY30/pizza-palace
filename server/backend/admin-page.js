@@ -68,7 +68,7 @@ export const getData = (req, res) => {
 
 //INSERT SIGN UP
 export const newUser = async (req, res) => {
-    const { firstName, lastName, userName, password, email, birthDate, contactNum, address } = req.body;
+    const { firstName, lastName, userName, password, email, birthDate, contactNumber, address } = req.body;
     const status = "Customer"
     // Hash the password before inserting it into the database
     const hashedPassword = await bcrypt.hash(password, 10);
@@ -77,7 +77,7 @@ export const newUser = async (req, res) => {
         // Insert the new user into the users_table
         const result = await client.query(
             `INSERT INTO users (status, first_name, last_name, username, password, email, birth_date, contact_num, address)
-             VALUES ('${status}', '${firstName}', '${lastName}', '${userName}', '${hashedPassword}', '${email}', '${birthDate}', '${contactNum}', '${address}') RETURNING *`
+             VALUES ('${status}', '${firstName}', '${lastName}', '${userName}', '${hashedPassword}', '${email}', '${birthDate}', '${contactNumber}', '${address}') RETURNING *`
         );
 
         if (result.rowCount > 0) {
@@ -300,3 +300,27 @@ export const addOrder = async (req,res) =>{
       return res.json({ success: true, message: 'Order successfully' });
 }
 
+export const deliverItems = async (req, res) => {
+    const { userID, selectedProductIds } = req.body;
+
+    if (!selectedProductIds || selectedProductIds.length === 0) {
+        return res.json({ success: false, message: 'No items selected.' });
+    }
+
+    try {
+        // Update each product_id individually
+        for (const productId of selectedProductIds) {
+            await client.query(
+                `UPDATE shopping_cart 
+                 SET status = 'Deliver' 
+                 WHERE user_id = $1 AND product_id = $2`,
+                [userID, productId]
+            );
+        }
+
+        return res.json({ success: true, message: 'Selected items updated to "Order"' });
+    } catch (error) {
+        console.error('Error updating items:', error);
+        return res.json({ success: false, message: 'Error updating items', error });
+    }
+};
