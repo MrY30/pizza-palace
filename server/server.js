@@ -7,7 +7,7 @@ import dotenv from 'dotenv';
 dotenv.config();
 
 //IMPORT BACKEND
-import {checkLogIn, displayProducts, addProduct, checkCustomer, newUser, getData, displayCart, addCart, deleteCart, orderCart, displayOrder, addOrder, deliverItems} from './backend/admin-page.js';
+import {checkLogIn, displayProducts, addProduct, checkCustomer, newUser, getData, displayCart, addCart, deleteCart, orderCart, displayOrder, addOrder, deliverItems, addPizza} from './backend/admin-page.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -49,6 +49,8 @@ app.get('/order/:userId', displayOrder)
 app.post('/order/:userId', addOrder)
 app.put('/order/deliver', deliverItems)
 
+//CREATE PIZZA
+app.post('/pizza/:userId', addPizza)
 
 app.get('/getUserData', getData)
 
