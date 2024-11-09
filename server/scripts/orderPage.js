@@ -1,4 +1,4 @@
-let userID, total
+let userID, total, orderID
 window.addEventListener('load', async (e)=>{
     e.preventDefault()
 
@@ -77,7 +77,7 @@ deliverButton.addEventListener('click', async ()=>{
         headers: {
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify({ productID: productIds, customerName: customerName.value, address: address.value, contact: contact.value, paymentMethod: paymentMethod.value, productNames: productNames, productPrice: productPrice, total})
+        body: JSON.stringify({ productID: productIds, customerName: customerName.value, address: address.value, contact: contact.value, paymentMethod: paymentMethod.value, productNames: productNames, productPrice: productPrice})
     });
 
     const result = await res.json();
