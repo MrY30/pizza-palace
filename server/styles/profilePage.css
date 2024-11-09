@@ -2,7 +2,7 @@
     --text-color: #302e29;
     --main-color: #da9147;
     --second-color: #494830;
-    --bg-color: #FCF6B5;
+    --bg-color: #dfc997;
     --header-color: #32613E;
     --big-font: 4.5rem;
     --h2-font: 2.6rem;
@@ -31,15 +31,15 @@ body, html {
 .profile-header {
     width: 100%;
     padding: 20px;
-    background-color: var(--header-color);
-    color: #fff;
+    background-color: #3d5b3f;
+    color: #dfc997;
     font-size: 1.8rem;
     font-weight: bold;
     letter-spacing: 1px;
     text-align: center;
     text-transform: uppercase;
     text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
-    border-bottom: 4px solid var(--main-color);
+    border-bottom: 4px solid #b2381e;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     position: fixed;
     top: 0;
@@ -84,7 +84,7 @@ body, html {
 .profile-field label {
     font-weight: bold;
     font-size: var(--p-font);
-    color: var(--text-color);
+    color: #b2381e;
     align-self: center;
 }
 
@@ -94,7 +94,7 @@ body, html {
     font-size: var(--p-font);
     color: var(--text-color);
     background-color: #fafafa;
-    border: 1px solid #ddd;
+    border: 2px solid #b2381e;
     border-radius: 8px;
     line-height: 1.5;
     box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.05);
@@ -116,7 +116,7 @@ body, html {
 
 .order-info h2 {
     font-size: var(--h2-font);
-    color: var(--main-color);
+    color: #b2381e;
     margin-bottom: 15px;
     text-align: center;
 }
@@ -133,7 +133,7 @@ body, html {
     font-size: 1rem;
     align-items: center;
     justify-content: center;
-    background-color: var(--main-color);
+    background-color: #b2381e;
     color: #fff;
     border: none;
     border-radius: 8px;
@@ -142,5 +142,5 @@ body, html {
 }
 
 .order-received-btn:hover {
-    background-color: var(--header-color);
+    background-color: #3d5b3f;
 }
