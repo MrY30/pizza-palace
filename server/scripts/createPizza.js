@@ -1,34 +1,3 @@
-window.addEventListener('load', async(e)=>{
-    e.preventDefault()
-
-    const res = await fetch('/getUserData');
-    const userData = await res.json();
-    userID = userData.userId
-    console.log(userData.userId)
-
-
-})
-
-async function addToCart(){
-    const response = await fetch(`/pizza/${userID}`, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ productID: id }),
-    });
-
-    const result = await response.json();
-    alert(result.message);
-    if(result.success){
-        getCart().then(carts => {
-            displayCart(carts);
-        }).catch(error => {
-            console.error("Error fetching products for carts:", error);
-        });
-    }
-}
-
 document.addEventListener("DOMContentLoaded", function() {
     console.log("JavaScript file loaded");
 
@@ -478,3 +447,38 @@ document.addEventListener("DOMContentLoaded", function() {
         container.appendChild(cutImage);
     }
 });
+
+window.addEventListener('load', async(e)=>{
+    e.preventDefault()
+
+    summarySentence
+
+    
+    const res = await fetch('/getUserData');
+    const userData = await res.json();
+    userID = userData.userId
+    console.log(userData.userId)
+
+    addToCart()
+
+})
+
+async function addToCart(){
+    const response = await fetch(`/pizza/${userID}`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ productID: id }),
+    });
+
+    const result = await response.json();
+    alert(result.message);
+    if(result.success){
+        getCart().then(carts => {
+            displayCart(carts);
+        }).catch(error => {
+            console.error("Error fetching products for carts:", error);
+        });
+    }
+}
