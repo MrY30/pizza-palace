@@ -10,7 +10,7 @@ window.addEventListener('load', async(e)=>{
 })
 
 async function addToCart(){
-    const response = await fetch(`/cart/${userID}`, {
+    const response = await fetch(`/pizza/${userID}`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
