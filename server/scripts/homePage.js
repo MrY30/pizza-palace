@@ -68,45 +68,125 @@ async function addToCart(productId){
 
 //DISPLAY FUNCTIONS
 
-//DISPLAY PRODUCTS TO MENU
+// DISPLAY PRODUCTS TO MENU
 const menuArea = document.getElementById("menu-content");
+const filterButtons = document.querySelectorAll('.filter-category a'); // Category filter buttons
+const searchInput = document.querySelector('.search-bar input'); // Search input element
+let products = []; // Array to store fetched products
+
+// Fetch Products from the Server
 const getProduct = async () => {
     const res = await fetch('/admin/products');
-    const products = await res.json();
+    products = await res.json();
+    return products;
+};
 
-	return products;
-}
-const displayMenu = (products) => {
-    products.forEach(product => {
+// Display Products in the Menu
+const displayMenu = (productsToDisplay) => {
+    menuArea.innerHTML = ''; // Clear the menu area before displaying products
+
+    // Check if there are no products to display
+    if (productsToDisplay.length === 0) {
+        menuArea.innerHTML = `<p style="text-align: center; font-weight: bold;">No products found.</p>`;
+        return;
+    }
+
+    // Display each product in the menu
+    productsToDisplay.forEach(product => {
         menuArea.innerHTML += `
-            <div class="row">
-				<div class="image-frame">
-					<img src="${product.productURL}" alt="${product.name}">
-				</div>
-				<div class="menu-text">
-					<div class="menu-left">
-						<h4>${product.name}</h4>
-					</div>
-					<div class="menu-right">
-						<h5>₱${product.price}</h5>
-					</div>
-				</div>
-				<p>${product.description}</p>
-				<div class="menu-actions">
-					<span class="category-text">${product.category}</span>
-					<button class="add-cart-btn">
-						<img src="/img/addtoCart.png" alt="Add to Cart" class="add-cart-image" data-id="${product.id}">
-					</button>
-				</div>				
-			</div>
+            <div class="row" style="display: flex; flex-direction: column; gap: 1rem; align-items: stretch; max-width: 300px; margin: auto;">
+                <div class="image-frame" style="width: 100%; height: 200px; overflow: hidden; border-radius: 10px;">
+                    <img src="${product.productURL}" alt="${product.name}" style="width: 100%; height: 100%; object-fit: cover;">
+                </div>
+                <div class="menu-text" style="display: flex; justify-content: space-between; align-items: center;">
+                    <div class="menu-left">
+                        <h4 style="font-size: 1.5rem; color: #32613E;">${product.name}</h4>
+                    </div>
+                    <div class="menu-right">
+                        <h5 style="font-size: 1.2rem; color: #b2381e;">₱${product.price}</h5>
+                    </div>
+                </div>
+                <p style="font-size: 1rem; color: #494830;">${product.description}</p>
+                <div class="menu-actions" style="display: flex; justify-content: space-between; align-items: center;">
+                    <span class="category-text" style="font-size: 0.9rem; color: #da9147;">${product.category}</span>
+                    <button class="add-cart-btn" style="background: #b2381e; padding: 0.5rem 1rem; border-radius: 10px;">
+                        <img src="/img/addtoCart.png" alt="Add to Cart" class="add-cart-image" data-id="${product.id}" style="width: 20px;">
+                    </button>
+                </div>                
+            </div>
         `;
     });
+
+    // Maintain the grid layout after displaying products
+    menuArea.style.display = 'grid';
+    menuArea.style.gridTemplateColumns = 'repeat(auto-fit, minmax(300px, 1fr))';
+    menuArea.style.gap = '2rem';
 };
-getProduct().then(products => {
-    displayMenu(products);
-}).catch(error => {
-    console.error("Error fetching products:", error);
+
+// Filter Products Based on Category
+const filterProducts = (category) => {
+    let filteredProducts = products;
+    if (category !== 'All') {
+        filteredProducts = products.filter(product => product.category === category);
+    }
+    displayMenu(filteredProducts);
+};
+
+// Event Listener for Category Filter Buttons
+filterButtons.forEach(button => {
+    button.addEventListener('click', () => {
+        // Reset the styling for all buttons
+        filterButtons.forEach(btn => {
+            btn.classList.remove('btn-select');
+            btn.classList.add('btn-unselect');
+        });
+
+        // Highlight the selected button
+        button.classList.remove('btn-unselect');
+        button.classList.add('btn-select');
+
+        // Filter products based on the selected category
+        filterProducts(button.textContent);
+    });
 });
+
+// Search Functionality
+const searchProducts = (searchText) => {
+    const lowerCaseSearchText = searchText.toLowerCase();
+    const filteredProducts = products.filter(product =>
+        product.name.toLowerCase().includes(lowerCaseSearchText)
+    );
+
+    // Display the filtered products while maintaining the grid layout
+    displayMenu(filteredProducts);
+
+    // If search input is cleared, display all products again
+    if (searchText === '') {
+        displayMenu(products);
+    }
+
+    // Ensure the grid layout is maintained after search
+    menuArea.style.display = 'grid';
+    menuArea.style.gridTemplateColumns = 'repeat(auto-fit, minmax(300px, auto))';
+};
+
+// Event Listener for Search Input
+searchInput.addEventListener('input', (event) => {
+    const searchText = event.target.value;
+    searchProducts(searchText);
+});
+
+// Fetch products and initialize the display
+getProduct()
+    .then(fetchedProducts => {
+        products = fetchedProducts; // Store fetched products globally
+        displayMenu(products); // Display all products initially
+    })
+    .catch(error => {
+        console.error("Error fetching products:", error);
+    });
+
+
 
 //DISPLAY CARTS TO SHOPPING CART
 const cartArea = document.getElementById('cart-area');
