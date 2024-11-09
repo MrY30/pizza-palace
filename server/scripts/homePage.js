@@ -303,6 +303,7 @@ orderNowBtn.addEventListener('click',async ()=>{
         const result = await response.json();
         if (result.success) {
             alert(result.message);
+            window.location.href = '/order'
         } else {
             alert(result.message);
         }
@@ -310,7 +311,7 @@ orderNowBtn.addEventListener('click',async ()=>{
         console.error('Error:', error);
         alert('An error occurred while removing the product from the cart');
     }
-    window.location.href = '/order'
+    
 })
 
 //STYLES AND DESIGN

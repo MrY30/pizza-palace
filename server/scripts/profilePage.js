@@ -8,30 +8,58 @@ window.addEventListener('load', async(e)=>{
 
     const order = await fetch(`/profile/${userID}`);
     const orderData = await order.json();
-    orderID = orderData.order_id;
-    console.log(orderData)
+    orderID = orderData.rows[0].order_id;
+    console.log(orderData.rows[0].order_id)
 
     displayUser(userData)
-    console.log(userID)
-    const ordersRes = await fetch(`/profile/${userID}`);
-    const ordersData = await ordersRes.json();
-    if (ordersData.success === false) {
-        console.log("Message:", ordersData.message);
-    } else {
-        console.log("Orders:", ordersData.rows);
-    }
+
+    getOrders().then(displayOrder)
+    .catch(error => {
+        console.error("Error fetching products for carts:", error);
+    });
+
 
 })
 
+const orderTable = document.getElementById('order-tables')
+const getOrders = async () => {
+    try {
+        const res = await fetch(`/profile/${userID}/${orderID}`);
+        const orders = await res.json();
+        
+        // Log orders to check its structure
+        console.log("Orders response:", orders);
 
-const getOrders = async () =>{
-    const res = await fetch(`/order/${userID}/${orderID}`);
-    const orders = await res.json();
-	return orders;
-}
-const displayOrder = (order) =>{
+        if (orders.rows) {
+            console.log("Order rows:", orders.rows); // Log rows to see if they exist
+        }
 
-}
+        return orders.rows || []; // Return rows if they exist, otherwise an empty array
+    } catch (error) {
+        console.error("Error fetching orders:", error);
+        return []; // Return an empty array if there's an error
+    }
+};
+
+const displayOrder = (orders) => {
+    orderTable.innerHTML = ''; // Clear existing items
+
+    // Check if there are orders to display
+    if (orders.length === 0) {
+        orderTable.innerHTML = '<tr><td colspan="2">No orders found</td></tr>';
+        return;
+    }
+
+    // Loop through orders to display each in a row
+    orders.forEach(order => {
+        orderTable.innerHTML += `
+            <tr>
+                <td>${order.product_name}</td>
+                <td>${order.amount}</td>
+            </tr>
+        `;
+    });
+};
 
 userArea = document.getElementById('profile-content')
 const displayUser = (user) => {
