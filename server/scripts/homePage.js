@@ -108,6 +108,22 @@ getProduct().then(products => {
     console.error("Error fetching products:", error);
 });
 
+
+async function updateQuantity(productId, change) {
+    const quantityInput = document.querySelector(`.quantity-input[data-product-id="${productId}"]`);
+    let newQuantity = parseInt(quantityInput.value) + change;
+
+    // Ensure the quantity does not go below 1
+    if (newQuantity < 1) return;
+
+    // Update the input value in the DOM
+    quantityInput.value = newQuantity;
+
+    // Update the cart total
+    updateCartTotal();
+}
+
+
 //DISPLAY CARTS TO SHOPPING CART
 const cartArea = document.getElementById('cart-area');
 const getCart = async () =>{
@@ -115,12 +131,12 @@ const getCart = async () =>{
     const carts = await res.json();
 	return carts;
 }
-const displayCart = (carts) =>{
-    
-    cartArea.innerHTML = ''
-    carts.forEach(cart =>{
+const displayCart = (carts) => {
+    cartArea.innerHTML = ''; // Clear existing items
+
+    carts.forEach(cart => {
         cartArea.innerHTML += `
-            <div class="cart-item">
+            <div class="cart-item" data-product-id="${cart.product_id}">
                 <div class="cart-item-image">
                     <input type="checkbox" class="cart-checkbox" data-product-id="${cart.product_id}">
                     <img src="${cart.cartURL}" alt="${cart.name}">
@@ -128,17 +144,31 @@ const displayCart = (carts) =>{
                 <div class="cart-item-details">
                     <h4>${cart.name}</h4>
                     <div class="quantity-control">
-                        <button class="quantity-btn minus-btn">-</button>
-                        <input type="number" class="quantity-input" value="${cart.amount}" min="1">
-                        <button class="quantity-btn plus-btn">+</button>
+                        <button class="quantity-btn minus-btn" data-product-id="${cart.product_id}">-</button>
+                        <input type="number" class="quantity-input" value="${cart.amount}" min="1" data-product-id="${cart.product_id}">
+                        <button class="quantity-btn plus-btn" data-product-id="${cart.product_id}">+</button>
                     </div>
-                    <p>Price: ${cart.price}</p>
-                    <span class="delete-item" id="delete-item" data-product-id="${cart.product_id}">Remove Item</span>
+                    <p>Price: ₱${cart.price}</p>
+                    <span class="delete-item" data-product-id="${cart.product_id}">Remove Item</span>
                 </div>
             </div>
-        `
-    })
-}
+        `;
+    });
+
+    // Add event listeners to quantity buttons after rendering cart items
+    document.querySelectorAll('.plus-btn').forEach(button => {
+        button.addEventListener('click', (event) => {
+            updateQuantity(event.target.dataset.productId, 1); // Increment quantity
+        });
+    });
+
+    document.querySelectorAll('.minus-btn').forEach(button => {
+        button.addEventListener('click', (event) => {
+            updateQuantity(event.target.dataset.productId, -1); // Decrement quantity
+        });
+    });
+};
+
 
 
 //DELETING ITEMS FROM CART
@@ -236,22 +266,7 @@ function toggleCartModal() {
 cartCloseBtn.onclick = function() {
     toggleCartModal();
 }
-document.querySelectorAll('.plus-btn').forEach(button => {
-    button.addEventListener('click', function() {
-        let quantityInput = this.previousElementSibling;
-        quantityInput.value = parseInt(quantityInput.value) + 1;
-        updateCartTotal();
-    });
-});
-document.querySelectorAll('.minus-btn').forEach(button => {
-    button.addEventListener('click', function() {
-        let quantityInput = this.nextElementSibling;
-        if (parseInt(quantityInput.value) > 1) {
-            quantityInput.value = parseInt(quantityInput.value) - 1;
-            updateCartTotal();
-        }
-    });
-});
+
 document.querySelectorAll('.delete-item').forEach((item) => {
     item.addEventListener('click', (event) => {
         const cartItem = event.target.closest('.cart-item');
@@ -261,9 +276,15 @@ document.querySelectorAll('.delete-item').forEach((item) => {
 });
 
 function updateCartTotal() {
-    // Calculate and update the total here
-    // This is a placeholder; you can add logic to dynamically update the cart total
+    let total = 0;
+    document.querySelectorAll('.cart-item').forEach(item => {
+        const price = parseFloat(item.querySelector('p').textContent.replace('Price: ₱', ''));
+        const quantity = parseInt(item.querySelector('.quantity-input').value);
+        total += price * quantity;
+    });
+    document.querySelector('.cart-total p').textContent = `Total: ₱${total.toFixed(2)}`;
 }
+
 
 
 window.onclick = function(event) {
