@@ -27,7 +27,7 @@ const displayOrder = (orders) =>{
     orderArea.innerHTML = ''
     orders.forEach(order =>{
         orderArea.innerHTML += `
-            <div class="order-item">
+            <div class="order-item" data-id = "${order.product_id}" data-name = "${order.name}" data-price = "${order.price}">
                 <img src="${order.orderURL}" alt="${order.name}" class="product-image">
                 <div class="item-details">
                     <h3 class="product-name">${order.name}</h3>
@@ -42,3 +42,40 @@ const displayOrder = (orders) =>{
         `
     })
 }
+
+const customerName = document.getElementById('name')
+const address = document.getElementById('address')
+const contact = document.getElementById('contact')
+const deliverButton = document.getElementById('checkout-button')
+const paymentMethod = document.getElementById('payment-method')
+
+deliverButton.addEventListener('click', async ()=>{
+    const orderItems = document.querySelectorAll('.order-item');
+    const productIds = Array.from(orderItems).map(item => item.getAttribute('data-id'));
+    const productNames = Array.from(orderItems).map(item => item.getAttribute('data-name'));
+    const productPrice = Array.from(orderItems).map(item => item.getAttribute('data-price'));
+    console.log(productIds); // Displays an array of product_ids in the console
+    console.log(customerName.value);
+    console.log(address.value);
+    console.log(contact.value);
+
+    const res = await fetch(`/order/${userID}`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ productID: productIds, customerName: customerName.value, address: address.value, contact: contact.value, paymentMethod: paymentMethod.value, productNames: productNames, productPrice: productPrice})
+    });
+
+    const result = await response.json();
+    alert(result.message);
+    if(result.success){
+        getCart().then(carts => {
+            displayCart(carts);
+        }).catch(error => {
+            console.error("Error fetching products for carts:", error);
+        });
+    }
+})
+
+
