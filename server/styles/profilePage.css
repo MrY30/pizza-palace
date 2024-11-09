@@ -100,10 +100,52 @@ body, html {
     box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.05);
 }
 
-/* Right content for order details */
+/* Adjust the table styling for responsive design */
+.order-table {
+    width: 100%;
+    max-width: 100%; /* Prevent the table from overflowing */
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+/* Header row styling */
+.order-table th {
+    background-color: #b2381e;
+    color: #dfc997;
+    padding: 10px;
+    text-align: left;
+}
+
+/* Body rows styling */
+.order-table td {
+    background-color: #dfc997;
+    color: #494830;
+    padding: 10px;
+    text-align: left;
+}
+
+/* Ensure consistent row height */
+.order-table tr {
+    height: 50px;
+}
+
+/* Footer styling */
+.order-table tfoot tr {
+    background-color: #b2381e;
+    color: #fff;
+}
+
+.order-table tfoot td {
+    padding: 10px;
+    font-weight: bold;
+    text-align: right;
+}
+
+/* Responsive container for the table */
 .right-content {
-    flex: 0.4;
-    padding: 30px;
+    width: auto; /* Allow the container to adjust based on content */
+    max-width: 100%;
+    padding: 20px;
     background-color: #fff;
     border-radius: 12px;
     box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
@@ -111,34 +153,24 @@ body, html {
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
 }
 
-.order-info h2 {
-    font-size: var(--h2-font);
-    color: #b2381e;
-    margin-bottom: 15px;
-    text-align: center;
-}
-
-.order-info p {
-    font-size: var(--p-font);
-    color: var(--text-color);
-    margin-bottom: 20px;
-    text-align: center;
+/* Center the button and table */
+.order-info {
+    width: 100%;
+    max-width: 600px;
 }
 
 .order-received-btn {
-    padding: 10px 20px;
-    font-size: 1rem;
-    align-items: center;
-    justify-content: center;
+    width: 100%;
+    padding: 10px;
     background-color: #b2381e;
     color: #fff;
     border: none;
     border-radius: 8px;
     cursor: pointer;
     transition: background-color 0.3s;
+    margin-top: 20px;
 }
 
 .order-received-btn:hover {
