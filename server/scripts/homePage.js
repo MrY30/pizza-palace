@@ -109,8 +109,8 @@ const displayMenu = (productsToDisplay) => {
                 <p style="font-size: 1rem; color: #494830;">${product.description}</p>
                 <div class="menu-actions" style="display: flex; justify-content: space-between; align-items: center;">
                     <span class="category-text" style="font-size: 0.9rem; color: #da9147;">${product.category}</span>
-                    <button class="add-cart-btn">
-                        <img src="/img/addtoCart.png" alt="Add to Cart" class="add-cart-image" data-id="${product.id}" style="width: 120px;">
+                    <button class="add-cart-btn" style="background: #b2381e; padding: 0.5rem 1rem; border-radius: 10px;">
+                        <img src="/img/addtoCart.png" alt="Add to Cart" class="add-cart-image" data-id="${product.id}" style="width: 20px;">
                     </button>
                 </div>                
             </div>
@@ -170,34 +170,38 @@ const searchProducts = (searchText) => {
     menuArea.style.gridTemplateColumns = 'repeat(auto-fit, minmax(300px, auto))';
 };
 
-// Event Listener for Search Input
+
 searchInput.addEventListener('input', (event) => {
     const searchText = event.target.value;
     searchProducts(searchText);
 });
 
-// Fetch products and initialize the display
+
 getProduct()
-.then(fetchedProducts => {
-    products = fetchedProducts; // Store fetched products globally
-    displayMenu(products); // Display all products initially
-})
-.catch(error => {
-    console.error("Error fetching products:", error);
-});
+    .then(fetchedProducts => {
+        products = fetchedProducts; // Store fetched products globally
+        displayMenu(products); // Display all products initially
+    })
+    .catch(error => {
+        console.error("Error fetching products:", error);
+    });
 
 
-async function updateQuantity(productId, change) {
-    const quantityInput = document.querySelector(`.quantity-input[data-product-id="${productId}"]`);
-    let newQuantity = parseInt(quantityInput.value) + change;
-    // Ensure the quantity does not go below 1
-    if (newQuantity < 1) return;
+    async function updateQuantity(productId, change) {
+        const quantityInput = document.querySelector(`.quantity-input[data-product-id="${productId}"]`);
+        let newQuantity = parseInt(quantityInput.value) + change;
+    
 
-    // Update the input value in the DOM
-    quantityInput.value = newQuantity;
-    // Update the cart total
-    updateCartTotal();
-}
+        if (newQuantity < 1) return;
+    
+
+        quantityInput.value = newQuantity;
+    
+
+        updateCartTotal();
+    }
+    
+
 
 //DISPLAY CARTS TO SHOPPING CART
 const cartArea = document.getElementById('cart-area');
@@ -207,7 +211,7 @@ const getCart = async () =>{
 	return carts;
 }
 const displayCart = (carts) => {
-    cartArea.innerHTML = ''; // Clear existing items
+    cartArea.innerHTML = '';
 
     carts.forEach(cart => {
         cartArea.innerHTML += `
@@ -220,7 +224,7 @@ const displayCart = (carts) => {
                     <h4>${cart.name}</h4>
                     <div class="quantity-control">
                         <button class="quantity-btn minus-btn" data-product-id="${cart.product_id}">-</button>
-                        <input type="number" class="quantity-input" id="quantity-input" value="${cart.amount}" min="1" data-product-id="${cart.product_id}">
+                        <input type="number" class="quantity-input" value="${cart.amount}" min="1" data-product-id="${cart.product_id}">
                         <button class="quantity-btn plus-btn" data-product-id="${cart.product_id}">+</button>
                     </div>
                     <p>Price: ₱${cart.price}</p>
@@ -233,19 +237,16 @@ const displayCart = (carts) => {
     // Add event listeners to quantity buttons after rendering cart items
     document.querySelectorAll('.plus-btn').forEach(button => {
         button.addEventListener('click', (event) => {
-            updateQuantity(event.target.dataset.productId, 1); // Increment quantity
-
-
+            updateQuantity(event.target.dataset.productId, 1);
         });
     });
 
     document.querySelectorAll('.minus-btn').forEach(button => {
         button.addEventListener('click', (event) => {
-            updateQuantity(event.target.dataset.productId, -1); // Decrement quantity
+            updateQuantity(event.target.dataset.productId, -1);
         });
     });
 };
-
 
 
 
@@ -284,10 +285,6 @@ const deleteCartItem = async (userId, productId, cartItemElement) => {
 //ORDER BUTTON
 const orderNowBtn = document.querySelector('.order-now-btn');
 orderNowBtn.addEventListener('click',async ()=>{
-    const quantities = [];
-    document.querySelectorAll('.quantity-input').forEach(input => {
-        quantities.push(parseInt(input.value, 10));
-    });
     const selectedItems = [];
     document.querySelectorAll('.cart-checkbox:checked').forEach(checkbox => {
         selectedItems.push(checkbox.getAttribute('data-product-id'));
@@ -300,13 +297,12 @@ orderNowBtn.addEventListener('click',async ()=>{
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify({ userID, selectedProductIds: selectedItems, amount: quantities }),
+            body: JSON.stringify({ userID, selectedProductIds: selectedItems }),
         });
 
         const result = await response.json();
         if (result.success) {
             alert(result.message);
-            window.location.href = '/order'
         } else {
             alert(result.message);
         }
@@ -314,6 +310,7 @@ orderNowBtn.addEventListener('click',async ()=>{
         console.error('Error:', error);
         alert('An error occurred while removing the product from the cart');
     }
+    window.location.href = '/order'
 })
 
 //STYLES AND DESIGN
@@ -344,6 +341,11 @@ const cartIcon = document.querySelector(".bx-cart");
 const cartCloseBtn = document.querySelector(".cart-close");
 function toggleCartModal() {
     cartModal.classList.toggle("open"); // Toggle the open class
+
+    // If the cart modal is being opened, update the total
+    if (cartModal.classList.contains("open")) {
+        updateCartTotal();
+    }
 }
 cartCloseBtn.onclick = function() {
     toggleCartModal();
