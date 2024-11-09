@@ -139,6 +139,18 @@ body, html {
     padding: 10px;
     font-weight: bold;
     text-align: right;
+    background-color: #b2381e; /* Add background color */
+    color: #dfc997; /* Text color for the footer */
+}
+
+.order-table tfoot td:first-child {
+    text-align: left;
+}
+
+/* Fix the "colspan" issue */
+.order-table tfoot tr td:last-child {
+    text-align: left; /* Align the last cell to the left */
+    padding-right: 10px; /* Add some space to the right for a neat look */
 }
 
 /* Responsive container for the table */
@@ -153,12 +165,30 @@ body, html {
     display: flex;
     flex-direction: column;
     align-items: center;
+    justify-content: center;
 }
 
 /* Center the button and table */
 .order-info {
     width: 100%;
     max-width: 600px;
+}
+
+/* Styling for the Order ID */
+.order-id {
+    text-align: right; /* Align the Order ID to the right */
+    font-size: 1.1rem;
+    color: var(--text-color);
+    margin-bottom: 15px;
+    padding-right: 10px; /* Add padding to the right to give it some space */
+}
+
+.order-info p {
+    font-size: 1.2rem;
+    font-weight: bold;
+    margin-bottom: 20px;
+    color: #302e29;
+    text-align: left;
 }
 
 .order-received-btn {
