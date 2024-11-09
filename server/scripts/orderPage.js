@@ -67,15 +67,27 @@ deliverButton.addEventListener('click', async ()=>{
         body: JSON.stringify({ productID: productIds, customerName: customerName.value, address: address.value, contact: contact.value, paymentMethod: paymentMethod.value, productNames: productNames, productPrice: productPrice})
     });
 
-    const result = await response.json();
+    const result = await res.json();
     alert(result.message);
     if(result.success){
-        getCart().then(carts => {
-            displayCart(carts);
-        }).catch(error => {
-            console.error("Error fetching products for carts:", error);
+        const update = await fetch('/order/deliver', {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ userID, selectedProductIds: productIds }),
         });
+
+        const updated = await update.json();
+        if (updated.success) {
+            alert(updated.message);
+            window.location.href = "/"
+        } else {
+            alert(updated.message);
+        }
+
     }
 })
+
 
 

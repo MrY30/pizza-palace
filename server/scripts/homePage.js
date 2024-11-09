@@ -95,7 +95,7 @@ const displayMenu = (products) => {
 				<p>${product.description}</p>
 				<div class="menu-actions">
 					<span class="category-text">${product.category}</span>
-					<button class="add-cart-btn">
+					<button class="add-cart-btn verify">
 						<img src="/img/addtoCart.png" alt="Add to Cart" class="add-cart-image" data-id="${product.id}">
 					</button>
 				</div>				
@@ -281,3 +281,9 @@ window.onclick = function(event) {
         closeCartModal();
     }
 }
+
+//GOING TO ACCOUNTS PAGE
+const profile = document.querySelector(".bxs-user");
+profile.addEventListener('click', ()=>{
+    window.location.href = "/profile"
+})
