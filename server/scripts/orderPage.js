@@ -32,9 +32,7 @@ const displayOrder = (orders) =>{
                 <div class="item-details">
                     <h3 class="product-name">${order.name}</h3>
                     <div class="quantity-controls">
-                        <button class="quantity-button minus">-</button>
-                        <span class="quantity">1</span>
-                        <button class="quantity-button plus">+</button>
+                        <span class="quantity">Amount: ${order.amount}</span>
                     </div>
                     <p class="item-price">₱${order.price}</p>
                 </div>

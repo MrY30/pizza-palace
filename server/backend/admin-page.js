@@ -47,7 +47,8 @@ export const checkCustomer = async (req,res) =>{
 
     req.session.user = {
         id: user.user_id,
-        name: `${user.last_name}, ${user.first_name}`,
+        first_name: user.first_name,
+        last_name: user.last_name,
         address: user.address,
         email: user.email,
         contact: user.contact_num,
@@ -60,7 +61,14 @@ export const checkCustomer = async (req,res) =>{
 //GET DATA
 export const getData = (req, res) => {
     if (req.session.user) {
-        res.json({ success: true, userId: req.session.user.id });
+        res.json({ success: true, 
+                   userId: req.session.user.id, 
+                   firstName: req.session.user.first_name,
+                   lastName: req.session.user.last_name,
+                   address: req.session.user.address,
+                   birthDate: req.session.user.birthDate,
+                   contact: req.session.user.contact
+                });
     } else {
         res.status(401).json({ success: false, message: 'Not authenticated' });
     }
@@ -213,6 +221,7 @@ export const addCart = async (req,res) =>{
     }
 }
 
+
 export const deleteCart = async (req, res) => {
     const userID = req.params.userId;
     const productID = req.params.productId;
@@ -235,7 +244,7 @@ export const deleteCart = async (req, res) => {
 };
 
 export const orderCart = async (req, res) => {
-    const { userID, selectedProductIds } = req.body;
+    const { userID, selectedProductIds, amount } = req.body;
 
     if (!selectedProductIds || selectedProductIds.length === 0) {
         return res.json({ success: false, message: 'No items selected.' });
@@ -246,13 +255,12 @@ export const orderCart = async (req, res) => {
         for (const productId of selectedProductIds) {
             await client.query(
                 `UPDATE shopping_cart 
-                 SET status = 'Order' 
-                 WHERE user_id = $1 AND product_id = $2`,
-                [userID, productId]
+                 SET status = 'Order', amount = '${amount}' 
+                 WHERE user_id = '${userID}' AND product_id = '${productId}'`
             );
         }
 
-        return res.json({ success: true, message: 'Selected items updated to "Order"' });
+        return res.json({ success: true, message: 'Selected items updated to "Order"'});
     } catch (error) {
         console.error('Error updating items:', error);
         return res.json({ success: false, message: 'Error updating items', error });
@@ -335,4 +343,16 @@ export const addPizza = async (req,res) => {
     } else {
         return res.json({ success: false, message: 'Cart addition failed' });
     }
+}
+
+
+//PROFILES
+export const displayUser = async (req,res) =>{
+    const userID = req.params.userId
+    const orders = await  client.query(`SELECT DISTINCT order_id FROM orders_list WHERE customer_id = '${userID}'`);
+    if(orders.rows.length === 0){
+        return res.json({ success: false, message: 'Nothing were saved'});
+    }
+
+    return res.json(orders);
 }
