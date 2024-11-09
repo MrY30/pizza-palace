@@ -24,7 +24,6 @@ window.addEventListener('load', async (e)=>{
     }else{
         //ALLOWS USER BUTTONS
         cartIcon.onclick = () =>{ toggleCartModal(); };
-        favoritesIcon.onclick = () =>{ toggleFavoritesModal();};
         createPizza.addEventListener('click',()=>{ window.location.href = '/pizza'; })
 
         //HEART BUTTON
@@ -266,16 +265,7 @@ function updateCartTotal() {
     // This is a placeholder; you can add logic to dynamically update the cart total
 }
 
-//STYLE FOR FAVORITE
-const favoritesModal = document.getElementById("favoritesModal");
-const favoritesIcon = document.querySelector(".bx-heart")
-const favoritesCloseBtn = document.querySelector(".favorites-close");
-function toggleFavoritesModal() {
-    favoritesModal.classList.toggle("open");
-}
-favoritesCloseBtn.onclick = function() {
-    toggleFavoritesModal();
-}
+
 window.onclick = function(event) {
     if (event.target == cartModal) {
         closeCartModal();
