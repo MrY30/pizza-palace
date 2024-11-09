@@ -2,6 +2,7 @@ import connectToDatabase from './dbConnection.js';
 import { supabase } from './dbConnection.js';
 import bcrypt, { hash } from "bcrypt";
 import dotenv from 'dotenv';
+import crypto from 'crypto';
 dotenv.config();
 
 const { client } = connectToDatabase;
@@ -274,5 +275,28 @@ export const displayOrder = async (req,res) =>{
         }
     }))
     return res.json(newResult);
+}
+
+const generateRandomHex = () => {
+    return crypto.randomBytes(10).toString('hex');
+};
+
+//ADD ORDERS
+export const addOrder = async (req,res) =>{
+    const userID = req.params.userId;
+    const { productID, customerName, address, contact, paymentMethod, productNames, productPrice } = req.body;
+    const orderId = generateRandomHex();
+    for (let i = 0; i < productID.length; i++) {
+        const productId = productID[i];
+        const productName = productNames[i];
+        const productPrices = productPrice[i];
+        
+        await client.query(`
+          INSERT INTO orders_list (order_id, customer_id, customer_name, product_name, amount, address, contact_number, payment_method, product_id)
+          VALUES ('${orderId}', '${userID}', '${customerName}', '${productName}', '${productPrices}', '${address}', '${contact}', '${paymentMethod}', '${productId}')
+        `);
+      }
+    
+      return res.json({ success: true, message: 'Order successfully' });
 }
 
