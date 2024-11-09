@@ -223,9 +223,9 @@ const displayCart = (carts) => {
                 <div class="cart-item-details">
                     <h4>${cart.name}</h4>
                     <div class="quantity-control">
-                        <button class="quantity-btn minus-btn" data-product-id="${cart.product_id}">-</button>
-                        <input type="number" class="quantity-input" value="${cart.amount}" min="1" data-product-id="${cart.product_id}">
-                        <button class="quantity-btn plus-btn" data-product-id="${cart.product_id}">+</button>
+                        <button class="quantity-btn minus-btn" data-product-id="${cart.product_id}" data-amount = "${cart.amount}">-</button>
+                        <input type="number" class="quantity-input" value="${cart.amount}" min="1" data-product-id="${cart.product_id}" data-amount = "${cart.amount}">
+                        <button class="quantity-btn plus-btn" data-product-id="${cart.product_id}" data-amount = "${cart.amount}">+</button>
                     </div>
                     <p>Price: ₱${cart.price}</p>
                     <span class="delete-item" data-product-id="${cart.product_id}">Remove Item</span>
@@ -286,6 +286,10 @@ const deleteCartItem = async (userId, productId, cartItemElement) => {
 const orderNowBtn = document.querySelector('.order-now-btn');
 orderNowBtn.addEventListener('click',async ()=>{
     const selectedItems = [];
+    const quantities = [];
+    document.querySelectorAll('.quantity-input').forEach(input => {
+        quantities.push(parseInt(input.value, 10))
+    });
     document.querySelectorAll('.cart-checkbox:checked').forEach(checkbox => {
         selectedItems.push(checkbox.getAttribute('data-product-id'));
     });
@@ -297,7 +301,7 @@ orderNowBtn.addEventListener('click',async ()=>{
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify({ userID, selectedProductIds: selectedItems }),
+            body: JSON.stringify({ userID, selectedProductIds: selectedItems, amount: quantities}),
         });
 
         const result = await response.json();
