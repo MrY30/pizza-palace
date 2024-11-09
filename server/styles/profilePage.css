@@ -2,7 +2,7 @@
     --text-color: #302e29;
     --main-color: #da9147;
     --second-color: #494830;
-    --bg-color: #FCF6B5;
+    --bg-color: #dfc997;
     --header-color: #32613E;
     --big-font: 4.5rem;
     --h2-font: 2.6rem;
@@ -17,116 +17,130 @@
 
 body, html {
     height: 100%;
+    width: 100%;
     margin: 0;
     font-family: Arial, sans-serif;
-    display: flex;
-    align-items: center;
-    justify-content: center;
     color: var(--text-color);
     background-color: var(--bg-color);
-}
-
-.profile-container {
-    width: 100vw;
-    height: 100vh;
     display: flex;
     flex-direction: column;
+    align-items: center;
 }
 
+/* Full-width header at the top of the page */
 .profile-header {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 15px 20px;
-    background-color: var(--header-color);
-    color: #fff;
+    width: 100%;
+    padding: 20px;
+    background-color: #3d5b3f;
+    color: #dfc997;
     font-size: 1.8rem;
     font-weight: bold;
     letter-spacing: 1px;
+    text-align: center;
     text-transform: uppercase;
     text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
-    border-bottom: 4px solid var(--main-color);
+    border-bottom: 4px solid #b2381e;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1;
 }
 
+/* Main layout container for left and right content */
+.main-content {
+    display: flex;
+    width: 90vw;
+    max-width: 1200px;
+    margin-top: 120px;
+    gap: 20px;
+}
+
+/* Profile container on the left side */
+.profile-container {
+    flex: 1;
+    padding: 30px;
+    background-color: #fff;
+    border-radius: 12px;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+    overflow: hidden;
+    border: 1px solid #eaeaea;
+}
 
 .profile-content {
+    padding: 20px;
     display: grid;
-    grid-template-columns: 1fr 2fr;
-    gap: 20px;
-    padding: 20px;
-    flex: 1;
-}
-
-.photo-section {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    padding: 20px;
-    background-color: var(--second-color);
-    border-radius: 8px;
-    color: #fff;
-}
-
-.profile-photo {
-    width: 150px;
-    height: 150px;
-    border-radius: 50%;
-    object-fit: cover;
-    border: 4px solid var(--main-color);
-    margin-bottom: 15px;
-}
-
-.upload-photo-btn {
-    padding: 8px 16px;
-    background-color: var(--main-color);
-    color: #fff;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    transition: background-color 0.3s;
-}
-
-.upload-photo-btn:hover {
-    background-color: var(--header-color);
+    gap: 15px;
+    grid-template-columns: 1fr;
 }
 
 .info-section {
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: 1fr 2fr;
     gap: 15px;
-    padding: 20px;
-    background-color: #fff;
-    border-radius: 8px;
 }
 
-.info-section label {
+.profile-field label {
     font-weight: bold;
     font-size: var(--p-font);
-    color: var(--text-color);
+    color: #b2381e;
+    align-self: center;
 }
 
-.info-section input {
-    width: 100%;
-    padding: 10px;
-    border: 1px solid var(--second-color);
-    border-radius: 4px;
+.profile-field p {
+    margin: 0;
+    padding: 10px 12px;
     font-size: var(--p-font);
+    color: var(--text-color);
+    background-color: #fafafa;
+    border: 2px solid #b2381e;
+    border-radius: 8px;
+    line-height: 1.5;
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.05);
 }
 
-.save-btn {
-    grid-column: span 2;
-    padding: 12px;
-    background-color: var(--main-color);
+/* Right content for order details */
+.right-content {
+    flex: 0.4;
+    padding: 30px;
+    background-color: #fff;
+    border-radius: 12px;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+    border: 1px solid #eaeaea;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.order-info h2 {
+    font-size: var(--h2-font);
+    color: #b2381e;
+    margin-bottom: 15px;
+    text-align: center;
+}
+
+.order-info p {
+    font-size: var(--p-font);
+    color: var(--text-color);
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.order-received-btn {
+    padding: 10px 20px;
+    font-size: 1rem;
+    align-items: center;
+    justify-content: center;
+    background-color: #b2381e;
     color: #fff;
     border: none;
-    border-radius: 4px;
-    font-size: var(--p-font);
+    border-radius: 8px;
     cursor: pointer;
     transition: background-color 0.3s;
 }
 
-.save-btn:hover {
-    background-color: var(--header-color);
+.order-received-btn:hover {
+    background-color: #3d5b3f;
 }

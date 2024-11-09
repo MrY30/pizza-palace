@@ -7,45 +7,46 @@
     <link rel="stylesheet" href="/styles/profilePage.css">
 </head>
 <body>
-    <div class="profile-container">
-        <div class="profile-header">
-            <h1>Welcome, [Customer's First Name]!</h1>
-        </div>
-        <div class="profile-content">
-            <div class="photo-section">
-                <img src="profile-placeholder.jpg" alt="Profile Photo" class="profile-photo">
-                <button class="upload-photo-btn">Upload New Photo</button>
+    <div class="profile-header">
+        <h1>Welcome, John!</h1> 
+    </div>
+    <div class="main-content">
+        <div class="profile-container">
+            <div class="profile-content">
+                <div class="info-section">
+                    <div class="profile-field">
+                        <label>First Name:</label>
+                        <p>John</p>
+                    </div>
+                    <div class="profile-field">
+                        <label>Last Name:</label>
+                        <p>Doe</p>
+                    </div>
+                    <div class="profile-field">
+                        <label>Birthdate:</label>
+                        <p>1990-01-01</p>
+                    </div>
+                    <div class="profile-field">
+                        <label>Contact Number:</label>
+                        <p>+39 123 456 7890</p>
+                    </div>
+                    <div class="profile-field">
+                        <label>Address:</label>
+                        <p>123 Pasta Street, Centro, Rome, Lazio</p>
+                    </div>
+                </div>
             </div>
-            <div class="info-section">
-                <form action="update_profile.php" method="POST">
-                    <label for="first-name">First Name:</label>
-                    <input type="text" id="first-name" name="firstName" value="John">
+        </div>
 
-                    <label for="last-name">Last Name:</label>
-                    <input type="text" id="last-name" name="lastName" value="Doe">
-
-                    <label for="username">Username:</label>
-                    <input type="text" id="username" name="userName" value="john.doe123">
-
-                    <label for="email">Email Address:</label>
-                    <input type="email" id="email" name="email" value="john@example.com">
-
-                    <label for="birthdate">Birthdate:</label>
-                    <input type="date" id="birthdate" name="birthDate" value="1990-01-01">
-
-                    <label for="contact-number">Contact Number:</label>
-                    <input type="tel" id="contact-number" name="contactNumber" value="+39 123 456 7890">
-
-                    <label for="address">Address:</label>
-                    <input type="text" id="street" name="street" value="123 Pasta Street" placeholder="Street">
-                    <input type="text" id="barangay" name="barangay" value="Centro" placeholder="Barangay">
-                    <input type="text" id="city" name="city" value="Rome" placeholder="City">
-                    <input type="text" id="province" name="province" value="Lazio" placeholder="Province">
-
-                    <button type="submit" class="save-btn">Save Changes</button>
-                </form>
+        <div class="right-content">
+            <div class="order-info">
+                <h2>Order Details</h2>
+                <p><strong>Order ID:</strong> 12345678</p>
+                <button class="order-received-btn">Order Received</button>
             </div>
         </div>
     </div>
 </body>
+
+
 </html>
