@@ -54,6 +54,7 @@ app.post('/pizza/:userId', addPizza)
 
 //PROFILES
 app.get('/profile/:userId',displayUser)
+app.get('/profile/:userId/:orderId')
 
 app.get('/getUserData', getData)
 
