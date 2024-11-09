@@ -178,30 +178,26 @@ searchInput.addEventListener('input', (event) => {
 
 // Fetch products and initialize the display
 getProduct()
-    .then(fetchedProducts => {
-        products = fetchedProducts; // Store fetched products globally
-        displayMenu(products); // Display all products initially
-    })
-    .catch(error => {
-        console.error("Error fetching products:", error);
-    });
+.then(fetchedProducts => {
+    products = fetchedProducts; // Store fetched products globally
+    displayMenu(products); // Display all products initially
+})
+.catch(error => {
+    console.error("Error fetching products:", error);
+});
 
 
-    async function updateQuantity(productId, change) {
-        const quantityInput = document.querySelector(`.quantity-input[data-product-id="${productId}"]`);
-        let newQuantity = parseInt(quantityInput.value) + change;
-    
-        // Ensure the quantity does not go below 1
-        if (newQuantity < 1) return;
-    
-        // Update the input value in the DOM
-        quantityInput.value = newQuantity;
-    
-        // Update the cart total
-        updateCartTotal();
-    }
-    
+async function updateQuantity(productId, change) {
+    const quantityInput = document.querySelector(`.quantity-input[data-product-id="${productId}"]`);
+    let newQuantity = parseInt(quantityInput.value) + change;
+    // Ensure the quantity does not go below 1
+    if (newQuantity < 1) return;
 
+    // Update the input value in the DOM
+    quantityInput.value = newQuantity;
+    // Update the cart total
+    updateCartTotal();
+}
 
 //DISPLAY CARTS TO SHOPPING CART
 const cartArea = document.getElementById('cart-area');
@@ -224,7 +220,7 @@ const displayCart = (carts) => {
                     <h4>${cart.name}</h4>
                     <div class="quantity-control">
                         <button class="quantity-btn minus-btn" data-product-id="${cart.product_id}">-</button>
-                        <input type="number" class="quantity-input" value="${cart.amount}" min="1" data-product-id="${cart.product_id}">
+                        <input type="number" class="quantity-input" id="quantity-input" value="${cart.amount}" min="1" data-product-id="${cart.product_id}">
                         <button class="quantity-btn plus-btn" data-product-id="${cart.product_id}">+</button>
                     </div>
                     <p>Price: ₱${cart.price}</p>
@@ -238,6 +234,8 @@ const displayCart = (carts) => {
     document.querySelectorAll('.plus-btn').forEach(button => {
         button.addEventListener('click', (event) => {
             updateQuantity(event.target.dataset.productId, 1); // Increment quantity
+
+
         });
     });
 
@@ -247,6 +245,7 @@ const displayCart = (carts) => {
         });
     });
 };
+
 
 
 
@@ -285,6 +284,10 @@ const deleteCartItem = async (userId, productId, cartItemElement) => {
 //ORDER BUTTON
 const orderNowBtn = document.querySelector('.order-now-btn');
 orderNowBtn.addEventListener('click',async ()=>{
+    const quantities = [];
+    document.querySelectorAll('.quantity-input').forEach(input => {
+        quantities.push(parseInt(input.value, 10));
+    });
     const selectedItems = [];
     document.querySelectorAll('.cart-checkbox:checked').forEach(checkbox => {
         selectedItems.push(checkbox.getAttribute('data-product-id'));
@@ -297,12 +300,13 @@ orderNowBtn.addEventListener('click',async ()=>{
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify({ userID, selectedProductIds: selectedItems }),
+            body: JSON.stringify({ userID, selectedProductIds: selectedItems, amount: quantities }),
         });
 
         const result = await response.json();
         if (result.success) {
             alert(result.message);
+            window.location.href = '/order'
         } else {
             alert(result.message);
         }
@@ -310,7 +314,6 @@ orderNowBtn.addEventListener('click',async ()=>{
         console.error('Error:', error);
         alert('An error occurred while removing the product from the cart');
     }
-    window.location.href = '/order'
 })
 
 //STYLES AND DESIGN
