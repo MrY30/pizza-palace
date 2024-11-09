@@ -187,6 +187,21 @@ getProduct()
     });
 
 
+    async function updateQuantity(productId, change) {
+        const quantityInput = document.querySelector(`.quantity-input[data-product-id="${productId}"]`);
+        let newQuantity = parseInt(quantityInput.value) + change;
+    
+        // Ensure the quantity does not go below 1
+        if (newQuantity < 1) return;
+    
+        // Update the input value in the DOM
+        quantityInput.value = newQuantity;
+    
+        // Update the cart total
+        updateCartTotal();
+    }
+    
+
 
 //DISPLAY CARTS TO SHOPPING CART
 const cartArea = document.getElementById('cart-area');
