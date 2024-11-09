@@ -614,7 +614,7 @@ header.sticky{
 }
 
 .delete-item:hover {
-    color: var(--dark-main-color);
+    color: #b2381e;
     text-decoration: underline;
 }
 
@@ -699,7 +699,7 @@ header.sticky{
 }
 
 .quantity-btn:hover {
-    background-color: var(--dark-main-color);
+    background-color: #b2381e;
 }
 
 .quantity-input {
