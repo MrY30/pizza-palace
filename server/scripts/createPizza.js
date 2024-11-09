@@ -1,3 +1,4 @@
+let summarySentence, totalPrice
 document.addEventListener("DOMContentLoaded", function() {
     console.log("JavaScript file loaded");
 
@@ -375,7 +376,7 @@ document.addEventListener("DOMContentLoaded", function() {
             tableBody.appendChild(row);
         });
 
-        const totalPrice = selectedCrustPrice + selectedSizePrice + selectedToppingsPrice + selectedSlicePrice;
+        totalPrice = selectedCrustPrice + selectedSizePrice + selectedToppingsPrice + selectedSlicePrice;
         const totalRow = document.createElement('tr');
         totalRow.classList.add('total-price-row');
         totalRow.innerHTML = `
@@ -419,7 +420,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
                 // Log summary in Section 5
                 const formattedToppings = chosenToppings.map(topping => topping.split(' ')[0]); // Extracts just the topping names
-                const summarySentence = `${chosenCrust}, ${chosenSize}, toppings (${formattedToppings.join(', ')}), and ${chosenSlice}`;
+                summarySentence = `${chosenCrust}, ${chosenSize}, toppings (${formattedToppings.join(', ')}), and ${chosenSlice}`;
                 console.log(summarySentence);
 
             }
@@ -450,26 +451,19 @@ document.addEventListener("DOMContentLoaded", function() {
 
 window.addEventListener('load', async(e)=>{
     e.preventDefault()
-
-    summarySentence
-
-    
     const res = await fetch('/getUserData');
     const userData = await res.json();
     userID = userData.userId
     console.log(userData.userId)
-
-    addToCart()
-
 })
-
-async function addToCart(){
+document.getElementById('cart-page').addEventListener('click', async (e)=>{
+    e.preventDefault();
     const response = await fetch(`/pizza/${userID}`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify({ productID: id }),
+        body: JSON.stringify({ details: summarySentence, price: totalPrice }),
     });
 
     const result = await response.json();
@@ -481,4 +475,4 @@ async function addToCart(){
             console.error("Error fetching products for carts:", error);
         });
     }
-}
+})

@@ -326,4 +326,13 @@ export const deliverItems = async (req, res) => {
 };
 
 //PIZZA
-export const addPizza = async (req,res) => {}
+export const addPizza = async (req,res) => {
+    const userID = req.params.userId
+    const { details, price } = req.body
+    const addPizza = await client.query(`INSERT INTO shopping_cart (user_id, status, name, price, image_name, amount) VALUES ('${userID}', 'Cart', '${details}', '${price}', 'a.png', '1') RETURNING *`);
+    if (addPizza.rowCount > 0) {
+        return res.json({ success: true, message: 'Cart added successfully', user: addPizza.rows[0] });
+    } else {
+        return res.json({ success: false, message: 'Cart addition failed' });
+    }
+}
