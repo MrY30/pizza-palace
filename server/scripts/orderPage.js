@@ -1,4 +1,4 @@
-let userID
+let userID, total
 window.addEventListener('load', async (e)=>{
     e.preventDefault()
 
@@ -14,6 +14,19 @@ window.addEventListener('load', async (e)=>{
         console.error("Error fetching products for carts:", error);
     });
 })
+
+function updateOrderTotal() {
+    total = 0;
+
+    // Loop through each order item
+    document.querySelectorAll('.order-item').forEach(item => {
+        const price = parseFloat(item.getAttribute('data-price'));
+        total += price;
+    });
+
+    // Update the total display
+    document.querySelector('.order-total span').textContent = `Total: ₱${total.toFixed(2)}`;
+}
 
 //DISPLAY ORDERS
 const orderArea = document.getElementById('order-area');
@@ -39,6 +52,8 @@ const displayOrder = (orders) =>{
             </div>
         `
     })
+
+    updateOrderTotal()
 }
 
 const customerName = document.getElementById('name')
@@ -62,7 +77,7 @@ deliverButton.addEventListener('click', async ()=>{
         headers: {
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify({ productID: productIds, customerName: customerName.value, address: address.value, contact: contact.value, paymentMethod: paymentMethod.value, productNames: productNames, productPrice: productPrice})
+        body: JSON.stringify({ productID: productIds, customerName: customerName.value, address: address.value, contact: contact.value, paymentMethod: paymentMethod.value, productNames: productNames, productPrice: productPrice, total})
     });
 
     const result = await res.json();

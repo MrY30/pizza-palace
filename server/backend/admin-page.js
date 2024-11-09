@@ -251,16 +251,19 @@ export const orderCart = async (req, res) => {
     }
 
     try {
-        // Update each product_id individually
-        for (const productId of selectedProductIds) {
+        // Update each product_id with its corresponding amount
+        for (let i = 0; i < selectedProductIds.length; i++) {
+            const productId = selectedProductIds[i];
+            const productAmount = amount[i]; // Get the corresponding amount for each product
+
             await client.query(
                 `UPDATE shopping_cart 
-                 SET status = 'Order', amount = '${amount}' 
+                 SET status = 'Order', amount = '${productAmount}' 
                  WHERE user_id = '${userID}' AND product_id = '${productId}'`
             );
         }
 
-        return res.json({ success: true, message: 'Selected items updated to "Order"'});
+        return res.json({ success: true, message: 'Selected items updated to "Order"' });
     } catch (error) {
         console.error('Error updating items:', error);
         return res.json({ success: false, message: 'Error updating items', error });
@@ -292,7 +295,7 @@ const generateRandomHex = () => {
 //ADD ORDERS
 export const addOrder = async (req,res) =>{
     const userID = req.params.userId;
-    const { productID, customerName, address, contact, paymentMethod, productNames, productPrice } = req.body;
+    const { productID, customerName, address, contact, paymentMethod, productNames, productPrice, total } = req.body;
     const orderId = generateRandomHex();
     for (let i = 0; i < productID.length; i++) {
         const productId = productID[i];
@@ -300,8 +303,8 @@ export const addOrder = async (req,res) =>{
         const productPrices = productPrice[i];
         
         await client.query(`
-          INSERT INTO orders_list (order_id, customer_id, customer_name, product_name, amount, address, contact_number, payment_method, product_id)
-          VALUES ('${orderId}', '${userID}', '${customerName}', '${productName}', '${productPrices}', '${address}', '${contact}', '${paymentMethod}', '${productId}')
+          INSERT INTO orders_list (order_id, customer_id, customer_name, product_name, amount, address, contact_number, payment_method, product_id, total, status)
+          VALUES ('${orderId}', '${userID}', '${customerName}', '${productName}', '${productPrices}', '${address}', '${contact}', '${paymentMethod}', '${productId}', '${sdca}', 'Ongoing')
         `);
       }
     
