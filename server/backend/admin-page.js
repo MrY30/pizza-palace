@@ -295,7 +295,7 @@ const generateRandomHex = () => {
 //ADD ORDERS
 export const addOrder = async (req,res) =>{
     const userID = req.params.userId;
-    const { productID, customerName, address, contact, paymentMethod, productNames, productPrice, total } = req.body;
+    const { productID, customerName, address, contact, paymentMethod, productNames, productPrice  } = req.body;
     const orderId = generateRandomHex();
     for (let i = 0; i < productID.length; i++) {
         const productId = productID[i];
@@ -303,8 +303,8 @@ export const addOrder = async (req,res) =>{
         const productPrices = productPrice[i];
         
         await client.query(`
-          INSERT INTO orders_list (order_id, customer_id, customer_name, product_name, amount, address, contact_number, payment_method, product_id, total, status)
-          VALUES ('${orderId}', '${userID}', '${customerName}', '${productName}', '${productPrices}', '${address}', '${contact}', '${paymentMethod}', '${productId}', '${sdca}', 'Ongoing')
+          INSERT INTO orders_list (order_id, customer_id, customer_name, product_name, amount, address, contact_number, payment_method, product_id, status)
+          VALUES ('${orderId}', '${userID}', '${customerName}', '${productName}', '${productPrices}', '${address}', '${contact}', '${paymentMethod}', '${productId}', 'Ongoing')
         `);
       }
     
@@ -353,6 +353,17 @@ export const addPizza = async (req,res) => {
 export const displayUser = async (req,res) =>{
     const userID = req.params.userId
     const orders = await  client.query(`SELECT DISTINCT order_id FROM orders_list WHERE customer_id = '${userID}'`);
+    if(orders.rows.length === 0){
+        return res.json({ success: false, message: 'Nothing were saved'});
+    }
+
+    return res.json(orders);
+}
+
+export const displayOrders = async (req,res) =>{
+    const userID = req.params.userId
+    const orderID = req.params.orderId
+    const orders = await  client.query(`SELECT * FROM orders_list WHERE customer_id = '${userID}' AND order_id = '${orderID}'`);
     if(orders.rows.length === 0){
         return res.json({ success: false, message: 'Nothing were saved'});
     }

@@ -1,4 +1,4 @@
-let userID
+let userID, orderID
 window.addEventListener('load', async(e)=>{
     e.preventDefault()
 
@@ -6,8 +6,12 @@ window.addEventListener('load', async(e)=>{
     const userData = await res.json();
     userID = userData.userId
 
-    displayUser(userData)
+    const order = await fetch(`/profile/${userID}`);
+    const orderData = await order.json();
+    orderID = orderData.order_id;
+    console.log(orderData)
 
+    displayUser(userData)
     console.log(userID)
     const ordersRes = await fetch(`/profile/${userID}`);
     const ordersData = await ordersRes.json();
@@ -18,6 +22,16 @@ window.addEventListener('load', async(e)=>{
     }
 
 })
+
+
+const getOrders = async () =>{
+    const res = await fetch(`/order/${userID}/${orderID}`);
+    const orders = await res.json();
+	return orders;
+}
+const displayOrder = (order) =>{
+
+}
 
 userArea = document.getElementById('profile-content')
 const displayUser = (user) => {
