@@ -109,8 +109,8 @@ const displayMenu = (productsToDisplay) => {
                 <p style="font-size: 1rem; color: #494830;">${product.description}</p>
                 <div class="menu-actions" style="display: flex; justify-content: space-between; align-items: center;">
                     <span class="category-text" style="font-size: 0.9rem; color: #da9147;">${product.category}</span>
-                    <button class="add-cart-btn" style="background: #b2381e; padding: 0.5rem 1rem; border-radius: 10px;">
-                        <img src="/img/addtoCart.png" alt="Add to Cart" class="add-cart-image" data-id="${product.id}" style="width: 20px;">
+                    <button class="add-cart-btn" >
+                        <img src="/img/addtoCart.png" alt="Add to Cart" class="add-cart-image" data-id="${product.id}" style="width: 120px;">
                     </button>
                 </div>                
             </div>
